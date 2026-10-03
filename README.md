@@ -54,12 +54,13 @@ faster; at 16k llama.cpp uses less memory. Qwen3-1.7B and 8B results: [§E](docs
   a counter-experiment and an end-to-end run ([§C](docs/findings.md#c-profiling-investigation-why-llamacpp-stops-scaling-at-4-concurrent-requests-on-metal)).
 - GGUF Q4_K_M and MLX 4-bit give the same quality. llama.cpp and Ollama on the identical file differ by 0.004.
 - **Proofreading** (748 JFLEG sentences, ERRANT F0.5): 8B beats 4B at 1.7× the latency. Both models edit about a
-  third of already-correct sentences; both handle formal/casual tone rewrites well ([§F](docs/findings.md#f-proofreading-and-style-rewriting-results-publicproofread)).
+  third of already-correct sentences; both handle formal/casual tone rewrites well ([full report](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html)).
 - A q8_0 KV cache halves KV memory.
 
 Interactive pages: [results dashboard](https://algoryunov.github.io/llm-local-inference-sheet/site/dashboard.html) ·
-[Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html), how the numbers are
-measured and how far to trust them.
+[Proofreading on a Mac](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html), Qwen3-8B vs 4B as
+a local proofreader · [Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html),
+how the numbers are measured and how far to trust them.
 
 ## Quick start
 

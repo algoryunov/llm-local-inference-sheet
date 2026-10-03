@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proofreading on a Mac</title>
+<meta name="description" content="Qwen3-8B vs Qwen3-4B as local proofreaders on an M3 Pro: grammar correction, over-correction and tone rewrites, with paired bootstrap intervals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f4f5f8; --panel: #ffffff; --ink: #14171c; --ink-2: #454c57; --muted: #737b87;
+  --line: #dfe3e9; --grid: #eceff3; --accent: #2a78d6; --data: #a3a9b2; --data-2: #d3d7dd; --ref: #737b87; --bad: #c86a6a; --good: #2e8a4e; --ins-bg: rgba(42, 120, 214, 0.16);
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d; --bad: #b86060; --good: #5cbf7c; --ins-bg: rgba(57, 135, 229, 0.28);
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d; --bad: #b86060; --good: #5cbf7c; --ins-bg: rgba(57, 135, 229, 0.28);
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--f-body); }
+.wrap { max-width: 880px; margin: 0 auto; padding: 28px 16px 72px; }
+h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; margin: 6px 0 10px; }
+h2 { font-size: 22px; font-weight: 600; margin: 48px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+h3 { font-size: 17px; font-weight: 600; margin: 30px 0 8px; }
+p { margin: 0 0 12px; color: var(--ink-2); }
+p.lead { font-size: 18px; color: var(--ink); }
+a { color: var(--accent); }
+code { font: 0.86em var(--f-data); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font: 500 12px var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 4px 0 26px; font-size: 15px; }
+.meta { font: 13px var(--f-data); color: var(--muted); margin-bottom: 18px; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+
+figure { margin: 18px 0 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 12px; }
+.chart { overflow-x: auto; }
+.chart svg { width: 100%; min-width: 620px; height: auto; display: block; }
+figcaption { font: 12px/1.5 var(--f-data); color: var(--muted); margin-top: 8px; }
+svg text { font-family: var(--f-body); }
+svg .t-title { font: 600 16px var(--f-display); fill: var(--ink); }
+svg .t-sub { font-size: 12.5px; fill: var(--ink-2); }
+svg .t-lab { font-size: 12px; fill: var(--ink-2); }
+svg .t-head { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+svg .t-val { font: 500 11.5px var(--f-data); fill: var(--ink); }
+svg .t-val-in { font: 500 11.5px var(--f-data); fill: #ffffff; }
+svg .t-axis { font: 11px var(--f-data); fill: var(--muted); }
+svg .grid { stroke: var(--grid); }
+svg .zero { stroke: var(--ref); }
+svg .whisker-accent { stroke: var(--accent); stroke-width: 2; }
+svg .whisker-muted { stroke: var(--data); stroke-width: 2; }
+svg .dot-accent { fill: var(--accent); }
+svg .dot-muted { fill: var(--data); }
+svg .seg-match { fill: var(--accent); }
+svg .seg-partial { fill: var(--data); }
+svg .seg-untouched { fill: var(--data-2); }
+svg .seg-wrong { fill: var(--bad); }
+
+.table-wrap { overflow-x: auto; margin: 14px 0 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; color: var(--ink); background: var(--grid); }
+td { color: var(--ink-2); }
+td:first-child { min-width: 210px; }
+td.n, th.n { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+td strong { color: var(--ink); }
+tr:last-child td { border-bottom: 0; }
+.formula { font: 15px var(--f-data); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow-x: auto; color: var(--ink); }
+ul, ol { padding-left: 22px; margin: 8px 0 14px; color: var(--ink-2); }
+li { margin: 6px 0; }
+li strong { color: var(--ink); }
+.examples table { min-width: 680px; font-size: 14px; table-layout: fixed; }
+.examples td { min-width: 0; }
+.examples th, .examples td { width: 33.3%; }
+.examples tr.group td { background: var(--grid); color: var(--ink); font-weight: 600; padding: 7px 12px; }
+.ref { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.verdict { display: block; margin-top: 6px; font: 500 12px var(--f-data); }
+.verdict.ok { color: var(--good); } .verdict.mid { color: var(--muted); } .verdict.bad { color: var(--bad); }
+.note { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+ins { text-decoration: none; background: var(--ins-bg); color: var(--ink); border-radius: 3px; padding: 0 2px; }
+del { color: var(--muted); }
+p.small { font-size: 13.5px; }
+q { font-style: italic; }
+mark { background: none; color: var(--bad); font-weight: 600; }
+mark.mid { color: var(--ink); background: var(--grid); border-radius: 3px; padding: 0 2px; }
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">LLM Local Inference Sheet · proofreading</div>
+  <h1>Proofreading on a Mac: Qwen3-8B vs Qwen3-4B</h1>
+  <nav><a href="index.html">All pages</a><a href="https://github.com/algoryunov/llm-local-inference-sheet">Repository</a><a href="technical.html">Technical Kitchen</a><a href="dashboard.html">Results dashboard</a></nav>
+  <div class="meta">Apple M3 Pro, 18 GB · llama.cpp b11246 · MLX-LM 0.31.3 · greedy decoding, reasoning off · data as of 2026-10-01</div>
+</header>
+
+<p class="lead">Can a model running on a laptop proofread English well enough that you no longer need to paste your text into ChatGPT or another cloud service? We measured Qwen3-8B and Qwen3-4B on a MacBook Pro against human corrections: fixing grammar, leaving correct text alone, and rewriting tone.</p>
+
+<h2 id="results">Results</h2>
+<p>Qwen3-8B is the better proofreader: 0.718 grammar-correction F0.5 against 0.675 for Qwen3-4B on llama.cpp (+0.043, 95% interval +0.023 to +0.062), at 1.17 s vs 0.70 s per sentence. Both are usable as a suggestion tool, neither as blind auto-correct: both change about a third of sentences that were already correct.</p>
+<p><strong>Use Qwen3-8B</strong> when correction quality matters. <strong>Use Qwen3-4B</strong> for faster interactive suggestions that a person accepts or rejects one by one.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Model and runtime</th><th class="n">Grammar F0.5</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">Correct text untouched</th><th class="n">Tone rewrites pass</th><th class="n">Seconds per sentence, p50 / p95</th></tr></thead>
+<tbody>
+<tr><td>Qwen3-8B Q4_K_M, llama.cpp</td><td class="n"><strong>0.718</strong></td><td class="n">0.752</td><td class="n">0.609</td><td class="n">63%</td><td class="n">100%</td><td class="n">1.17 / 2.24</td></tr>
+<tr><td>Qwen3-8B MLX 4-bit, MLX-LM</td><td class="n">0.707</td><td class="n">0.744</td><td class="n">0.592</td><td class="n">65%</td><td class="n">88%</td><td class="n">1.28 / 2.35</td></tr>
+<tr><td>Qwen3-4B MLX 4-bit, MLX-LM</td><td class="n">0.689</td><td class="n">0.728</td><td class="n">0.568</td><td class="n">60%</td><td class="n">98%</td><td class="n">0.79 / 1.36</td></tr>
+<tr><td>Qwen3-4B Q4_K_M, llama.cpp</td><td class="n">0.675</td><td class="n">0.719</td><td class="n">0.542</td><td class="n">65%</td><td class="n">92%</td><td class="n">0.70 / 1.32</td></tr>
+</tbody></table></div>
+<p>Each configuration saw the same 748 learner sentences, 150 already-correct sentences and 40 tone rewrites.</p>
+
+<h2 id="applied">Applied observations</h2>
+
+<h3>What happens to a learner sentence</h3>
+<figure>
+<div class="chart"><svg viewBox="0 0 760 246" role="img" aria-label="Qwen3-8B matches a human correction on 44% of sentences, Qwen3-4B on 40% (llama.cpp)"><text class="t-title" x="0" y="22">Qwen3-8B matches a human correction on 44% of sentences, Qwen3-4B on 40% (llama.cpp)</text><text class="t-sub" x="0" y="44">Outcome per learner sentence, compared at edit level with the closest of its 4 human corrections</text><rect class="seg-match" x="0" y="62" width="12" height="12"/><text class="t-lab" x="18" y="72">Matches a human correction</text><rect class="seg-partial" x="202.4" y="62" width="12" height="12"/><text class="t-lab" x="220.4" y="72">Partly fixed</text><rect class="seg-untouched" x="315.20000000000005" y="62" width="12" height="12"/><text class="t-lab" x="333.20000000000005" y="72">Errors left untouched</text><rect class="seg-wrong" x="485.6" y="62" width="12" height="12"/><text class="t-lab" x="503.6" y="72">Only wrong edits</text><text class="t-lab" x="180" y="119" text-anchor="end">Qwen3-8B Q4_K_M, llama.cpp</text><rect class="seg-match" x="190.0" y="104" width="236.8" height="22"><title>Qwen3-8B Q4_K_M, llama.cpp: matches a human correction 43.9% (328 of 748)</title></rect><text class="t-val-in" x="308.4" y="119" text-anchor="middle">44%</text><rect class="seg-partial" x="426.8" y="104" width="255.6" height="22"><title>Qwen3-8B Q4_K_M, llama.cpp: partly fixed 47.3% (354 of 748)</title></rect><text class="t-val" x="554.6" y="119" text-anchor="middle">47%</text><rect class="seg-untouched" x="682.4" y="104" width="15.2" height="22"><title>Qwen3-8B Q4_K_M, llama.cpp: errors left untouched 2.8% (21 of 748)</title></rect><rect class="seg-wrong" x="697.5" y="104" width="32.5" height="22"><title>Qwen3-8B Q4_K_M, llama.cpp: only wrong edits 6.0% (45 of 748)</title></rect><text class="t-lab" x="180" y="153" text-anchor="end">Qwen3-8B MLX 4-bit, MLX-LM</text><rect class="seg-match" x="190.0" y="138" width="237.5" height="22"><title>Qwen3-8B MLX 4-bit, MLX-LM: matches a human correction 44.0% (329 of 748)</title></rect><text class="t-val-in" x="308.8" y="153" text-anchor="middle">44%</text><rect class="seg-partial" x="427.5" y="138" width="253.4" height="22"><title>Qwen3-8B MLX 4-bit, MLX-LM: partly fixed 46.9% (351 of 748)</title></rect><text class="t-val" x="554.2" y="153" text-anchor="middle">47%</text><rect class="seg-untouched" x="680.9" y="138" width="20.9" height="22"><title>Qwen3-8B MLX 4-bit, MLX-LM: errors left untouched 3.9% (29 of 748)</title></rect><rect class="seg-wrong" x="701.8" y="138" width="28.2" height="22"><title>Qwen3-8B MLX 4-bit, MLX-LM: only wrong edits 5.2% (39 of 748)</title></rect><text class="t-lab" x="180" y="187" text-anchor="end">Qwen3-4B MLX 4-bit, MLX-LM</text><rect class="seg-match" x="190.0" y="172" width="217.3" height="22"><title>Qwen3-4B MLX 4-bit, MLX-LM: matches a human correction 40.2% (301 of 748)</title></rect><text class="t-val-in" x="298.6" y="187" text-anchor="middle">40%</text><rect class="seg-partial" x="407.3" y="172" width="264.2" height="22"><title>Qwen3-4B MLX 4-bit, MLX-LM: partly fixed 48.9% (366 of 748)</title></rect><text class="t-val" x="539.4" y="187" text-anchor="middle">49%</text><rect class="seg-untouched" x="671.5" y="172" width="26.7" height="22"><title>Qwen3-4B MLX 4-bit, MLX-LM: errors left untouched 4.9% (37 of 748)</title></rect><rect class="seg-wrong" x="698.2" y="172" width="31.8" height="22"><title>Qwen3-4B MLX 4-bit, MLX-LM: only wrong edits 5.9% (44 of 748)</title></rect><text class="t-lab" x="180" y="221" text-anchor="end">Qwen3-4B Q4_K_M, llama.cpp</text><rect class="seg-match" x="190.0" y="206" width="214.4" height="22"><title>Qwen3-4B Q4_K_M, llama.cpp: matches a human correction 39.7% (297 of 748)</title></rect><text class="t-val-in" x="297.2" y="221" text-anchor="middle">40%</text><rect class="seg-partial" x="404.4" y="206" width="253.4" height="22"><title>Qwen3-4B Q4_K_M, llama.cpp: partly fixed 46.9% (351 of 748)</title></rect><text class="t-val" x="531.1" y="221" text-anchor="middle">47%</text><rect class="seg-untouched" x="657.8" y="206" width="35.4" height="22"><title>Qwen3-4B Q4_K_M, llama.cpp: errors left untouched 6.6% (49 of 748)</title></rect><text class="t-val" x="675.5" y="221" text-anchor="middle">7%</text><rect class="seg-wrong" x="693.2" y="206" width="36.8" height="22"><title>Qwen3-4B Q4_K_M, llama.cpp: only wrong edits 6.8% (51 of 748)</title></rect><text class="t-val-in" x="711.6" y="221" text-anchor="middle">7%</text></svg></div>
+<figcaption>results-public/proofread · 748 JFLEG sentences per configuration, each compared with the closest of its 4 human corrections</figcaption>
+</figure>
+<ul>
+<li><strong>Most output needs review, not rejection.</strong> The largest share of sentences is partly fixed: some human edits made, some missed or done differently. Only 5–7% of sentences got nothing but wrong edits.</li>
+<li><strong>8B leaves fewer errors in place.</strong> Qwen3-4B on llama.cpp returned 6.6% of flawed sentences unchanged, Qwen3-8B 2.8%. Recall is where 8B gains most (0.61 vs 0.54).</li>
+<li><strong>Precision is high for both.</strong> About three of every four edits either model makes match an edit a human corrector made.</li>
+<li><strong>The score is strict.</strong> A fix that differs from all four human corrections counts as wrong even when it reads fine, so the numbers understate both models somewhat (see the examples).</li>
+</ul>
+
+<h3>Correct text gets edited</h3>
+<p>Of 150 sentences that needed no changes, every configuration changed 52–60. The edits are small: 63% of those changed sentences carry a single edit. Some are real fixes, because a few human corrections still contain errors. In a tool that shows suggestions, the rest is noise a person dismisses quickly; in an auto-correct that applies them silently, it rewrites a third of what you wrote.</p>
+
+<h3>Tone rewrites keep facts, with different failure habits</h3>
+<p>All configurations pass 88–100% of the 40 rewrites.</p>
+<ul>
+<li><strong>Qwen3-4B drops detail:</strong> "the Berlin office" became "Berlin" in 3 casual rewrites on llama.cpp, which changes where the meeting is.</li>
+<li><strong>Qwen3-8B reformats:</strong> it kept facts in an equivalent but different form ("4 PM" for 16:00, "June 3rd" for June 3) in 40% of rewrites, against 20% for Qwen3-4B. The check accepts equivalent forms; a reader who expects the original format may not.</li>
+<li><strong>Qwen3-8B on MLX-LM kept slang:</strong> "awesome" survived in 5 formal rewrites.</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+<p>Both models on llama.cpp, same prompt, greedy decoding. <ins>Highlighted</ins>: words the model added or changed; <del>struck through</del>: words it removed.</p>
+<div class="table-wrap examples"><table>
+<thead><tr><th>Original</th><th>Qwen3-4B</th><th>Qwen3-8B</th></tr></thead>
+<tbody>
+<tr class="group"><td colspan="3">Both fixed it</td></tr>
+<tr><td>for example, in math club, teachers usually teach us how to solve a math problem using vary ways.<span class="ref">Human: For example, in math club, teachers usually teach us how to solve a math problem using various ways.</span></td><td><del>for</del> <ins>For</ins> example, in math club, teachers usually teach us how to solve a math problem using <del>vary</del> <ins>various</ins> ways.<span class="verdict ok">✓ matches a human correction</span></td><td><del>for</del> <ins>For</ins> example, in math club, teachers usually teach us how to solve a math problem using <del>vary</del> <ins>various</ins> ways.<span class="verdict ok">✓ matches a human correction</span></td></tr>
+<tr><td>As they are involved with study, they donot get enough time to look after their community.<span class="ref">Human: As they are involved with study, they do not get enough time to look after their community.</span></td><td>As they are involved with study, they <del>donot</del> <ins>do</ins> <ins>not</ins> get enough time to look after their community.<span class="verdict ok">✓ matches a human correction</span></td><td>As they are involved with study, they <del>donot</del> <ins>do</ins> <ins>not</ins> get enough time to look after their community.<span class="verdict ok">✓ matches a human correction</span></td></tr>
+<tr class="group"><td colspan="3">Only Qwen3-8B fixed it</td></tr>
+<tr><td>One of this important element is internet.<span class="ref">Human: One of these important elements is the internet.</span></td><td>One of this important element is internet.<span class="verdict bad">✗ error left in place</span></td><td>One of <del>this</del> <ins>these</ins> important <del>element</del> <ins>elements</ins> is <ins>the</ins> internet.<span class="verdict ok">✓ matches a human correction</span></td></tr>
+<tr><td>They were drove settlements in other domain.<span class="ref">Human: They were driven to settlements in other domains.</span></td><td>They were <del>drove</del> <ins>drive</ins> settlements in other domain.<span class="verdict bad">✗ only wrong edits</span></td><td>They were <del>drove</del> <ins>driven</ins> <ins>to</ins> settlements in other <del>domain</del> <ins>domains</ins>.<span class="verdict ok">✓ matches a human correction</span></td></tr>
+<tr><td>In the world oil price very high right now.<span class="ref">Human: In the world, oil prices are very high right now.</span></td><td>In the world<ins>,</ins> <ins>the</ins> oil price <ins>is</ins> very high right now.<span class="verdict bad">✗ only wrong edits</span></td><td>In the world<ins>,</ins> oil <del>price</del> <ins>prices</ins> <ins>are</ins> very high right now.<span class="verdict ok">✓ matches a human correction</span></td></tr>
+<tr class="group"><td colspan="3">Only Qwen3-4B fixed it</td></tr>
+<tr><td>It is necessary a breakthrough event or product to succeed.<span class="ref">Human: It is necessary for a breakthrough event or product to succeed.</span><span class="note">8B&#x27;s fix reads fine too, but no human wrote it, so the score counts it as wrong.</span></td><td>It is necessary <ins>for</ins> a breakthrough event or product to succeed.<span class="verdict ok">✓ matches a human correction</span></td><td>It is necessary <ins>to</ins> <ins>have</ins> a breakthrough event or product to succeed.<span class="verdict bad">✗ only wrong edits</span></td></tr>
+<tr class="group"><td colspan="3">Neither fixed it</td></tr>
+<tr><td>Confidence comes naturally since perfection is its along.<span class="ref">Human: Confidence comes naturally since perfection is alongside it.</span></td><td>Confidence comes naturally since perfection is its <del>along</del> <ins>own</ins>.<span class="verdict bad">✗ only wrong edits</span></td><td>Confidence comes naturally since perfection is its <del>along</del> <ins>alone</ins>.<span class="verdict bad">✗ only wrong edits</span></td></tr>
+<tr><td>Nevertheless, this city is having a big change.<span class="ref">Human: Nevertheless, this city is experiencing a big change.</span></td><td>Nevertheless, this city is having a big change.<span class="verdict bad">✗ error left in place</span></td><td>Nevertheless, this city is having a big change.<span class="verdict bad">✗ error left in place</span></td></tr>
+<tr class="group"><td colspan="3">Already-correct text</td></tr>
+<tr><td>These are enjoyable tasks that make your mindset look forward to the various experiences.</td><td>These are enjoyable tasks that make your mindset look forward to <del>the</del> various experiences.<span class="verdict bad">✗ changed correct text</span></td><td>These are enjoyable tasks that make your mindset look forward to the various experiences.<span class="verdict ok">✓ left as it was</span></td></tr>
+<tr><td>People tend to choose other medias, and that is why literature is in danger.<span class="note">Counted as over-correction, but &quot;media&quot; is a real fix: the human correction kept the error.</span></td><td>People tend to choose other <del>medias</del> <ins>media</ins>, and that is why literature is in danger.<span class="verdict bad">✗ changed correct text</span></td><td>People tend to choose other <del>medias</del> <ins>media</ins>, and that is why literature is in danger.<span class="verdict bad">✗ changed correct text</span></td></tr>
+<tr class="group"><td colspan="3">Tone rewrite, formal to casual</td></tr>
+<tr><td>Dear Aisha, thank you for your report. Could we please discuss the figure of 2500 units at 16:00 on Monday? The meeting will take place in the Berlin office.</td><td>Hey Aisha, thanks for the report! Could we chat about the 2500 units figure at 16:00 on Monday? The meeting is <mark class="bad">in Berlin</mark>.<span class="verdict bad">✗ lost a fact</span></td><td>Hey Aisha, thanks for the report! Could we chat about the 2500 units figure at <mark class="mid">4 PM</mark> on Monday? The meeting is in the Berlin office.<span class="verdict ok">✓ facts kept, tone changed</span></td></tr>
+</tbody></table></div>
+<p class="small">Grammar prompt: <q>You are a careful proofreader. Correct grammar, spelling and punctuation errors in the user&#x27;s text and make it read fluently. Keep the meaning and the author&#x27;s wording; change as little as necessary. If the text is already correct, return it unchanged. Reply with only the corrected text, without quotes or comments.</q></p>
+<p class="small">Tone prompt (to casual): <q>Rewrite the user&#x27;s message in a relaxed, friendly, casual tone, as a short chat message to a colleague. Keep every fact exactly: names, dates, times, numbers, amounts and places. Reply with only the rewritten message.</q></p>
+<p class="small">Learner sentences and human corrections are quoted from <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> (Napoles et al., 2017), CC BY-NC-SA 4.0. The tone message is synthetic.</p>
+
+<h2 id="significance">Which differences are real</h2>
+<figure>
+<div class="chart"><svg viewBox="0 0 760 242" role="img" aria-label="8B corrects grammar better on both runtimes; the other gaps are small or noise"><text class="t-title" x="0" y="22">8B corrects grammar better on both runtimes; the other gaps are small or noise</text><text class="t-sub" x="0" y="44">Difference in each score with its 95% interval; blue = interval excludes zero</text><text class="t-head" x="275.0" y="90" text-anchor="middle">Grammar F0.5</text><line class="zero" x1="275.0" x2="275.0" y1="100" y2="208"/><text class="t-axis" x="275.0" y="224" text-anchor="middle">0</text><line class="whisker-accent" x1="302.8" x2="348.9" y1="112" y2="112"/><circle class="dot-accent" cx="326.4" cy="112" r="4.5"><title>8B − 4B, llama.cpp, Grammar F0.5: +0.043 (+0.023 to +0.062)</title></circle><text class="t-val" x="326.4" y="103" text-anchor="middle">+0.043</text><line class="whisker-accent" x1="276.0" x2="318.3" y1="148" y2="148"/><circle class="dot-accent" cx="297.0" cy="148" r="4.5"><title>8B − 4B, MLX-LM, Grammar F0.5: +0.018 (+0.001 to +0.036)</title></circle><text class="t-val" x="297.0" y="139" text-anchor="middle">+0.018</text><line class="whisker-accent" x1="242.8" x2="274.0" y1="184" y2="184"/><circle class="dot-accent" cx="258.2" cy="184" r="4.5"><title>4B: llama.cpp − MLX-LM, Grammar F0.5: -0.014 (-0.027 to -0.001)</title></circle><text class="t-val" x="258.2" y="175" text-anchor="middle">-0.014</text><text class="t-head" x="465.0" y="90" text-anchor="middle">Correct text untouched</text><line class="zero" x1="465.0" x2="465.0" y1="100" y2="208"/><text class="t-axis" x="465.0" y="224" text-anchor="middle">0</text><line class="whisker-muted" x1="412.8" x2="486.7" y1="112" y2="112"/><circle class="dot-muted" cx="452.0" cy="112" r="4.5"><title>8B − 4B, llama.cpp, Correct text untouched: -0.020 (-0.080 to +0.033)</title></circle><text class="t-val" x="452.0" y="103" text-anchor="middle">-0.020</text><line class="whisker-muted" x1="460.7" x2="538.9" y1="148" y2="148"/><circle class="dot-muted" cx="499.8" cy="148" r="4.5"><title>8B − 4B, MLX-LM, Correct text untouched: +0.053 (-0.007 to +0.113)</title></circle><text class="t-val" x="499.8" y="139" text-anchor="middle">+0.053</text><line class="whisker-accent" x1="473.7" x2="530.2" y1="184" y2="184"/><circle class="dot-accent" cx="499.8" cy="184" r="4.5"><title>4B: llama.cpp − MLX-LM, Correct text untouched: +0.053 (+0.013 to +0.100)</title></circle><text class="t-val" x="499.8" y="175" text-anchor="middle">+0.053</text><text class="t-head" x="655.0" y="90" text-anchor="middle">Tone rewrites pass</text><line class="zero" x1="655.0" x2="655.0" y1="100" y2="208"/><text class="t-axis" x="655.0" y="224" text-anchor="middle">0</text><line class="whisker-muted" x1="655.0" x2="712.5" y1="112" y2="112"/><circle class="dot-muted" cx="679.6" cy="112" r="4.5"><title>8B − 4B, llama.cpp, Tone rewrites pass: +0.075 (+0.000 to +0.175)</title></circle><text class="t-val" x="679.6" y="103" text-anchor="middle">+0.075</text><line class="whisker-muted" x1="581.1" x2="655.0" y1="148" y2="148"/><circle class="dot-muted" cx="622.1" cy="148" r="4.5"><title>8B − 4B, MLX-LM, Tone rewrites pass: -0.100 (-0.225 to +0.000)</title></circle><text class="t-val" x="622.1" y="139" text-anchor="middle">-0.100</text><line class="whisker-muted" x1="605.7" x2="671.4" y1="184" y2="184"/><circle class="dot-muted" cx="638.6" cy="184" r="4.5"><title>4B: llama.cpp − MLX-LM, Tone rewrites pass: -0.050 (-0.150 to +0.050)</title></circle><text class="t-val" x="638.6" y="175" text-anchor="middle">-0.050</text><text class="t-lab" x="0" y="116">8B − 4B, llama.cpp</text><text class="t-lab" x="0" y="152">8B − 4B, MLX-LM</text><text class="t-lab" x="0" y="188">4B: llama.cpp − MLX-LM</text></svg></div>
+<figcaption>results-public/proofread · paired bootstrap, 3,000 resamples of the same items for both sides; 95% intervals</figcaption>
+</figure>
+<p>An interval that excludes zero means the difference is unlikely to be chance. The 8B grammar gain holds on both runtimes, but on MLX-LM it only just clears zero. The two 4B builds use different 4-bit schemes, and this is the only place the weight format showed a measurable effect.</p>
+
+<h2 id="method">How it is scored</h2>
+<p>A model's edits are compared with the edits human correctors made, using ERRANT, the standard scorer for grammatical error correction.</p>
+<ol>
+<li><strong>Data:</strong> the <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> test set (CC BY-NC-SA 4.0), 748 sentences written by English learners, each corrected independently by 4 people. Pinned revision <code>8b9fb0e6b3</code>; the dataset is downloaded, not redistributed.</li>
+<li><strong>Prompt:</strong> the model gets the sentence with an instruction to fix grammar, spelling and punctuation, change as little as needed, and return only the corrected text.</li>
+<li><strong>Edits:</strong> ERRANT aligns the original with the model's output and lists the edits (words replaced, inserted or deleted). It does the same for each human correction. All texts are tokenized the same way, so spacing around punctuation never counts as an edit.</li>
+<li><strong>Matching:</strong> a model edit counts as correct (TP) when a human made the same edit at the same position. Extra edits are false positives (FP); human edits the model missed are false negatives (FN). Each sentence is scored against whichever of its 4 human corrections fits the model best.</li>
+<li><strong>Totals:</strong> TP, FP and FN are summed over all 748 sentences, then turned into one score:</li>
+</ol>
+<div class="formula">P = TP / (TP + FP)&nbsp;&nbsp;&nbsp; R = TP / (TP + FN)&nbsp;&nbsp;&nbsp; F0.5 = 1.25 · P · R / (0.25 · P + R)</div>
+<p style="margin-top:12px">F0.5 weights precision twice as much as recall: for a proofreader, a wrong change is worse than a missed one.</p>
+<p><strong>Correct text untouched</strong> is the share of the 150 already-correct sentences (JFLEG human corrections fed back as input) that come back with zero ERRANT edits. <strong>Tone rewrites</strong> are 40 synthetic messages rewritten casual → formal or formal → casual; one passes only if every fact is kept (names, times, numbers, places; equivalent forms such as 14:45 = 2:45 PM count), the text actually changed, and a formal rewrite has no slang, emoji or contractions.</p>
+<p><strong>Intervals</strong> come from a paired bootstrap: draw the items at random with replacement, recompute both sides' score on that same sample, record the difference, and repeat 3,000 times. The middle 95% of those differences is the interval. Pairing removes the noise of which items happen to be easy.</p>
+
+<h2 id="caveats">Caveats</h2>
+<ul>
+<li><strong>Learner English:</strong> JFLEG is essays by English learners. Your own messages may contain fewer and different errors.</li>
+<li><strong>One prompt:</strong> all numbers use one minimal-edit prompt. A stricter prompt may raise the share of correct text left untouched.</li>
+<li><strong>Small style set:</strong> 40 synthetic rewrites, checked by rules rather than people, can only reveal large differences.</li>
+<li><strong>One machine, under load:</strong> an 18 GB M3 Pro with other apps holding memory. Speeds are pessimistic; quality scores are not affected.</li>
+</ul>
+<p>Reproduce: <code>python scripts/prepare_proofread.py</code>, then <code>llm-sheet evaluate --config configs/experiments/proofread.yaml --download</code>. Scores recompute from the saved model outputs with <code>llm-sheet evaluate --runs results/proofread</code>.</p>
+
+<footer>Generated by <code>scripts/build_site.py</code> from <code>results-public/proofread</code>. Per-item scores: <a href="https://github.com/algoryunov/llm-local-inference-sheet/releases/latest">latest release</a>.</footer>
+</div>
+</body>
+</html>

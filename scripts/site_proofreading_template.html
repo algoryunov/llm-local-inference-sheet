@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proofreading on a Mac</title>
+<meta name="description" content="Qwen3-8B vs Qwen3-4B as local proofreaders on an M3 Pro: grammar correction, over-correction and tone rewrites, with paired bootstrap intervals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f4f5f8; --panel: #ffffff; --ink: #14171c; --ink-2: #454c57; --muted: #737b87;
+  --line: #dfe3e9; --grid: #eceff3; --accent: #2a78d6; --data: #a3a9b2; --data-2: #d3d7dd; --ref: #737b87; --bad: #c86a6a; --good: #2e8a4e; --ins-bg: rgba(42, 120, 214, 0.16);
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d; --bad: #b86060; --good: #5cbf7c; --ins-bg: rgba(57, 135, 229, 0.28);
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d; --bad: #b86060; --good: #5cbf7c; --ins-bg: rgba(57, 135, 229, 0.28);
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--f-body); }
+.wrap { max-width: 880px; margin: 0 auto; padding: 28px 16px 72px; }
+h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; margin: 6px 0 10px; }
+h2 { font-size: 22px; font-weight: 600; margin: 48px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+h3 { font-size: 17px; font-weight: 600; margin: 30px 0 8px; }
+p { margin: 0 0 12px; color: var(--ink-2); }
+p.lead { font-size: 18px; color: var(--ink); }
+a { color: var(--accent); }
+code { font: 0.86em var(--f-data); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font: 500 12px var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 4px 0 26px; font-size: 15px; }
+.meta { font: 13px var(--f-data); color: var(--muted); margin-bottom: 18px; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+
+figure { margin: 18px 0 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 12px; }
+.chart { overflow-x: auto; }
+.chart svg { width: 100%; min-width: 620px; height: auto; display: block; }
+figcaption { font: 12px/1.5 var(--f-data); color: var(--muted); margin-top: 8px; }
+svg text { font-family: var(--f-body); }
+svg .t-title { font: 600 16px var(--f-display); fill: var(--ink); }
+svg .t-sub { font-size: 12.5px; fill: var(--ink-2); }
+svg .t-lab { font-size: 12px; fill: var(--ink-2); }
+svg .t-head { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+svg .t-val { font: 500 11.5px var(--f-data); fill: var(--ink); }
+svg .t-val-in { font: 500 11.5px var(--f-data); fill: #ffffff; }
+svg .t-axis { font: 11px var(--f-data); fill: var(--muted); }
+svg .grid { stroke: var(--grid); }
+svg .zero { stroke: var(--ref); }
+svg .whisker-accent { stroke: var(--accent); stroke-width: 2; }
+svg .whisker-muted { stroke: var(--data); stroke-width: 2; }
+svg .dot-accent { fill: var(--accent); }
+svg .dot-muted { fill: var(--data); }
+svg .seg-match { fill: var(--accent); }
+svg .seg-partial { fill: var(--data); }
+svg .seg-untouched { fill: var(--data-2); }
+svg .seg-wrong { fill: var(--bad); }
+
+.table-wrap { overflow-x: auto; margin: 14px 0 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; color: var(--ink); background: var(--grid); }
+td { color: var(--ink-2); }
+td:first-child { min-width: 210px; }
+td.n, th.n { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+td strong { color: var(--ink); }
+tr:last-child td { border-bottom: 0; }
+.formula { font: 15px var(--f-data); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; overflow-x: auto; color: var(--ink); }
+ul, ol { padding-left: 22px; margin: 8px 0 14px; color: var(--ink-2); }
+li { margin: 6px 0; }
+li strong { color: var(--ink); }
+.examples table { min-width: 680px; font-size: 14px; table-layout: fixed; }
+.examples td { min-width: 0; }
+.examples th, .examples td { width: 33.3%; }
+.examples tr.group td { background: var(--grid); color: var(--ink); font-weight: 600; padding: 7px 12px; }
+.ref { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+.verdict { display: block; margin-top: 6px; font: 500 12px var(--f-data); }
+.verdict.ok { color: var(--good); } .verdict.mid { color: var(--muted); } .verdict.bad { color: var(--bad); }
+.note { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+ins { text-decoration: none; background: var(--ins-bg); color: var(--ink); border-radius: 3px; padding: 0 2px; }
+del { color: var(--muted); }
+p.small { font-size: 13.5px; }
+q { font-style: italic; }
+mark { background: none; color: var(--bad); font-weight: 600; }
+mark.mid { color: var(--ink); background: var(--grid); border-radius: 3px; padding: 0 2px; }
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">LLM Local Inference Sheet · proofreading</div>
+  <h1>Proofreading on a Mac: Qwen3-8B vs Qwen3-4B</h1>
+  <nav><a href="index.html">All pages</a><a href="https://github.com/algoryunov/llm-local-inference-sheet">Repository</a><a href="technical.html">Technical Kitchen</a><a href="dashboard.html">Results dashboard</a></nav>
+  <div class="meta">Apple M3 Pro, 18 GB · llama.cpp b11246 · MLX-LM 0.31.3 · greedy decoding, reasoning off · data as of {{DATA_DATE}}</div>
+</header>
+
+<p class="lead">Can a model running on a laptop proofread English well enough that you no longer need to paste your text into ChatGPT or another cloud service? We measured Qwen3-8B and Qwen3-4B on a MacBook Pro against human corrections: fixing grammar, leaving correct text alone, and rewriting tone.</p>
+
+<h2 id="results">Results</h2>
+<p>Qwen3-8B is the better proofreader: {{F_8B_LLAMA}} grammar-correction F0.5 against {{F_4B_LLAMA}} for Qwen3-4B on llama.cpp ({{D_F_LLAMA}}), at {{SEC_8B_LLAMA}} s vs {{SEC_4B_LLAMA}} s per sentence. Both are usable as a suggestion tool, neither as blind auto-correct: both change about a third of sentences that were already correct.</p>
+<p><strong>Use Qwen3-8B</strong> when correction quality matters. <strong>Use Qwen3-4B</strong> for faster interactive suggestions that a person accepts or rejects one by one.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Model and runtime</th><th class="n">Grammar F0.5</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">Correct text untouched</th><th class="n">Tone rewrites pass</th><th class="n">Seconds per sentence, p50 / p95</th></tr></thead>
+<tbody>
+{{RESULTS_ROWS}}
+</tbody></table></div>
+<p>Each configuration saw the same 748 learner sentences, 150 already-correct sentences and 40 tone rewrites.</p>
+
+<h2 id="applied">Applied observations</h2>
+
+<h3>What happens to a learner sentence</h3>
+<figure>
+<div class="chart">{{OUTCOME_CHART}}</div>
+<figcaption>results-public/proofread · 748 JFLEG sentences per configuration, each compared with the closest of its 4 human corrections</figcaption>
+</figure>
+<ul>
+<li><strong>Most output needs review, not rejection.</strong> The largest share of sentences is partly fixed: some human edits made, some missed or done differently. Only {{WRONG_MIN}}–{{WRONG_MAX}}% of sentences got nothing but wrong edits.</li>
+<li><strong>8B leaves fewer errors in place.</strong> Qwen3-4B on llama.cpp returned {{UNTOUCHED_4B_LLAMA}}% of flawed sentences unchanged, Qwen3-8B {{UNTOUCHED_8B_LLAMA}}%. Recall is where 8B gains most ({{R_8B_LLAMA}} vs {{R_4B_LLAMA}}).</li>
+<li><strong>Precision is high for both.</strong> About three of every four edits either model makes match an edit a human corrector made.</li>
+<li><strong>The score is strict.</strong> A fix that differs from all four human corrections counts as wrong even when it reads fine, so the numbers understate both models somewhat (see the examples).</li>
+</ul>
+
+<h3>Correct text gets edited</h3>
+<p>Of 150 sentences that needed no changes, every configuration changed {{CTRL_CHANGED_MIN}}–{{CTRL_CHANGED_MAX}}. The edits are small: {{CTRL_ONE_EDIT}}% of those changed sentences carry a single edit. Some are real fixes, because a few human corrections still contain errors. In a tool that shows suggestions, the rest is noise a person dismisses quickly; in an auto-correct that applies them silently, it rewrites a third of what you wrote.</p>
+
+<h3>Tone rewrites keep facts, with different failure habits</h3>
+<p>All configurations pass {{TONE_MIN}}–{{TONE_MAX}}% of the 40 rewrites.</p>
+<ul>
+<li><strong>Qwen3-4B drops detail:</strong> "the Berlin office" became "Berlin" in {{TONE_4B_FACTS}} casual rewrites on llama.cpp, which changes where the meeting is.</li>
+<li><strong>Qwen3-8B reformats:</strong> it kept facts in an equivalent but different form ("4 PM" for 16:00, "June 3rd" for June 3) in {{TONE_8B_REFORMAT}}% of rewrites, against {{TONE_4B_REFORMAT}}% for Qwen3-4B. The check accepts equivalent forms; a reader who expects the original format may not.</li>
+<li><strong>Qwen3-8B on MLX-LM kept slang:</strong> "awesome" survived in {{TONE_8B_MLX_SLANG}} formal rewrites.</li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+<p>Both models on llama.cpp, same prompt, greedy decoding. <ins>Highlighted</ins>: words the model added or changed; <del>struck through</del>: words it removed.</p>
+<div class="table-wrap examples"><table>
+<thead><tr><th>Original</th><th>Qwen3-4B</th><th>Qwen3-8B</th></tr></thead>
+<tbody>
+{{EXAMPLE_ROWS}}
+</tbody></table></div>
+<p class="small">Grammar prompt: <q>{{PROMPT_GEC}}</q></p>
+<p class="small">Tone prompt (to casual): <q>{{PROMPT_CASUAL}}</q></p>
+<p class="small">Learner sentences and human corrections are quoted from <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> (Napoles et al., 2017), CC BY-NC-SA 4.0. The tone message is synthetic.</p>
+
+<h2 id="significance">Which differences are real</h2>
+<figure>
+<div class="chart">{{DIFF_CHART}}</div>
+<figcaption>results-public/proofread · paired bootstrap, {{N_BOOT}} resamples of the same items for both sides; 95% intervals</figcaption>
+</figure>
+<p>An interval that excludes zero means the difference is unlikely to be chance. The 8B grammar gain holds on both runtimes, but on MLX-LM it only just clears zero. The two 4B builds use different 4-bit schemes, and this is the only place the weight format showed a measurable effect.</p>
+
+<h2 id="method">How it is scored</h2>
+<p>A model's edits are compared with the edits human correctors made, using ERRANT, the standard scorer for grammatical error correction.</p>
+<ol>
+<li><strong>Data:</strong> the <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> test set (CC BY-NC-SA 4.0), 748 sentences written by English learners, each corrected independently by 4 people. Pinned revision <code>8b9fb0e6b3</code>; the dataset is downloaded, not redistributed.</li>
+<li><strong>Prompt:</strong> the model gets the sentence with an instruction to fix grammar, spelling and punctuation, change as little as needed, and return only the corrected text.</li>
+<li><strong>Edits:</strong> ERRANT aligns the original with the model's output and lists the edits (words replaced, inserted or deleted). It does the same for each human correction. All texts are tokenized the same way, so spacing around punctuation never counts as an edit.</li>
+<li><strong>Matching:</strong> a model edit counts as correct (TP) when a human made the same edit at the same position. Extra edits are false positives (FP); human edits the model missed are false negatives (FN). Each sentence is scored against whichever of its 4 human corrections fits the model best.</li>
+<li><strong>Totals:</strong> TP, FP and FN are summed over all 748 sentences, then turned into one score:</li>
+</ol>
+<div class="formula">P = TP / (TP + FP)&nbsp;&nbsp;&nbsp; R = TP / (TP + FN)&nbsp;&nbsp;&nbsp; F0.5 = 1.25 · P · R / (0.25 · P + R)</div>
+<p style="margin-top:12px">F0.5 weights precision twice as much as recall: for a proofreader, a wrong change is worse than a missed one.</p>
+<p><strong>Correct text untouched</strong> is the share of the 150 already-correct sentences (JFLEG human corrections fed back as input) that come back with zero ERRANT edits. <strong>Tone rewrites</strong> are 40 synthetic messages rewritten casual → formal or formal → casual; one passes only if every fact is kept (names, times, numbers, places; equivalent forms such as 14:45 = 2:45 PM count), the text actually changed, and a formal rewrite has no slang, emoji or contractions.</p>
+<p><strong>Intervals</strong> come from a paired bootstrap: draw the items at random with replacement, recompute both sides' score on that same sample, record the difference, and repeat {{N_BOOT}} times. The middle 95% of those differences is the interval. Pairing removes the noise of which items happen to be easy.</p>
+
+<h2 id="caveats">Caveats</h2>
+<ul>
+<li><strong>Learner English:</strong> JFLEG is essays by English learners. Your own messages may contain fewer and different errors.</li>
+<li><strong>One prompt:</strong> all numbers use one minimal-edit prompt. A stricter prompt may raise the share of correct text left untouched.</li>
+<li><strong>Small style set:</strong> 40 synthetic rewrites, checked by rules rather than people, can only reveal large differences.</li>
+<li><strong>One machine, under load:</strong> an 18 GB M3 Pro with other apps holding memory. Speeds are pessimistic; quality scores are not affected.</li>
+</ul>
+<p>Reproduce: <code>python scripts/prepare_proofread.py</code>, then <code>llm-sheet evaluate --config configs/experiments/proofread.yaml --download</code>. Scores recompute from the saved model outputs with <code>llm-sheet evaluate --runs results/proofread</code>.</p>
+
+<footer>Generated by <code>scripts/build_site.py</code> from <code>results-public/proofread</code>. Per-item scores: <a href="https://github.com/algoryunov/llm-local-inference-sheet/releases/latest">latest release</a>.</footer>
+</div>
+</body>
+</html>
