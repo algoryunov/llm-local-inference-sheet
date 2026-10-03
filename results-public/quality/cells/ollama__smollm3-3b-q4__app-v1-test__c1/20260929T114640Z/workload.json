@@ -1,0 +1,12 @@
+{
+  "dataset": "datasets/app-v1",
+  "split": "test",
+  "n_items": 120,
+  "workload_sha256": "6c8af2bd6a3f6efc95eab3f0e24a5012f2566ebd818d21e8792b70b25cb94c9c",
+  "ctx_required_per_request": 2421,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "template_sha256": "3e0e275a527f249670056e0078e474eadbdd007c134b4fdfae5a7b3089702814",
+  "input_tokens_max": 1653
+}

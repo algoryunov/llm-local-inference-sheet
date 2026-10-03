@@ -1,0 +1,4 @@
+# Isolated MLX-LM serving environment (.venvs/mlx). Compile with:
+#   MACOSX_DEPLOYMENT_TARGET=14.0 uv pip compile configs/backends/mlx-requirements.in -o configs/backends/mlx-requirements.txt --python-platform aarch64-apple-darwin --python-version 3.12
+mlx-lm==0.31.3
+mlx==0.32.3

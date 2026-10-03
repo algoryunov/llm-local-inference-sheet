@@ -1,0 +1,353 @@
+# Model registry.
+#
+# All revisions/sizes/sha256 values were resolved from the Hugging Face API on 2026-09-29
+# with scripts/resolve_hf_artifacts.py. They are pinned commits, never mutable tags.
+# `chat_template_sha256` is sha256 of the effective HF chat template at the pinned
+# tokenizer revision (chat_template.jinja if present, else tokenizer_config.json).
+# GGUF files embed their own template, which is checked at runtime (see `llm-sheet provenance`).
+#
+# Runtime compatibility statuses:
+#   verified    : a measured run in results/ succeeded with this exact artifact
+#   expected    : format documented as supported by the runtime; not yet run here
+#   attempt     : outside the runtime's documented support matrix; worth trying, label results
+#   unsupported : documented or observed not to work
+#   untested    : no evidence either way
+# Unknown values are written as null, never guessed.
+version: 1
+models:
+  # ------------------------------------------------------------------ Qwen3-8B
+  - key: qwen3-8b
+    hf_id: Qwen/Qwen3-8B
+    family: qwen3
+    tier: comparison
+    params_total_b: 8.2   # model card: 8.2B total, 6.95B non-embedding
+    source_revision: b968826d9c46dd6066d109eabc6255188de91218
+    tokenizer_repo: Qwen/Qwen3-8B
+    tokenizer_revision: b968826d9c46dd6066d109eabc6255188de91218
+    chat_template_sha256: a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8
+    license: apache-2.0
+    access: open
+    arch: {layers: 36, kv_heads: 8, head_dim: 128, hidden_size: 4096}
+    reasoning:
+      supports_thinking: true
+      default_mode: thinking
+      disable_chat_template_kwargs: {enable_thinking: false}
+      enable_chat_template_kwargs: {enable_thinking: true}
+      disable_system_flag: /no_think
+      ollama_think: false
+      notes: >-
+        enable_thinking=false makes the template append an empty <think></think> block
+        to the generation prompt. Those template tokens are counted as input.
+    context:
+      native_max: 32768
+      extended_max: 131072
+      extension_method: "YaRN (model card); config.json max_position_embeddings=40960"
+    artifacts:
+      - key: qwen3-8b-q4
+        format: gguf
+        repo: Qwen/Qwen3-8B-GGUF
+        revision: 7c41481f57cb95916b40956ab2f0b139b296d974
+        files:
+          - name: Qwen3-8B-Q4_K_M.gguf
+            size_bytes: 5027783488
+            sha256: d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785
+        quantization:
+          method: Q4_K_M
+          scheme: "llama.cpp k-quant mix (mostly 4-bit super-blocks, some tensors at 6-bit)"
+        weight_dtype: gguf-q4_k_m
+        platforms: [mac]
+        provenance:
+          derived_from: Qwen/Qwen3-8B
+          verified: false
+          evidence: >-
+            Official Qwen repo; card base_model=Qwen/Qwen3-8B. The source repo's weight files
+            were last changed 2025-04-28 (later commits touch README/tokenizer_config/LICENSE only),
+            and the GGUF repo was created 2025-05-21. Weight identity is plausible but the
+            conversion revision is not published, so it is not verified.
+        runtimes:
+          llama-cpp: {status: expected, evidence: "GGUF is llama.cpp's native format"}
+          ollama: {status: expected, evidence: "Ollama imports local GGUF via Modelfile FROM"}
+      - key: qwen3-8b-mlx4
+        format: mlx
+        repo: Qwen/Qwen3-8B-MLX-4bit
+        revision: 383413e909f3bc5303ce195ebbdf0339c5a1a2a3
+        files:
+          - name: model.safetensors
+            size_bytes: 4351884216
+            sha256: fcc83d7537bee76cc143be3e25f8954b816798f93528103db1cddb02977c5617
+        quantization:
+          method: mlx-affine-4bit
+          scheme: "MLX affine quantization, 4-bit, group_size=128 (config.json)"
+          group_size: 128
+          bits: 4
+          notes: "Not the same scheme as GGUF Q4_K_M. Different bits/weight and different error profile."
+        weight_dtype: mlx-q4-g128
+        platforms: [mac]
+        provenance:
+          derived_from: Qwen/Qwen3-8B
+          verified: false
+          evidence: >-
+            Official Qwen repo (2025-07-07). No base_model in the card. Its chat template hash
+            (57f1fd00f001…) DIFFERS from the source repo's (a55ee1b16601…), so the effective
+            template must be verified at runtime.
+        runtimes:
+          mlx-lm: {status: expected, evidence: "official MLX conversion"}
+
+  # ------------------------------------------------------------------ Qwen3-4B
+  - key: qwen3-4b
+    hf_id: Qwen/Qwen3-4B
+    family: qwen3
+    tier: comparison
+    params_total_b: 4.0
+    source_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    tokenizer_repo: Qwen/Qwen3-4B
+    tokenizer_revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    chat_template_sha256: a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8
+    license: apache-2.0
+    access: open
+    arch: {layers: 36, kv_heads: 8, head_dim: 128, hidden_size: 2560}
+    reasoning:
+      supports_thinking: true
+      default_mode: thinking
+      disable_chat_template_kwargs: {enable_thinking: false}
+      enable_chat_template_kwargs: {enable_thinking: true}
+      disable_system_flag: /no_think
+      ollama_think: false
+    context: {native_max: 32768, extended_max: 131072, extension_method: YaRN}
+    artifacts:
+      - key: qwen3-4b-q4
+        format: gguf
+        repo: Qwen/Qwen3-4B-GGUF
+        revision: bc640142c66e1fdd12af0bd68f40445458f3869b
+        files:
+          - name: Qwen3-4B-Q4_K_M.gguf
+            size_bytes: 2497280256
+            sha256: 7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5
+        quantization: {method: Q4_K_M, scheme: "llama.cpp k-quant mix"}
+        weight_dtype: gguf-q4_k_m
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-4B, verified: false, evidence: "official Qwen repo, card base_model=Qwen/Qwen3-4B"}
+        runtimes:
+          llama-cpp: {status: expected}
+          ollama: {status: expected}
+      - key: qwen3-4b-mlx4
+        format: mlx
+        repo: Qwen/Qwen3-4B-MLX-4bit
+        revision: 52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495
+        files:
+          - name: model.safetensors
+            size_bytes: 2137326367
+            sha256: e56a94b846a2dce7d1cc154ce58b9cfc4b8d99e8ffb74bfe256a265f4cbc7fb9
+        quantization: {method: mlx-affine-4bit, scheme: "MLX affine 4-bit", bits: 4}
+        weight_dtype: mlx-q4
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-4B, verified: false, evidence: "official Qwen repo. Chat template hash equals the source's"}
+        runtimes:
+          mlx-lm: {status: expected}
+
+  # ------------------------------------------------------------------ SmolLM3-3B
+  - key: smollm3-3b
+    hf_id: HuggingFaceTB/SmolLM3-3B
+    family: smollm3
+    tier: comparison
+    params_total_b: 3.08
+    source_revision: a07cc9a04f16550a088caea529712d1d335b0ac1
+    tokenizer_repo: HuggingFaceTB/SmolLM3-3B
+    tokenizer_revision: a07cc9a04f16550a088caea529712d1d335b0ac1
+    chat_template_sha256: 3e0e275a527f249670056e0078e474eadbdd007c134b4fdfae5a7b3089702814
+    license: apache-2.0
+    access: open
+    arch: {layers: 36, kv_heads: 4, head_dim: 128, hidden_size: 2048}
+    reasoning:
+      supports_thinking: true
+      default_mode: thinking
+      disable_chat_template_kwargs: {enable_thinking: false}
+      enable_chat_template_kwargs: {enable_thinking: true}
+      disable_system_flag: /no_think
+      ollama_think: false
+      notes: "Template supports both enable_thinking and a /no_think system flag."
+    context: {native_max: 65536, extended_max: 131072, extension_method: "YaRN (model card)"}
+    artifacts:
+      - key: smollm3-3b-q4
+        format: gguf
+        repo: ggml-org/SmolLM3-3B-GGUF
+        revision: 4965cb60b150737b68a0408c36aeefb65078f894
+        files:
+          - name: SmolLM3-Q4_K_M.gguf
+            size_bytes: 1915305312
+            sha256: 8334b850b7bd46238c16b0c550df2138f0889bf433809008cc17a8b05761863e
+        quantization: {method: Q4_K_M, scheme: "llama.cpp k-quant mix"}
+        weight_dtype: gguf-q4_k_m
+        platforms: [mac]
+        provenance:
+          derived_from: HuggingFaceTB/SmolLM3-3B
+          verified: false
+          evidence: >-
+            ggml-org (llama.cpp maintainers) conversion, 2025-07-08. The source repo was modified
+            later (2025-09-10), so the conversion predates the pinned source revision.
+        runtimes:
+          llama-cpp: {status: expected}
+          ollama: {status: attempt, evidence: "Ollama 0.9.0 (installed): unknown model architecture 'smollm3' (vendored llama.cpp predates SmolLM3); newer Ollama may support it", checked: "2026-09-29"}
+      - key: smollm3-3b-mlx4
+        format: mlx
+        repo: mlx-community/SmolLM3-3B-4bit
+        revision: d3a7e0594d6642dbcfb7d149bed8b0bdf49f95ce
+        files:
+          - name: model.safetensors
+            size_bytes: 1730051993
+            sha256: d501e6193d7eb84e10d3c377007d1fc4b4b2fa08799dd10fa4f6a75033334a70
+        quantization: {method: mlx-affine-4bit, scheme: "MLX affine 4-bit, group_size=64", group_size: 64, bits: 4}
+        weight_dtype: mlx-q4-g64
+        platforms: [mac]
+        provenance:
+          derived_from: HuggingFaceTB/SmolLM3-3B
+          verified: false
+          evidence: "Community conversion (mlx-community). Chat template hash differs from source."
+        runtimes:
+          mlx-lm: {status: expected}
+
+  # ------------------------------------------------------------------ Llama-3.1-8B
+  - key: llama3.1-8b
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    family: llama3
+    tier: comparison
+    params_total_b: 8.03
+    source_revision: 0e9e39f249a16976918f6564b8830bc894c89659
+    tokenizer_repo: meta-llama/Llama-3.1-8B-Instruct
+    tokenizer_revision: 0e9e39f249a16976918f6564b8830bc894c89659
+    chat_template_sha256: null  # gated: not readable without an accepted license + HF_TOKEN
+    license: llama3.1
+    access: gated
+    arch: {layers: 32, kv_heads: 8, head_dim: 128, hidden_size: 4096}
+    reasoning:
+      supports_thinking: false
+      default_mode: none
+    context: {native_max: 131072}
+    notes: >-
+      Gated (manual approval). The harness pins the tokenizer and template from the gated source,
+      so the model stays `gated` until HF_TOKEN has access, even though community
+      quantizations are publicly downloadable.
+    artifacts:
+      - key: llama3.1-8b-q4
+        format: gguf
+        repo: bartowski/Meta-Llama-3.1-8B-Instruct-GGUF
+        revision: bf5b95e96dac0462e2a09145ec66cae9a3f12067
+        files:
+          - name: Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+            size_bytes: 4920739232
+            sha256: 7b064f5842bf9532c91456deda288a1b672397a54fa729aa665952863033557c
+        quantization: {method: Q4_K_M, scheme: "llama.cpp k-quant mix (imatrix per uploader)"}
+        weight_dtype: gguf-q4_k_m
+        platforms: [mac]
+        provenance: {derived_from: meta-llama/Llama-3.1-8B-Instruct, verified: false, evidence: "community conversion"}
+        runtimes:
+          llama-cpp: {status: expected}
+          ollama: {status: expected}
+      - key: llama3.1-8b-mlx4
+        format: mlx
+        repo: mlx-community/Meta-Llama-3.1-8B-Instruct-4bit
+        revision: 241a666dad6cb93c8ff213d39a7f34a36bf26db4
+        files:
+          - name: model.safetensors
+            size_bytes: 4517488999
+            sha256: 08eff50fa4eb1fe499ead69eaeb4c5177ae82f218da0b55e0e31d7a989debb92
+        quantization: {method: mlx-affine-4bit, bits: 4}
+        weight_dtype: mlx-q4
+        platforms: [mac]
+        provenance: {derived_from: meta-llama/Llama-3.1-8B-Instruct, verified: false, evidence: "community conversion"}
+        runtimes:
+          mlx-lm: {status: expected}
+
+  # ------------------------------------------------------------------ capacity profiles
+  - key: qwen3-1.7b
+    hf_id: Qwen/Qwen3-1.7B
+    family: qwen3
+    tier: capacity
+    params_total_b: 1.7
+    source_revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+    tokenizer_repo: Qwen/Qwen3-1.7B
+    tokenizer_revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+    chat_template_sha256: a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8
+    license: apache-2.0
+    access: open
+    arch: {layers: 28, kv_heads: 8, head_dim: 128, hidden_size: 2048}
+    reasoning:
+      supports_thinking: true
+      default_mode: thinking
+      disable_chat_template_kwargs: {enable_thinking: false}
+      disable_system_flag: /no_think
+      ollama_think: false
+      notes: "Qwen3-1.7B-MLX-4bit ships a template that does NOT reference enable_thinking. Verify at runtime."
+    context: {native_max: 32768}
+    artifacts:
+      - key: qwen3-1.7b-q8
+        format: gguf
+        repo: Qwen/Qwen3-1.7B-GGUF
+        revision: 90862c4b9d2787eaed51d12237eafdfe7c5f6077
+        files:
+          - {name: Qwen3-1.7B-Q8_0.gguf, size_bytes: 1834426016, sha256: 061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a}
+        quantization: {method: Q8_0, scheme: "llama.cpp 8-bit blockwise", notes: "the official repo ships only Q8_0"}
+        weight_dtype: gguf-q8_0
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-1.7B, verified: false, evidence: "official Qwen repo"}
+        runtimes:
+          llama-cpp: {status: expected}
+      - key: qwen3-1.7b-mlx4
+        format: mlx
+        repo: Qwen/Qwen3-1.7B-MLX-4bit
+        revision: 21457c6f51ed54a7c16e988c0844db973815c137
+        files:
+          - {name: model.safetensors, size_bytes: 914316100, sha256: 42e688d626b3e144bf721af7517a82f3ea7e97bb5764fef1c89942bf9165072a}
+        quantization: {method: mlx-affine-4bit, bits: 4}
+        weight_dtype: mlx-q4
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-1.7B, verified: false, evidence: "official Qwen repo. Template differs from source"}
+        runtimes:
+          mlx-lm: {status: expected}
+
+  - key: qwen3-14b
+    hf_id: Qwen/Qwen3-14B
+    family: qwen3
+    tier: capacity
+    params_total_b: 14.8
+    source_revision: 40c069824f4251a91eefaf281ebe4c544efd3e18
+    tokenizer_repo: Qwen/Qwen3-14B
+    tokenizer_revision: 40c069824f4251a91eefaf281ebe4c544efd3e18
+    chat_template_sha256: a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8
+    license: apache-2.0
+    access: open
+    arch: {layers: 40, kv_heads: 8, head_dim: 128, hidden_size: 5120}
+    reasoning:
+      supports_thinking: true
+      default_mode: thinking
+      disable_chat_template_kwargs: {enable_thinking: false}
+      disable_system_flag: /no_think
+      ollama_think: false
+    context: {native_max: 32768, extended_max: 131072, extension_method: YaRN}
+    notes: "Capacity tier: the largest model tested. Q4_K_M fits at 16k context on the 18 GB Mac."
+    artifacts:
+      - key: qwen3-14b-q4
+        format: gguf
+        repo: Qwen/Qwen3-14B-GGUF
+        revision: 530227a7d994db8eca5ab5ced2fb692b614357fd
+        files:
+          - {name: Qwen3-14B-Q4_K_M.gguf, size_bytes: 9001752960, sha256: 500a8806e85ee9c83f3ae08420295592451379b4f8cf2d0f41c15dffeb6b81f0}
+        quantization: {method: Q4_K_M, scheme: "llama.cpp k-quant mix"}
+        weight_dtype: gguf-q4_k_m
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-14B, verified: false, evidence: "official Qwen repo"}
+        runtimes:
+          llama-cpp: {status: expected}
+      - key: qwen3-14b-mlx4
+        format: mlx
+        repo: Qwen/Qwen3-14B-MLX-4bit
+        revision: ba63a5141812f9870287df53341123a71ba41433
+        files:
+          - {name: model-00001-of-00002.safetensors, size_bytes: 5360593224, sha256: f2f502ca7604ad6789b124bf9cd7a192fda5a60e6f52b1fe521c3aa4dad598ce}
+          - {name: model-00002-of-00002.safetensors, size_bytes: 2485808912, sha256: d3758e05e08bcfb5fcd1b76d74758366355c80464398702051ce0388045e898e}
+        quantization: {method: mlx-affine-4bit, bits: 4}
+        weight_dtype: mlx-q4
+        platforms: [mac]
+        provenance: {derived_from: Qwen/Qwen3-14B, verified: false, evidence: "official Qwen repo"}
+        runtimes:
+          mlx-lm: {status: expected}

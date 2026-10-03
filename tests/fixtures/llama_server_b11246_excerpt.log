@@ -1,0 +1,24 @@
+# FIXTURE: excerpt of a real llama-server b11246 log (-lv 4), Qwen3-8B Q4_K_M, M3 Pro. Used only to test log parsing.
+0.00.122.513 I cmn  common_param:   - MTL0    : Apple M3 Pro (13639 MiB, 13639 MiB free)
+0.00.194.414 I print_info: file type   = Q4_K - Medium
+0.00.258.138 I print_info: n_ctx_train           = 40960
+0.01.986.731 I load_tensors: offloaded 37/37 layers to GPU
+0.01.986.734 I load_tensors:   CPU_Mapped model buffer size =   333.84 MiB
+0.01.986.734 I load_tensors:  MTL0_Mapped model buffer size =  4789.19 MiB
+0.01.989.915 I llama_context: n_seq_max             = 1
+0.01.989.915 I llama_context: n_ctx                 = 1536
+0.01.989.915 I llama_context: n_ctx_seq             = 1536
+0.01.989.916 I llama_context: n_batch               = 1536
+0.01.989.916 I llama_context: n_ubatch              = 512
+0.01.989.917 I llama_context: flash_attn            = enabled
+0.01.989.917 I llama_context: kv_unified            = false
+0.01.989.919 I llama_context: n_ctx_seq (1536) < n_ctx_train (40960) -- the full capacity of the model will not be utilized
+0.02.022.224 I llama_kv_cache:       MTL0 KV buffer size =   216.00 MiB
+0.02.055.714 I sched_reserve:       MTL0 compute buffer size =    89.51 MiB
+0.02.055.718 I sched_reserve:        CPU compute buffer size =    17.51 MiB
+0.02.055.934 I cmn          init: llama threadpool init, n_threads = 5
+0.02.176.820 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 1536, kv_unified = 'false'
+0.00.172.483 I llama_prepare_model_devices: using device MTL0 (Apple M3 Pro) (unknown id) - 13639 MiB free
+8.09.411.167 I common_memory_breakdown_print: | memory breakdown [MiB]  | total   free    self   model   context   compute    unaccounted |
+8.09.411.168 I common_memory_breakdown_print: |   - MTL0 (Apple M3 Pro) | 13639 = 8544 + (5094 =  4789 +     216 +      89) +           0 |
+8.09.411.173 I common_memory_breakdown_print: |   - Host                |                  351 =   333 +       0 +      17                |

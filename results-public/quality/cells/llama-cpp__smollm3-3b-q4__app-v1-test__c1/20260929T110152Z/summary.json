@@ -1,0 +1,310 @@
+{
+  "performance": {
+    "n_measured": 60,
+    "n_ok": 60,
+    "status_counts": {
+      "ok": 60
+    },
+    "window_s": 158.332220541,
+    "total_output_tokens": 3546,
+    "aggregate_output_tps": 22.395946876029356,
+    "successful_rps": 0.37895003174330555,
+    "mean_inflight": 0.7223864473206334,
+    "early_stops": 0,
+    "truncated": 0,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "chunk_derived"
+    ],
+    "input_tokens": {
+      "n": 60,
+      "mean": 473.1,
+      "std": 400.6004264786987,
+      "min": 181,
+      "p50": 234.0,
+      "p90": 1137.6000000000001,
+      "max": 1483,
+      "p95": 1263.4,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        220.9875,
+        241.0
+      ]
+    },
+    "output_tokens": {
+      "n": 60,
+      "mean": 59.1,
+      "std": 46.89790570294194,
+      "min": 7,
+      "p50": 63.0,
+      "p90": 130.9,
+      "max": 192,
+      "p95": 159.2,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        56.4875,
+        68.5
+      ]
+    },
+    "cached_tokens_max": 0,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 60,
+      "mean": 0.7864053951166666,
+      "std": 0.6404689815568795,
+      "min": 0.2965635,
+      "p50": 0.4374539585,
+      "p90": 1.9031845584000002,
+      "max": 2.408067375,
+      "p95": 1.9743149978999999,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.353408875,
+        0.483340152275
+      ]
+    },
+    "e2e_s": {
+      "n": 60,
+      "mean": 1.9062841715499999,
+      "std": 1.3990789347955577,
+      "min": 0.407749667,
+      "p50": 1.6728214585,
+      "p90": 4.086000825300001,
+      "max": 5.01766225,
+      "p95": 4.616644910099999,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        1.35993733995,
+        2.074296702075
+      ]
+    },
+    "tpot_s": {
+      "n": 60,
+      "mean": 0.01793468326609455,
+      "std": 0.0029409841726602097,
+      "min": 0.014643638833333333,
+      "p50": 0.0175521383125,
+      "p90": 0.02361057737477525,
+      "max": 0.025570307465517243,
+      "p95": 0.024804335312698413,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.01708894237145574,
+        0.01773567329548611
+      ]
+    },
+    "decode_tps": {
+      "n": 60,
+      "mean": 57.03899566503831,
+      "std": 8.060615438785838,
+      "min": 39.10785982329492,
+      "p50": 56.97314592030469,
+      "p90": 66.80476357435013,
+      "max": 68.28903740262282,
+      "p95": 66.94342305161446,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        56.355979725879486,
+        58.40595583759717
+      ]
+    },
+    "gap_p95_s": {
+      "n": 60,
+      "mean": 0.020811321060833332,
+      "std": 0.0033979383316465567,
+      "min": 0.017550820600000003,
+      "p50": 0.0194164649,
+      "p90": 0.027052109910000004,
+      "max": 0.031334124399999996,
+      "p95": 0.029349815339999998,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.019052651883124997,
+        0.020308781099999996
+      ]
+    },
+    "prefill_proxy_tps": {
+      "n": 60,
+      "mean": 591.5100236400475,
+      "std": 59.217145994609794,
+      "min": 444.40584119110423,
+      "p50": 621.2079357905645,
+      "p90": 641.9486134424861,
+      "max": 649.2035401223899,
+      "p95": 645.3431359092766,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        591.4053144769946,
+        633.0802549449102
+      ]
+    },
+    "native_prefill_tps": {
+      "n": 60,
+      "mean": 599.8043097856003,
+      "std": 56.735266734945874,
+      "min": 468.4923421108573,
+      "p50": 632.9639019973934,
+      "p90": 648.4299322223393,
+      "max": 656.8299964199806,
+      "p95": 652.3611029674887,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        598.0222764419043,
+        636.7837209994655
+      ]
+    },
+    "native_decode_tps": {
+      "n": 60,
+      "mean": 56.59653494553313,
+      "std": 7.651503046070443,
+      "min": 39.193178526921066,
+      "p50": 56.95569654532793,
+      "p90": 65.42527855108729,
+      "max": 66.58676255160474,
+      "p95": 65.93363371062202,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        56.32479360295116,
+        58.402101206684165
+      ]
+    },
+    "n_full_length": 0
+  },
+  "prompt_token_check": {
+    "n": 60,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 431,
+    "peak_proc_tree_rss": 1991573504,
+    "peak_proc_tree_phys_footprint": 381651176,
+    "proc_max_lifetime_phys_footprint": 381651176,
+    "peak_agx_in_use_system_memory": 4288299008,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 1,
+    "min_sys_mem_available": 3208871936,
+    "peak_swap_used": 16051077120,
+    "peak_proc_tree_cpu_pct": 186.0,
+    "swap_used_delta": -302055424,
+    "swap_out_bytes_delta": 54247424,
+    "swap_in_bytes_delta": 3445899264
+  },
+  "quality": {
+    "cv_report/all": {
+      "n": 20,
+      "parse_strict": 0.0,
+      "parse_lenient": 0.8,
+      "schema_valid": 0.1,
+      "field_accuracy": 0.4833333333333333,
+      "exact_all": 0.2,
+      "field:incident_type": 0.45,
+      "field:start_time": 0.45,
+      "field:end_time": 0.35,
+      "field:camera_ids": 0.4,
+      "field:event_refs": 0.25,
+      "field:person_count": 0.3,
+      "field:vehicle_involved": 0.75,
+      "field:uncertain": 0.65,
+      "field:missing_evidence": 0.75,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 0.1,
+      "primary": 0.4833333333333333
+    },
+    "cv_report/en": {
+      "n": 20,
+      "parse_strict": 0.0,
+      "parse_lenient": 0.8,
+      "schema_valid": 0.1,
+      "field_accuracy": 0.4833333333333333,
+      "exact_all": 0.2,
+      "field:incident_type": 0.45,
+      "field:start_time": 0.45,
+      "field:end_time": 0.35,
+      "field:camera_ids": 0.4,
+      "field:event_refs": 0.25,
+      "field:person_count": 0.3,
+      "field:vehicle_involved": 0.75,
+      "field:uncertain": 0.65,
+      "field:missing_evidence": 0.75,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 0.1,
+      "primary": 0.4833333333333333
+    },
+    "extraction/all": {
+      "n": 20,
+      "parse_strict": 0.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 0.95,
+      "field_accuracy": 0.8416666666666666,
+      "exact_all": 0.3,
+      "field:customer_name": 0.75,
+      "field:order_id": 0.75,
+      "field:product": 1.0,
+      "field:quantity": 0.7,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.85,
+      "null_handling_accuracy": 0.3076923076923077,
+      "primary": 0.8416666666666666
+    },
+    "extraction/en": {
+      "n": 20,
+      "parse_strict": 0.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 0.95,
+      "field_accuracy": 0.8416666666666666,
+      "exact_all": 0.3,
+      "field:customer_name": 0.75,
+      "field:order_id": 0.75,
+      "field:product": 1.0,
+      "field:quantity": 0.7,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.85,
+      "null_handling_accuracy": 0.3076923076923077,
+      "primary": 0.8416666666666666
+    },
+    "routing/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "routing/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "composite": {
+      "primary_mean": 0.7749999999999999,
+      "tasks": 3,
+      "definition": "mean of extraction field accuracy, routing macro-F1, CV field accuracy"
+    }
+  },
+  "public_items": 60
+}

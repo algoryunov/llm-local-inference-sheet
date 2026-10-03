@@ -1,0 +1,60 @@
+{
+  "experiment": "mac-capacity",
+  "experiment_identity": "863195883b1f1d4f",
+  "cell_id": "mlx-lm__qwen3-1.7b-q8__ctx-16384-128__c1",
+  "cell_identity": "204f2a6ec85e79e3",
+  "backend": "mlx-lm",
+  "artifact": "qwen3-1.7b-q8",
+  "model": "qwen3-1.7b",
+  "model_hf_id": "Qwen/Qwen3-1.7B",
+  "family": "qwen3",
+  "params_total_b": 1.7,
+  "artifact_repo": "Qwen/Qwen3-1.7B-GGUF",
+  "artifact_revision": "90862c4b9d2787eaed51d12237eafdfe7c5f6077",
+  "artifact_format": "gguf",
+  "quantization": {
+    "method": "Q8_0",
+    "scheme": "llama.cpp 8-bit blockwise",
+    "group_size": null,
+    "bits": null,
+    "notes": "the official repo ships only Q8_0"
+  },
+  "weight_dtype": "gguf-q8_0",
+  "workload": {
+    "name": "ctx-16384-128",
+    "kind": "synthetic_tokens",
+    "input_tokens": 16384,
+    "output_tokens": 128,
+    "concurrency": [
+      1
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790688503.177979,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "mlx-lm does not load gguf artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

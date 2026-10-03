@@ -1,0 +1,58 @@
+{
+  "config": {
+    "name": "mac-investigation-batching",
+    "kind": "performance",
+    "profile": "extended",
+    "platform": "mac",
+    "hardware_label": null,
+    "backends": [
+      "llama-cpp",
+      "mlx-lm"
+    ],
+    "artifacts": [
+      "qwen3-4b-q4",
+      "qwen3-4b-mlx4"
+    ],
+    "workloads": [
+      {
+        "name": "decode-128-256",
+        "kind": "synthetic_tokens",
+        "input_tokens": 128,
+        "output_tokens": 256,
+        "concurrency": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          9,
+          12
+        ],
+        "dataset": null,
+        "split": null,
+        "max_tokens": null
+      }
+    ],
+    "requests": {
+      "warmup": 5,
+      "measured": 30
+    },
+    "repeats": 1,
+    "sampling": {
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "seed": null
+    },
+    "thinking": "disabled",
+    "length_enforcement": "ignore_eos_if_supported",
+    "cache_policy": "no_reuse",
+    "request_timeout_s": 600.0,
+    "readiness_timeout_s": 900.0,
+    "max_cell_duration_s": 3600.0,
+    "min_n_p95": 200,
+    "min_n_p99": 1000,
+    "backend_settings": {},
+    "ports": {}
+  },
+  "identity": "b51d4615f9f551dd"
+}

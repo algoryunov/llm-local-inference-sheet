@@ -1,0 +1,60 @@
+{
+  "experiment": "quality",
+  "experiment_identity": "f4aadeb373d24487",
+  "cell_id": "llama-cpp__llama3.1-8b-q4__app-v1-test__c1",
+  "cell_identity": "1824cfa1cd9f65dc",
+  "backend": "llama-cpp",
+  "artifact": "llama3.1-8b-q4",
+  "model": "llama3.1-8b",
+  "model_hf_id": "meta-llama/Llama-3.1-8B-Instruct",
+  "family": "llama3",
+  "params_total_b": 8.03,
+  "artifact_repo": "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF",
+  "artifact_revision": "bf5b95e96dac0462e2a09145ec66cae9a3f12067",
+  "artifact_format": "gguf",
+  "quantization": {
+    "method": "Q4_K_M",
+    "scheme": "llama.cpp k-quant mix (imatrix per uploader)",
+    "group_size": null,
+    "bits": null,
+    "notes": null
+  },
+  "weight_dtype": "gguf-q4_k_m",
+  "workload": {
+    "name": "app-v1-test",
+    "kind": "application",
+    "input_tokens": null,
+    "output_tokens": null,
+    "concurrency": [
+      1
+    ],
+    "dataset": "datasets/app-v1",
+    "split": "test",
+    "max_tokens": 768
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "quality",
+  "synthetic": false,
+  "started_wall": 1790679962.576687,
+  "finished": true,
+  "state": "gated",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "meta-llama/Llama-3.1-8B-Instruct is gated; set HF_TOKEN with granted access",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

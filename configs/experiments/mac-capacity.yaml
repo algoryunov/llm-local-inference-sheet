@@ -1,0 +1,14 @@
+# Capacity sweep: smallest and largest Qwen3 that plausibly run on an 18 GB Mac.
+# Memory-fit figures are hypotheses until these cells are measured; OOM is a valid outcome.
+name: mac-capacity
+description: Qwen3-1.7B / 8B / 14B across context lengths, concurrency 1.
+kind: performance
+profile: capacity
+platform: mac
+backends: [llama-cpp, mlx-lm]
+artifacts: [qwen3-1.7b-q8, qwen3-1.7b-mlx4, qwen3-8b-q4, qwen3-8b-mlx4, qwen3-14b-q4, qwen3-14b-mlx4]
+workloads:
+  - {name: ctx-1024-128, input_tokens: 1024, output_tokens: 128, concurrency: [1]}
+  - {name: ctx-4096-128, input_tokens: 4096, output_tokens: 128, concurrency: [1]}
+  - {name: ctx-16384-128, input_tokens: 16384, output_tokens: 128, concurrency: [1]}
+requests: {warmup: 5, measured: 5}  # exploratory capacity check (n=5), not a latency distribution

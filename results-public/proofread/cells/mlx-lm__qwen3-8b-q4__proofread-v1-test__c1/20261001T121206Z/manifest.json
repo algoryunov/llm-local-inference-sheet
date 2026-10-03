@@ -1,0 +1,60 @@
+{
+  "experiment": "proofread",
+  "experiment_identity": "4e3ebe4bc16b1b3b",
+  "cell_id": "mlx-lm__qwen3-8b-q4__proofread-v1-test__c1",
+  "cell_identity": "c9617c83d37180fc",
+  "backend": "mlx-lm",
+  "artifact": "qwen3-8b-q4",
+  "model": "qwen3-8b",
+  "model_hf_id": "Qwen/Qwen3-8B",
+  "family": "qwen3",
+  "params_total_b": 8.2,
+  "artifact_repo": "Qwen/Qwen3-8B-GGUF",
+  "artifact_revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+  "artifact_format": "gguf",
+  "quantization": {
+    "method": "Q4_K_M",
+    "scheme": "llama.cpp k-quant mix (mostly 4-bit super-blocks, some tensors at 6-bit)",
+    "group_size": null,
+    "bits": null,
+    "notes": null
+  },
+  "weight_dtype": "gguf-q4_k_m",
+  "workload": {
+    "name": "proofread-v1-test",
+    "kind": "application",
+    "input_tokens": null,
+    "output_tokens": null,
+    "concurrency": [
+      1
+    ],
+    "dataset": ".cache/datasets/proofread-v1",
+    "split": "test",
+    "max_tokens": 512
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "quality",
+  "synthetic": false,
+  "started_wall": 1790856726.077091,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "mlx-lm does not load gguf artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

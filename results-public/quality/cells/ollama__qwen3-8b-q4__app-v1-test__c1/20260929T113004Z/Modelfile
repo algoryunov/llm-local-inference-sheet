@@ -1,0 +1,2 @@
+FROM <repo>/models/Qwen__Qwen3-8B-GGUF/7c41481f57cb95916b40956ab2f0b139b296d974/Qwen3-8B-Q4_K_M.gguf
+PARAMETER num_ctx 2560

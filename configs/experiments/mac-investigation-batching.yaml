@@ -1,0 +1,13 @@
+# Profiling investigation (docs/findings.md §C): does llama.cpp's Metal matmul kernel selection
+# (mul_mv for B<=3, mul_mv_ext for K-quants at B=4..8, mul_mm for B>8) show up end-to-end through
+# llama-server? Decode-heavy workload to minimise prefill interference; MLX as a contrast.
+name: mac-investigation-batching
+description: Decode-heavy concurrency sweep across the Metal kernel-selection thresholds.
+kind: performance
+profile: extended
+platform: mac
+backends: [llama-cpp, mlx-lm]
+artifacts: [qwen3-4b-q4, qwen3-4b-mlx4]
+workloads:
+  - {name: decode-128-256, input_tokens: 128, output_tokens: 256, concurrency: [1, 2, 3, 4, 8, 9, 12]}
+requests: {warmup: 5, measured: 30}

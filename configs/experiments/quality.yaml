@@ -1,0 +1,12 @@
+# Application-quality suite (datasets/app-v1, held-out test split), prompted JSON, natural stop.
+name: quality
+description: Held-out app-v1 test items (3 tasks x 20), thinking disabled, greedy decoding.
+kind: quality
+profile: quality
+platform: mac
+backends: [llama-cpp, mlx-lm, ollama]
+artifacts: [qwen3-8b-q4, qwen3-8b-mlx4, qwen3-4b-q4, qwen3-4b-mlx4, smollm3-3b-q4, smollm3-3b-mlx4, llama3.1-8b-q4, llama3.1-8b-mlx4]
+workloads:
+  - {name: app-v1-test, kind: application, dataset: datasets/app-v1, split: test, max_tokens: 768, concurrency: [1]}
+requests: {warmup: 5, measured: 60}
+length_enforcement: natural

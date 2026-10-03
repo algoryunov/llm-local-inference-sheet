@@ -1,0 +1,80 @@
+{
+  "config": {
+    "name": "mac-capacity",
+    "kind": "performance",
+    "profile": "capacity",
+    "platform": "mac",
+    "hardware_label": null,
+    "backends": [
+      "llama-cpp",
+      "mlx-lm"
+    ],
+    "artifacts": [
+      "qwen3-1.7b-q8",
+      "qwen3-1.7b-mlx4",
+      "qwen3-8b-q4",
+      "qwen3-8b-mlx4",
+      "qwen3-14b-q4",
+      "qwen3-14b-mlx4"
+    ],
+    "workloads": [
+      {
+        "name": "ctx-1024-128",
+        "kind": "synthetic_tokens",
+        "input_tokens": 1024,
+        "output_tokens": 128,
+        "concurrency": [
+          1
+        ],
+        "dataset": null,
+        "split": null,
+        "max_tokens": null
+      },
+      {
+        "name": "ctx-4096-128",
+        "kind": "synthetic_tokens",
+        "input_tokens": 4096,
+        "output_tokens": 128,
+        "concurrency": [
+          1
+        ],
+        "dataset": null,
+        "split": null,
+        "max_tokens": null
+      },
+      {
+        "name": "ctx-16384-128",
+        "kind": "synthetic_tokens",
+        "input_tokens": 16384,
+        "output_tokens": 128,
+        "concurrency": [
+          1
+        ],
+        "dataset": null,
+        "split": null,
+        "max_tokens": null
+      }
+    ],
+    "requests": {
+      "warmup": 5,
+      "measured": 5
+    },
+    "repeats": 1,
+    "sampling": {
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "seed": null
+    },
+    "thinking": "disabled",
+    "length_enforcement": "ignore_eos_if_supported",
+    "cache_policy": "no_reuse",
+    "request_timeout_s": 600.0,
+    "readiness_timeout_s": 900.0,
+    "max_cell_duration_s": 3600.0,
+    "min_n_p95": 200,
+    "min_n_p99": 1000,
+    "backend_settings": {},
+    "ports": {}
+  },
+  "identity": "863195883b1f1d4f"
+}

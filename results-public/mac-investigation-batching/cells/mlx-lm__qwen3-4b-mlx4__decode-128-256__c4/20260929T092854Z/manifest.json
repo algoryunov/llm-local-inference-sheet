@@ -1,0 +1,186 @@
+{
+  "experiment": "mac-investigation-batching",
+  "experiment_identity": "b51d4615f9f551dd",
+  "cell_id": "mlx-lm__qwen3-4b-mlx4__decode-128-256__c4",
+  "cell_identity": "78e0c426d23b2dc5",
+  "backend": "mlx-lm",
+  "artifact": "qwen3-4b-mlx4",
+  "model": "qwen3-4b",
+  "model_hf_id": "Qwen/Qwen3-4B",
+  "family": "qwen3",
+  "params_total_b": 4.0,
+  "artifact_repo": "Qwen/Qwen3-4B-MLX-4bit",
+  "artifact_revision": "52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495",
+  "artifact_format": "mlx",
+  "quantization": {
+    "method": "mlx-affine-4bit",
+    "scheme": "MLX affine 4-bit",
+    "group_size": null,
+    "bits": 4,
+    "notes": null
+  },
+  "weight_dtype": "mlx-q4",
+  "workload": {
+    "name": "decode-128-256",
+    "kind": "synthetic_tokens",
+    "input_tokens": 128,
+    "output_tokens": 256,
+    "concurrency": [
+      1,
+      2,
+      3,
+      4,
+      8,
+      9,
+      12
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 4,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790674134.536015,
+  "finished": true,
+  "state": "measured",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "host": {
+    "hostname_hash": "8b3795aa25",
+    "os": "Darwin",
+    "os_release": "25.6.0",
+    "machine": "arm64",
+    "python": "3.12.12",
+    "cpu_count": 11,
+    "memory_total": 19327352832,
+    "disk_free_bytes": 37016072192,
+    "harness_version": "0.1.0",
+    "git": {
+      "commit": null,
+      "dirty": true
+    },
+    "container": false,
+    "vast_instance": {},
+    "mac": {
+      "chip": "Apple M3 Pro",
+      "model": "Mac15,6",
+      "memory_bytes": 19327352832,
+      "cpu_cores_logical": 11,
+      "cpu_cores_performance": 5,
+      "cpu_cores_efficiency": 6,
+      "gpu_cores": 14,
+      "macos_version": "26.6.2",
+      "macos_build": "25G83",
+      "power_source": "ac",
+      "low_power_mode": false,
+      "power_mode": null,
+      "battery_line": "-InternalBattery-0 (id=36700259)\t90%; charging; 0:34 remaining present: true",
+      "shell_translated_rosetta": true,
+      "iogpu_wired_limit_mb": "0"
+    }
+  },
+  "backend_availability": {
+    "ok": true,
+    "version": "mlx-lm 0.31.3 / mlx 0.32.3",
+    "detail": "{\"mlx\": \"0.32.3\", \"mlx-lm\": \"0.31.3\", \"transformers\": \"5.17.0\", \"machine\": \"arm64\"}",
+    "binary": "<repo>/.venvs/mlx/bin/python",
+    "binary_archs": "arm64"
+  },
+  "artifact_verification": {
+    "all_ok": true,
+    "files": {
+      "model.safetensors": {
+        "ok": true,
+        "sha256": "e56a94b846a2dce7d1cc154ce58b9cfc4b8d99e8ffb74bfe256a265f4cbc7fb9",
+        "expected": "e56a94b846a2dce7d1cc154ce58b9cfc4b8d99e8ffb74bfe256a265f4cbc7fb9"
+      }
+    }
+  },
+  "workload_sha256": "588dda068813d2415e3071588029eced4dd5724c2ccd043bf5922edcb0cd0dda",
+  "system_baseline": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 5896617984,
+    "sys_mem_used": 6933790720,
+    "swap_used": 15756296192,
+    "swap_sin": 2673716756480,
+    "swap_sout": 57866813440,
+    "vm_pressure_level": 1,
+    "gpu_device_util_pct": 41,
+    "gpu_renderer_util_pct": 40,
+    "agx_in_use_system_memory": 1250721792,
+    "agx_alloc_system_memory": 21554855936
+  },
+  "readiness": {
+    "health_ready_s": 1.596290958,
+    "first_generation_ready_s": 2.931348125
+  },
+  "readiness_note": "launch->health and launch->first 1-token generation; OS file-cache state not controlled (weights may be warm in page cache)",
+  "backend_metadata": {
+    "note": "seed is never sent to mlx_lm.server (it disables batching)",
+    "mlx_mem_log": "<repo>/results/mac-investigation-batching/cells/mlx-lm__qwen3-4b-mlx4__decode-128-256__c4/20260929T092854Z/mlx_memory.jsonl"
+  },
+  "template_verification": {
+    "method": "post-hoc: usage.prompt_tokens vs expected (see summary.prompt_token_check)"
+  },
+  "backend_metadata_after": {
+    "note": "seed is never sent to mlx_lm.server (it disables batching)",
+    "mlx_mem_log": "<repo>/results/mac-investigation-batching/cells/mlx-lm__qwen3-4b-mlx4__decode-128-256__c4/20260929T092854Z/mlx_memory.jsonl"
+  },
+  "shutdown": {
+    "exit_code": -15
+  },
+  "final_log_facts": {},
+  "telemetry_summary": {
+    "n_samples": 167,
+    "peak_proc_tree_rss": 1730805760,
+    "peak_proc_tree_phys_footprint": 3872705008,
+    "proc_max_lifetime_phys_footprint": 3872705008,
+    "peak_agx_in_use_system_memory": 4936925184,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 2,
+    "min_sys_mem_available": 2375385088,
+    "peak_swap_used": 15783362560,
+    "peak_proc_tree_cpu_pct": 87.3,
+    "swap_used_delta": -14876672,
+    "swap_out_bytes_delta": 9846784,
+    "swap_in_bytes_delta": 3466231808
+  },
+  "system_after_shutdown": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 6045990912,
+    "sys_mem_used": 6413746176,
+    "swap_used": 15741419520,
+    "swap_sin": 2677189230592,
+    "swap_sout": 57876660224,
+    "vm_pressure_level": 2,
+    "gpu_device_util_pct": 89,
+    "gpu_renderer_util_pct": 73,
+    "agx_in_use_system_memory": 964198400,
+    "agx_alloc_system_memory": 21556789248
+  },
+  "memory_contamination": {
+    "contaminated": true,
+    "reasons": [
+      "peak pressure level 2",
+      "3.23 GiB swapped in"
+    ]
+  },
+  "finished_wall": 1790674232.237921,
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": true,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

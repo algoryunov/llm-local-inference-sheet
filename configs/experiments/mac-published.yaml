@@ -1,0 +1,13 @@
+# Headline cells with enough samples for p95 (n >= 200), repeated in independent runs.
+name: mac-published
+description: Qwen3-8B headline cells, n=200, 3 independent repeats (server relaunched per repeat).
+kind: performance
+profile: extended
+platform: mac
+backends: [llama-cpp, mlx-lm]
+artifacts: [qwen3-8b-q4, qwen3-8b-mlx4]
+workloads:
+  - {name: balanced-1024-256, input_tokens: 1024, output_tokens: 256, concurrency: [1, 4]}
+requests: {warmup: 5, measured: 200}
+repeats: 3
+max_cell_duration_s: 7200

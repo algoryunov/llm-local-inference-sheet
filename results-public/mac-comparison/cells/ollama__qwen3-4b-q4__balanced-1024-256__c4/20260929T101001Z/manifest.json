@@ -1,0 +1,351 @@
+{
+  "experiment": "mac-comparison",
+  "experiment_identity": "214960ba5994bbed",
+  "cell_id": "ollama__qwen3-4b-q4__balanced-1024-256__c4",
+  "cell_identity": "45a43c5de6ffd3b8",
+  "backend": "ollama",
+  "artifact": "qwen3-4b-q4",
+  "model": "qwen3-4b",
+  "model_hf_id": "Qwen/Qwen3-4B",
+  "family": "qwen3",
+  "params_total_b": 4.0,
+  "artifact_repo": "Qwen/Qwen3-4B-GGUF",
+  "artifact_revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+  "artifact_format": "gguf",
+  "quantization": {
+    "method": "Q4_K_M",
+    "scheme": "llama.cpp k-quant mix",
+    "group_size": null,
+    "bits": null,
+    "notes": null
+  },
+  "weight_dtype": "gguf-q4_k_m",
+  "workload": {
+    "name": "balanced-1024-256",
+    "kind": "synthetic_tokens",
+    "input_tokens": 1024,
+    "output_tokens": 256,
+    "concurrency": [
+      1,
+      4
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 4,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790676601.2428749,
+  "finished": true,
+  "state": "measured",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "host": {
+    "hostname_hash": "8b3795aa25",
+    "os": "Darwin",
+    "os_release": "25.6.0",
+    "machine": "arm64",
+    "python": "3.12.12",
+    "cpu_count": 11,
+    "memory_total": 19327352832,
+    "disk_free_bytes": 33459003392,
+    "harness_version": "0.1.0",
+    "git": {
+      "commit": null,
+      "dirty": true
+    },
+    "container": false,
+    "vast_instance": {},
+    "mac": {
+      "chip": "Apple M3 Pro",
+      "model": "Mac15,6",
+      "memory_bytes": 19327352832,
+      "cpu_cores_logical": 11,
+      "cpu_cores_performance": 5,
+      "cpu_cores_efficiency": 6,
+      "gpu_cores": 14,
+      "macos_version": "26.6.2",
+      "macos_build": "25G83",
+      "power_source": "ac",
+      "low_power_mode": false,
+      "power_mode": null,
+      "battery_line": "-InternalBattery-0 (id=36700259)\t100%; charged; 0:00 remaining present: true",
+      "shell_translated_rosetta": true,
+      "iogpu_wired_limit_mb": "0"
+    }
+  },
+  "backend_availability": {
+    "ok": true,
+    "version": "0.9.0",
+    "detail": "Warning: could not connect to a running Ollama instance\nWarning: client version is 0.9.0",
+    "binary": "/opt/homebrew/bin/ollama",
+    "binary_archs": "arm64"
+  },
+  "artifact_verification": {
+    "all_ok": true,
+    "files": {
+      "Qwen3-4B-Q4_K_M.gguf": {
+        "ok": true,
+        "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+        "expected": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5"
+      }
+    }
+  },
+  "workload_sha256": "d72410232f207ac4b6fc5e020850886c11a820a2f4ef88483f9d275280e5d9cd",
+  "system_baseline": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 7391952896,
+    "sys_mem_used": 10034364416,
+    "swap_used": 17368219648,
+    "swap_sin": 2731660804096,
+    "swap_sout": 58100776960,
+    "vm_pressure_level": 1,
+    "gpu_device_util_pct": 4,
+    "gpu_renderer_util_pct": 4,
+    "agx_in_use_system_memory": 1044021248,
+    "agx_alloc_system_memory": 20201488384
+  },
+  "readiness": {
+    "health_ready_s": 0.264436959,
+    "prepare": {
+      "modelfile": "FROM <repo>/models/Qwen__Qwen3-4B-GGUF/bc640142c66e1fdd12af0bd68f40445458f3869b/Qwen3-4B-Q4_K_M.gguf\nPARAMETER num_ctx 1536\n",
+      "create_output_tail": "9433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5 100% \u001b[K\nparsing GGUF ⠙ \u001b[K\u001b[?25h\u001b[?2026l\u001b[?2026h\u001b[?25l\u001b[A\u001b[A\u001b[1Ggathering model components \u001b[K\ncopying file sha256:7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5 100% \u001b[K\nparsing GGUF \u001b[K\nusing existing layer sha256:7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5 \u001b[K\nusing existing layer sha256:a9aeeb72b6e67f0f7275eace020dbc15f98545e5635043c7bb5509fd976cc052 \u001b[K\nwriting manifest \u001b[K\nsuccess \u001b[K\u001b[?25h\u001b[?2026l\n",
+      "blob_digest": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+      "blob_matches_artifact_sha256": true
+    },
+    "prepare_done_s": 1.641212167,
+    "first_generation_ready_s": 2.826747417
+  },
+  "readiness_note": "launch->health and launch->first 1-token generation; OS file-cache state not controlled (weights may be warm in page cache)",
+  "backend_metadata": {
+    "version": {
+      "version": "0.9.0"
+    },
+    "ps": {
+      "models": [
+        {
+          "name": "llmsheet-qwen3-4b-q4:latest",
+          "model": "llmsheet-qwen3-4b-q4:latest",
+          "size": 4627198464,
+          "digest": "139a63ae8f906c7f33ae5964ef63d2c848610185d5570f0faa36363afc945b43",
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3",
+            "families": [
+              "qwen3"
+            ],
+            "parameter_size": "4.0B",
+            "quantization_level": "Q4_K_M"
+          },
+          "expires_at": "2319-01-09T10:57:21.667453807+01:00",
+          "size_vram": 4627198464
+        }
+      ]
+    },
+    "show": {
+      "modelfile": "# Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this, replace FROM with:\n# FROM llmsheet-qwen3-4b-q4:latest\n\nFROM <repo>/models/ollama/blobs/sha256-7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5\nTEMPLATE {{ .Prompt }}\nPARAMETER num_ctx 1536\n",
+      "parameters": "num_ctx                        1536",
+      "template": "{{ .Prompt }}",
+      "details": {
+        "parent_model": "<repo>/models/ollama/blobs/sha256-7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+        "format": "gguf",
+        "family": "qwen3",
+        "families": [
+          "qwen3"
+        ],
+        "parameter_size": "4.0B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info": {
+        "general.architecture": "qwen3",
+        "general.basename": "Qwen3",
+        "general.file_type": 15,
+        "general.finetune": "Instruct-awq",
+        "general.parameter_count": 4022468096,
+        "general.quantization_version": 2,
+        "general.size_label": "4B",
+        "general.type": "model",
+        "qwen3.attention.head_count": 32,
+        "qwen3.attention.head_count_kv": 8,
+        "qwen3.attention.key_length": 128,
+        "qwen3.attention.layer_norm_rms_epsilon": 1e-06,
+        "qwen3.attention.value_length": 128,
+        "qwen3.block_count": 36,
+        "qwen3.context_length": 40960,
+        "qwen3.embedding_length": 2560,
+        "qwen3.feed_forward_length": 9728,
+        "qwen3.rope.freq_base": 1000000,
+        "tokenizer.ggml.add_bos_token": false,
+        "tokenizer.ggml.bos_token_id": 151643,
+        "tokenizer.ggml.eos_token_id": 151645,
+        "tokenizer.ggml.merges": null,
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 151643,
+        "tokenizer.ggml.pre": "qwen2",
+        "tokenizer.ggml.token_type": null,
+        "tokenizer.ggml.tokens": null
+      },
+      "capabilities": [
+        "completion"
+      ],
+      "modified_at": "2026-09-29T12:10:03.626497971+02:00"
+    },
+    "log_facts": {
+      "runner_cmd": "starting llama server",
+      "offloaded": "37/37",
+      "flash_attn": "1",
+      "n_ctx": "6144",
+      "n_seq_max": "4",
+      "model_buffer": "2375.92 MiB",
+      "gpu_name": "Apple M3 Pro",
+      "inference_compute": "inference compute\" id=0 library=metal variant=\"\" compute=\"\" driver=0.0 name=\"\" total=\"13.3 GiB\" available=\"13.3 GiB\"",
+      "load_duration": "1.01 seconds"
+    }
+  },
+  "template_verification": {
+    "method": "post-hoc: usage.prompt_tokens vs expected (see summary.prompt_token_check)"
+  },
+  "backend_metadata_after": {
+    "version": {
+      "version": "0.9.0"
+    },
+    "ps": {
+      "models": [
+        {
+          "name": "llmsheet-qwen3-4b-q4:latest",
+          "model": "llmsheet-qwen3-4b-q4:latest",
+          "size": 4627198464,
+          "digest": "139a63ae8f906c7f33ae5964ef63d2c848610185d5570f0faa36363afc945b43",
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3",
+            "families": [
+              "qwen3"
+            ],
+            "parameter_size": "4.0B",
+            "quantization_level": "Q4_K_M"
+          },
+          "expires_at": "2319-01-09T11:01:33.684993807+01:00",
+          "size_vram": 4627198464
+        }
+      ]
+    },
+    "show": {
+      "modelfile": "# Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this, replace FROM with:\n# FROM llmsheet-qwen3-4b-q4:latest\n\nFROM <repo>/models/ollama/blobs/sha256-7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5\nTEMPLATE {{ .Prompt }}\nPARAMETER num_ctx 1536\n",
+      "parameters": "num_ctx                        1536",
+      "template": "{{ .Prompt }}",
+      "details": {
+        "parent_model": "<repo>/models/ollama/blobs/sha256-7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+        "format": "gguf",
+        "family": "qwen3",
+        "families": [
+          "qwen3"
+        ],
+        "parameter_size": "4.0B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info": {
+        "general.architecture": "qwen3",
+        "general.basename": "Qwen3",
+        "general.file_type": 15,
+        "general.finetune": "Instruct-awq",
+        "general.parameter_count": 4022468096,
+        "general.quantization_version": 2,
+        "general.size_label": "4B",
+        "general.type": "model",
+        "qwen3.attention.head_count": 32,
+        "qwen3.attention.head_count_kv": 8,
+        "qwen3.attention.key_length": 128,
+        "qwen3.attention.layer_norm_rms_epsilon": 1e-06,
+        "qwen3.attention.value_length": 128,
+        "qwen3.block_count": 36,
+        "qwen3.context_length": 40960,
+        "qwen3.embedding_length": 2560,
+        "qwen3.feed_forward_length": 9728,
+        "qwen3.rope.freq_base": 1000000,
+        "tokenizer.ggml.add_bos_token": false,
+        "tokenizer.ggml.bos_token_id": 151643,
+        "tokenizer.ggml.eos_token_id": 151645,
+        "tokenizer.ggml.merges": null,
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 151643,
+        "tokenizer.ggml.pre": "qwen2",
+        "tokenizer.ggml.token_type": null,
+        "tokenizer.ggml.tokens": null
+      },
+      "capabilities": [
+        "completion"
+      ],
+      "modified_at": "2026-09-29T12:10:03.626497971+02:00"
+    },
+    "log_facts": {
+      "runner_cmd": "starting llama server",
+      "offloaded": "37/37",
+      "flash_attn": "1",
+      "n_ctx": "6144",
+      "n_seq_max": "4",
+      "model_buffer": "2375.92 MiB",
+      "gpu_name": "Apple M3 Pro",
+      "inference_compute": "inference compute\" id=0 library=metal variant=\"\" compute=\"\" driver=0.0 name=\"\" total=\"13.3 GiB\" available=\"13.3 GiB\"",
+      "load_duration": "1.01 seconds"
+    }
+  },
+  "shutdown": {
+    "exit_code": 0
+  },
+  "final_log_facts": {},
+  "telemetry_summary": {
+    "n_samples": 463,
+    "peak_proc_tree_rss": 3656859648,
+    "peak_proc_tree_phys_footprint": 1248989360,
+    "proc_max_lifetime_phys_footprint": 1190727040,
+    "peak_agx_in_use_system_memory": 5140889600,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 1,
+    "min_sys_mem_available": 4806967296,
+    "peak_swap_used": 17368219648,
+    "peak_proc_tree_cpu_pct": 51.5,
+    "swap_used_delta": -159383552,
+    "swap_out_bytes_delta": 16646144,
+    "swap_in_bytes_delta": 3843702784
+  },
+  "system_after_shutdown": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 7442890752,
+    "sys_mem_used": 9606266880,
+    "swap_used": 17208836096,
+    "swap_sin": 2735504818176,
+    "swap_sout": 58117423104,
+    "vm_pressure_level": 1,
+    "gpu_device_util_pct": 81,
+    "gpu_renderer_util_pct": 5,
+    "agx_in_use_system_memory": 892747776,
+    "agx_alloc_system_memory": 20196900864
+  },
+  "memory_contamination": {
+    "contaminated": true,
+    "reasons": [
+      "3.58 GiB swapped in"
+    ]
+  },
+  "finished_wall": 1790676860.0827,
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": true,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

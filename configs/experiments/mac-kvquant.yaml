@@ -1,0 +1,15 @@
+# One supported quantization experiment: llama.cpp KV cache f16 vs q8_0 (weights fixed at Q4_K_M).
+# Separate experiment names keep the two settings as distinct cells.
+name: mac-kvquant-q8
+description: Qwen3-8B Q4_K_M with q8_0 K/V cache on llama.cpp; compare against mac-capacity (f16 KV).
+kind: performance
+profile: capacity
+platform: mac
+backends: [llama-cpp]
+artifacts: [qwen3-8b-q4]
+workloads:
+  - {name: ctx-4096-128, input_tokens: 4096, output_tokens: 128, concurrency: [1]}
+  - {name: ctx-16384-128, input_tokens: 16384, output_tokens: 128, concurrency: [1]}
+requests: {warmup: 5, measured: 5}  # exploratory capacity check (n=5), not a latency distribution
+backend_settings:
+  llama-cpp: {cache_type_k: q8_0, cache_type_v: q8_0}

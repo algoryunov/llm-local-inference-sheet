@@ -1,0 +1,52 @@
+{
+  "launch_argv": [
+    "arch",
+    "-arm64",
+    "<repo>/.venvs/mlx/bin/python",
+    "<repo>/src/llm_local_inference_sheet/servers/mlx_server_wrapper.py",
+    "--mem-log",
+    "<repo>/results/mac-capacity/cells/mlx-lm__qwen3-1.7b-mlx4__ctx-16384-128__c1/20260929T133006Z/mlx_memory.jsonl",
+    "--",
+    "--model",
+    "<repo>/models/Qwen__Qwen3-1.7B-MLX-4bit/21457c6f51ed54a7c16e988c0844db973815c137",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "61253",
+    "--decode-concurrency",
+    "32",
+    "--prompt-concurrency",
+    "8",
+    "--prefill-step-size",
+    "2048",
+    "--log-level",
+    "INFO",
+    "--prompt-cache-size",
+    "0"
+  ],
+  "launch_env": {
+    "PYTHONUNBUFFERED": "1"
+  },
+  "settings": {
+    "decode_concurrency": 32,
+    "prompt_concurrency": 8,
+    "prefill_step_size": 2048,
+    "prompt_cache_size": 0,
+    "extra_args": [],
+    "ctx_required_per_request": 16512,
+    "context_allocation": "dynamic (KV cache grows per sequence; no fixed context window setting)",
+    "kv_cache_dtype": "model dtype (no KV quantization flag set)",
+    "_mem_log": "<repo>/results/mac-capacity/cells/mlx-lm__qwen3-1.7b-mlx4__ctx-16384-128__c1/20260929T133006Z/mlx_memory.jsonl"
+  },
+  "scheduling": "mlx_lm.server: continuous batching via BatchGenerator when the request is batchable (no seed set); up to --decode-concurrency sequences decode together and up to --prompt-concurrency prompts prefill together.",
+  "request_path": "/v1/chat/completions",
+  "protocol": "openai",
+  "model_name": "<repo>/models/Qwen__Qwen3-1.7B-MLX-4bit/21457c6f51ed54a7c16e988c0844db973815c137",
+  "length_enforcement": "none (natural EOS; early stops recorded)",
+  "cache_policy": "no_reuse",
+  "thinking": "disabled",
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "load_generation": "closed-loop, concurrency=1, no think time"
+}

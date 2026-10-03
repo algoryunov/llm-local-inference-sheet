@@ -1,0 +1,87 @@
+{
+  "spec": {
+    "model": "qwen3-8b",
+    "tokenizer_repo": "Qwen/Qwen3-8B",
+    "tokenizer_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "input_tokens": 1024,
+    "output_tokens": 128,
+    "n_warmup": 5,
+    "n_measured": 5,
+    "thinking": "disabled",
+    "seed": 1234,
+    "generator": "perf-v1",
+    "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "spec_hash": "767e848b98bc8118",
+  "workload_sha256": "74ba9bed2cf7a56dd22725d0b3b3cf60496e2b0b8196fddd2ccf8f759503792a",
+  "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+  "template_matches_registry": true,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "template_date_dependent": false,
+  "exact_hits": 10,
+  "items": [
+    {
+      "item_id": "w00000-767e84",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00001-767e84",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00002-767e84",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00003-767e84",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00004-767e84",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00000-767e84",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00001-767e84",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00002-767e84",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00003-767e84",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00004-767e84",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    }
+  ],
+  "ctx_required_per_request": 1152
+}

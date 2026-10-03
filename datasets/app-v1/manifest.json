@@ -1,0 +1,18 @@
+{
+  "version": "app-v1",
+  "synthetic": true,
+  "languages": [
+    "en"
+  ],
+  "note": "public: English only",
+  "splits": {
+    "dev": {
+      "items": 18,
+      "sha256": "e659bd2800a6218a700ee2c9b5a31992c67b5f39482af8ed1c09534b990c133a"
+    },
+    "test": {
+      "items": 60,
+      "sha256": "c44a5acda5c1b4122d9b2c990005eac90ecb35678d431c71e14427def5d4ff87"
+    }
+  }
+}

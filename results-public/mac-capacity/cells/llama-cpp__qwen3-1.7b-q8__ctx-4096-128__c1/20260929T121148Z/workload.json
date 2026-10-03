@@ -1,0 +1,87 @@
+{
+  "spec": {
+    "model": "qwen3-1.7b",
+    "tokenizer_repo": "Qwen/Qwen3-1.7B",
+    "tokenizer_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "input_tokens": 4096,
+    "output_tokens": 128,
+    "n_warmup": 5,
+    "n_measured": 5,
+    "thinking": "disabled",
+    "seed": 1234,
+    "generator": "perf-v1",
+    "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "spec_hash": "77700e2e7df4f8a0",
+  "workload_sha256": "b9ee3ad8a52ed45a6b3114488bb33cd680f5d83ee057310efb133b19e4dbdcd9",
+  "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+  "template_matches_registry": true,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "template_date_dependent": false,
+  "exact_hits": 10,
+  "items": [
+    {
+      "item_id": "w00000-77700e",
+      "phase": "warmup",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00001-77700e",
+      "phase": "warmup",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00002-77700e",
+      "phase": "warmup",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00003-77700e",
+      "phase": "warmup",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00004-77700e",
+      "phase": "warmup",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00000-77700e",
+      "phase": "measured",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00001-77700e",
+      "phase": "measured",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00002-77700e",
+      "phase": "measured",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00003-77700e",
+      "phase": "measured",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00004-77700e",
+      "phase": "measured",
+      "input_tokens": 4096,
+      "template_overhead_tokens": 12
+    }
+  ],
+  "ctx_required_per_request": 4224
+}

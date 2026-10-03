@@ -1,0 +1,15 @@
+# Proofreading / style suite (proofread-v1). Prepare data first: python scripts/prepare_proofread.py
+# Grammar: JFLEG test (748, 4 refs, ERRANT F0.5) + 150 already-correct controls (over-correction);
+# style: 40 synthetic formal/casual rewrites (constraint checks).
+name: proofread
+description: Qwen3-4B vs Qwen3-8B as a proofreader (grammar, over-correction, style), greedy, thinking off.
+kind: quality
+profile: quality
+platform: mac
+backends: [llama-cpp, mlx-lm]
+artifacts: [qwen3-4b-q4, qwen3-8b-q4, qwen3-4b-mlx4, qwen3-8b-mlx4]
+workloads:
+  - {name: proofread-v1-test, kind: application, dataset: .cache/datasets/proofread-v1, split: test, max_tokens: 512, concurrency: [1]}
+requests: {warmup: 5, measured: 938}
+max_cell_duration_s: 14400  # 8B needs ~60+ min for the full private set; the 3600 s default truncated it
+length_enforcement: natural

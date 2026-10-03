@@ -1,0 +1,52 @@
+{
+  "launch_argv": [
+    "arch",
+    "-arm64",
+    "<repo>/.venvs/mlx/bin/python",
+    "<repo>/src/llm_local_inference_sheet/servers/mlx_server_wrapper.py",
+    "--mem-log",
+    "<repo>/results/mac-comparison/cells/mlx-lm__smollm3-3b-mlx4__balanced-1024-256__c1/20260929T095849Z/mlx_memory.jsonl",
+    "--",
+    "--model",
+    "<repo>/models/mlx-community__SmolLM3-3B-4bit/d3a7e0594d6642dbcfb7d149bed8b0bdf49f95ce",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "49441",
+    "--decode-concurrency",
+    "32",
+    "--prompt-concurrency",
+    "8",
+    "--prefill-step-size",
+    "2048",
+    "--log-level",
+    "INFO",
+    "--prompt-cache-size",
+    "0"
+  ],
+  "launch_env": {
+    "PYTHONUNBUFFERED": "1"
+  },
+  "settings": {
+    "decode_concurrency": 32,
+    "prompt_concurrency": 8,
+    "prefill_step_size": 2048,
+    "prompt_cache_size": 0,
+    "extra_args": [],
+    "ctx_required_per_request": 1280,
+    "context_allocation": "dynamic (KV cache grows per sequence; no fixed context window setting)",
+    "kv_cache_dtype": "model dtype (no KV quantization flag set)",
+    "_mem_log": "<repo>/results/mac-comparison/cells/mlx-lm__smollm3-3b-mlx4__balanced-1024-256__c1/20260929T095849Z/mlx_memory.jsonl"
+  },
+  "scheduling": "mlx_lm.server: continuous batching via BatchGenerator when the request is batchable (no seed set); up to --decode-concurrency sequences decode together and up to --prompt-concurrency prompts prefill together.",
+  "request_path": "/v1/chat/completions",
+  "protocol": "openai",
+  "model_name": "<repo>/models/mlx-community__SmolLM3-3B-4bit/d3a7e0594d6642dbcfb7d149bed8b0bdf49f95ce",
+  "length_enforcement": "none (natural EOS; early stops recorded)",
+  "cache_policy": "no_reuse",
+  "thinking": "disabled",
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "load_generation": "closed-loop, concurrency=1, no think time"
+}

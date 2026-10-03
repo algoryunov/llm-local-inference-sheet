@@ -1,0 +1,53 @@
+{
+  "launch_argv": [
+    "/opt/homebrew/bin/ollama",
+    "serve"
+  ],
+  "launch_env": {
+    "OLLAMA_HOST": "127.0.0.1:62479",
+    "OLLAMA_MODELS": "<repo>/models/ollama",
+    "OLLAMA_NUM_PARALLEL": "1",
+    "OLLAMA_MAX_LOADED_MODELS": "1",
+    "OLLAMA_KEEP_ALIVE": "-1",
+    "OLLAMA_FLASH_ATTENTION": "1",
+    "OLLAMA_KV_CACHE_TYPE": "f16",
+    "OLLAMA_NOPRUNE": "1",
+    "OLLAMA_DEBUG": "1"
+  },
+  "settings": {
+    "api": "generate_raw",
+    "flash_attention": true,
+    "kv_cache_type": "f16",
+    "num_parallel": 1,
+    "num_gpu": null,
+    "debug_log": true,
+    "extra_env": {},
+    "num_ctx_per_request": 1536,
+    "ctx_total_expected": 1536,
+    "ctx_required_per_request": 1280,
+    "env": {
+      "OLLAMA_HOST": "127.0.0.1:62479",
+      "OLLAMA_MODELS": "<repo>/models/ollama",
+      "OLLAMA_NUM_PARALLEL": "1",
+      "OLLAMA_MAX_LOADED_MODELS": "1",
+      "OLLAMA_KEEP_ALIVE": "-1",
+      "OLLAMA_FLASH_ATTENTION": "1",
+      "OLLAMA_KV_CACHE_TYPE": "f16",
+      "OLLAMA_NOPRUNE": "1",
+      "OLLAMA_DEBUG": "1"
+    },
+    "cache_control": "none available; reuse detected via prompt_eval_count < prompt tokens",
+    "ollama_model": "llmsheet-qwen3-8b-q4"
+  },
+  "scheduling": "ollama serve: OLLAMA_NUM_PARALLEL slots in one runner process; requests beyond that queue in Ollama's scheduler (OLLAMA_MAX_QUEUE). Context per slot = num_ctx.",
+  "request_path": "/api/generate",
+  "protocol": "ollama",
+  "model_name": "llmsheet-qwen3-8b-q4",
+  "length_enforcement": "none (natural EOS; early stops recorded)",
+  "cache_policy": "no_reuse",
+  "thinking": "disabled",
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "load_generation": "closed-loop, concurrency=1, no think time"
+}

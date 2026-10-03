@@ -1,0 +1,163 @@
+{
+  "experiment": "mac-comparison",
+  "experiment_identity": "214960ba5994bbed",
+  "cell_id": "ollama__smollm3-3b-q4__balanced-1024-256__c4",
+  "cell_identity": "d27a0ea11fbec783",
+  "backend": "ollama",
+  "artifact": "smollm3-3b-q4",
+  "model": "smollm3-3b",
+  "model_hf_id": "HuggingFaceTB/SmolLM3-3B",
+  "family": "smollm3",
+  "params_total_b": 3.08,
+  "artifact_repo": "ggml-org/SmolLM3-3B-GGUF",
+  "artifact_revision": "4965cb60b150737b68a0408c36aeefb65078f894",
+  "artifact_format": "gguf",
+  "quantization": {
+    "method": "Q4_K_M",
+    "scheme": "llama.cpp k-quant mix",
+    "group_size": null,
+    "bits": null,
+    "notes": null
+  },
+  "weight_dtype": "gguf-q4_k_m",
+  "workload": {
+    "name": "balanced-1024-256",
+    "kind": "synthetic_tokens",
+    "input_tokens": 1024,
+    "output_tokens": 256,
+    "concurrency": [
+      1,
+      4
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 4,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790683402.782024,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "host": {
+    "hostname_hash": "8b3795aa25",
+    "os": "Darwin",
+    "os_release": "25.6.0",
+    "machine": "arm64",
+    "python": "3.12.12",
+    "cpu_count": 11,
+    "memory_total": 19327352832,
+    "disk_free_bytes": 31870947328,
+    "harness_version": "0.1.0",
+    "git": {
+      "commit": null,
+      "dirty": true
+    },
+    "container": false,
+    "vast_instance": {},
+    "mac": {
+      "chip": "Apple M3 Pro",
+      "model": "Mac15,6",
+      "memory_bytes": 19327352832,
+      "cpu_cores_logical": 11,
+      "cpu_cores_performance": 5,
+      "cpu_cores_efficiency": 6,
+      "gpu_cores": 14,
+      "macos_version": "26.6.2",
+      "macos_build": "25G83",
+      "power_source": "ac",
+      "low_power_mode": false,
+      "power_mode": null,
+      "battery_line": "-InternalBattery-0 (id=36700259)\t100%; charged; 0:00 remaining present: true",
+      "shell_translated_rosetta": true,
+      "iogpu_wired_limit_mb": "0"
+    }
+  },
+  "backend_availability": {
+    "ok": true,
+    "version": "0.9.0",
+    "detail": "Warning: could not connect to a running Ollama instance\nWarning: client version is 0.9.0",
+    "binary": "/opt/homebrew/bin/ollama",
+    "binary_archs": "arm64"
+  },
+  "artifact_verification": {
+    "all_ok": true,
+    "files": {
+      "SmolLM3-Q4_K_M.gguf": {
+        "ok": true,
+        "sha256": "8334b850b7bd46238c16b0c550df2138f0889bf433809008cc17a8b05761863e",
+        "expected": "8334b850b7bd46238c16b0c550df2138f0889bf433809008cc17a8b05761863e"
+      }
+    }
+  },
+  "workload_sha256": "d3686f476f65e2e91df938c85ea3266aa09cef37123128815f6ee13c67c2b1d7",
+  "system_baseline": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 4232527872,
+    "sys_mem_used": 8858615808,
+    "swap_used": 16235692032,
+    "swap_sin": 2813470949376,
+    "swap_sout": 59210366976,
+    "vm_pressure_level": 1,
+    "gpu_device_util_pct": 72,
+    "gpu_renderer_util_pct": 72,
+    "agx_in_use_system_memory": 2345566208,
+    "agx_alloc_system_memory": 23184457728
+  },
+  "reason": "ollama cannot load this model: unknown model architecture: 'smollm3'",
+  "shutdown": {
+    "exit_code": 0
+  },
+  "final_log_facts": {},
+  "telemetry_summary": {
+    "n_samples": 4,
+    "peak_proc_tree_rss": 33423360,
+    "peak_proc_tree_phys_footprint": 12223184,
+    "proc_max_lifetime_phys_footprint": 12223184,
+    "peak_agx_in_use_system_memory": 2352693248,
+    "peak_gpu_device_util_pct": 73,
+    "peak_vm_pressure_level": 1,
+    "min_sys_mem_available": 4203986944,
+    "peak_swap_used": 16235692032,
+    "peak_proc_tree_cpu_pct": 0.1,
+    "swap_used_delta": 0,
+    "swap_out_bytes_delta": 212992,
+    "swap_in_bytes_delta": 9338880
+  },
+  "system_after_shutdown": {
+    "sys_mem_total": 19327352832,
+    "sys_mem_available": 4387782656,
+    "sys_mem_used": 8874246144,
+    "swap_used": 16235692032,
+    "swap_sin": 2813492510720,
+    "swap_sout": 59210776576,
+    "vm_pressure_level": 1,
+    "gpu_device_util_pct": 70,
+    "gpu_renderer_util_pct": 70,
+    "agx_in_use_system_memory": 2233974784,
+    "agx_alloc_system_memory": 23155261440
+  },
+  "memory_contamination": {
+    "contaminated": false,
+    "reasons": []
+  },
+  "finished_wall": 1790683409.9696069,
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

@@ -1,0 +1,13 @@
+# Initial comparison matrix (brief): four models, ~4-bit on Mac, 1024/256, C = 1 and 4.
+# GGUF artifacts run on llama.cpp and Ollama (the byte-identical file); MLX artifacts on mlx-lm.
+# Unsupported format/backend pairs are recorded as `unsupported`, gated models as `gated`.
+name: mac-comparison
+description: Initial 4-model comparison on Apple Silicon (exploratory n=30 per cell).
+kind: performance
+profile: comparison
+platform: mac
+backends: [llama-cpp, mlx-lm, ollama]
+artifacts: [qwen3-8b-q4, qwen3-8b-mlx4, qwen3-4b-q4, qwen3-4b-mlx4, smollm3-3b-q4, smollm3-3b-mlx4, llama3.1-8b-q4, llama3.1-8b-mlx4]
+workloads:
+  - {name: balanced-1024-256, input_tokens: 1024, output_tokens: 256, concurrency: [1, 4]}
+requests: {warmup: 5, measured: 30}

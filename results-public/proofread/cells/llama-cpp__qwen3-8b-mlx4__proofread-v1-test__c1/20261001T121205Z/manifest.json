@@ -1,0 +1,60 @@
+{
+  "experiment": "proofread",
+  "experiment_identity": "5ea9221b5f6ba316",
+  "cell_id": "llama-cpp__qwen3-8b-mlx4__proofread-v1-test__c1",
+  "cell_identity": "d8b4bbd90178dbdd",
+  "backend": "llama-cpp",
+  "artifact": "qwen3-8b-mlx4",
+  "model": "qwen3-8b",
+  "model_hf_id": "Qwen/Qwen3-8B",
+  "family": "qwen3",
+  "params_total_b": 8.2,
+  "artifact_repo": "Qwen/Qwen3-8B-MLX-4bit",
+  "artifact_revision": "383413e909f3bc5303ce195ebbdf0339c5a1a2a3",
+  "artifact_format": "mlx",
+  "quantization": {
+    "method": "mlx-affine-4bit",
+    "scheme": "MLX affine quantization, 4-bit, group_size=128 (config.json)",
+    "group_size": 128,
+    "bits": 4,
+    "notes": "Not the same scheme as GGUF Q4_K_M. Different bits/weight and different error profile."
+  },
+  "weight_dtype": "mlx-q4-g128",
+  "workload": {
+    "name": "proofread-v1-test",
+    "kind": "application",
+    "input_tokens": null,
+    "output_tokens": null,
+    "concurrency": [
+      1
+    ],
+    "dataset": ".cache/datasets/proofread-v1",
+    "split": "test",
+    "max_tokens": 512
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "quality",
+  "synthetic": false,
+  "started_wall": 1790856725.292793,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "llama-cpp does not load mlx artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

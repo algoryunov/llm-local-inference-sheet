@@ -1,0 +1,310 @@
+{
+  "performance": {
+    "n_measured": 60,
+    "n_ok": 60,
+    "status_counts": {
+      "ok": 60
+    },
+    "window_s": 196.386071708,
+    "total_output_tokens": 3937,
+    "aggregate_output_tps": 20.04724655755524,
+    "successful_rps": 0.305520648578439,
+    "mean_inflight": 0.7560988864209315,
+    "early_stops": 0,
+    "truncated": 0,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "chunk_derived"
+    ],
+    "input_tokens": {
+      "n": 60,
+      "mean": 462.1,
+      "std": 432.4281737164321,
+      "min": 146,
+      "p50": 205.5,
+      "p90": 1179.2,
+      "max": 1554,
+      "p95": 1312.85,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        189.5,
+        213.0125
+      ]
+    },
+    "output_tokens": {
+      "n": 60,
+      "mean": 65.61666666666666,
+      "std": 55.98035117355128,
+      "min": 7,
+      "p50": 62.0,
+      "p90": 162.1,
+      "max": 208,
+      "p95": 169.05,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        51.0,
+        68.0
+      ]
+    },
+    "cached_tokens_max": null,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 60,
+      "mean": 0.7086802444500001,
+      "std": 0.8866893259535442,
+      "min": 0.108638333,
+      "p50": 0.16992025,
+      "p90": 2.2990273837000004,
+      "max": 2.974146625,
+      "p95": 2.478516983,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.1644098745,
+        0.2434337758499999
+      ]
+    },
+    "e2e_s": {
+      "n": 60,
+      "mean": 2.4747881687833333,
+      "std": 2.363215303795337,
+      "min": 0.258333958,
+      "p50": 1.7606955000000002,
+      "p90": 6.2555829747,
+      "max": 8.981271083,
+      "p95": 6.7793453527,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        1.4435524585000001,
+        1.9279535668625
+      ]
+    },
+    "tpot_s": {
+      "n": 60,
+      "mean": 0.024824565693684086,
+      "std": 0.0028139037751290117,
+      "min": 0.0207543265,
+      "p50": 0.02487261687140192,
+      "p90": 0.028890858457461085,
+      "max": 0.029471711414772728,
+      "p95": 0.029260300086189368,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.024343246664043583,
+        0.025939822104347827
+      ]
+    },
+    "decode_tps": {
+      "n": 60,
+      "mean": 40.80248872957427,
+      "std": 4.684496826471523,
+      "min": 33.930842560393316,
+      "p50": 40.205568785733306,
+      "p90": 47.45967398811258,
+      "max": 48.18272469598086,
+      "p95": 47.84164047120003,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        38.532401435233126,
+        40.997556624876914
+      ]
+    },
+    "gap_p95_s": {
+      "n": 60,
+      "mean": 0.028017332351666663,
+      "std": 0.002566155198286756,
+      "min": 0.0244768373,
+      "p50": 0.027548020675,
+      "p90": 0.032006736415,
+      "max": 0.033322844,
+      "p95": 0.03232141759,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.026180664399999998,
+        0.028831292
+      ]
+    },
+    "prefill_proxy_tps": {
+      "n": 60,
+      "mean": 1042.0385638534988,
+      "std": 365.29139329514334,
+      "min": 425.6844250307935,
+      "p50": 1184.2410888817158,
+      "p90": 1444.702177190349,
+      "max": 1495.8749333263916,
+      "p95": 1458.2907851416678,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        883.6843597510758,
+        1227.3432315922507
+      ]
+    },
+    "native_prefill_tps": {
+      "n": 60,
+      "mean": 1131.3771182868031,
+      "std": 433.5829226357943,
+      "min": 434.13204477758075,
+      "p50": 1280.7313790532571,
+      "p90": 1624.6948176651717,
+      "max": 1670.0943996418991,
+      "p95": 1634.4163027005334,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        940.1198324837638,
+        1342.9796468839384
+      ]
+    },
+    "native_decode_tps": {
+      "n": 60,
+      "mean": 40.373767222421165,
+      "std": 4.170691225617137,
+      "min": 33.899279514333266,
+      "p50": 40.166371844672206,
+      "p90": 46.09356456219784,
+      "max": 46.544427927701676,
+      "p95": 46.265582490448416,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        38.46949163289262,
+        40.9398404527312
+      ]
+    },
+    "n_full_length": 0
+  },
+  "prompt_token_check": {
+    "n": 60,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 587,
+    "peak_proc_tree_rss": 2885599232,
+    "peak_proc_tree_phys_footprint": 703139584,
+    "proc_max_lifetime_phys_footprint": 641371088,
+    "peak_agx_in_use_system_memory": 5487853568,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 1,
+    "min_sys_mem_available": 3466297344,
+    "peak_swap_used": 17884839936,
+    "peak_proc_tree_cpu_pct": 46.1,
+    "swap_used_delta": -268435456,
+    "swap_out_bytes_delta": 109330432,
+    "swap_in_bytes_delta": 6887505920
+  },
+  "quality": {
+    "cv_report/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.5888888888888888,
+      "exact_all": 0.1,
+      "field:incident_type": 0.7,
+      "field:start_time": 0.65,
+      "field:end_time": 0.5,
+      "field:camera_ids": 0.15,
+      "field:event_refs": 0.45,
+      "field:person_count": 0.45,
+      "field:vehicle_involved": 0.9,
+      "field:uncertain": 0.7,
+      "field:missing_evidence": 0.8,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 0.75,
+      "primary": 0.5888888888888888
+    },
+    "cv_report/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.5888888888888888,
+      "exact_all": 0.1,
+      "field:incident_type": 0.7,
+      "field:start_time": 0.65,
+      "field:end_time": 0.5,
+      "field:camera_ids": 0.15,
+      "field:event_refs": 0.45,
+      "field:person_count": 0.45,
+      "field:vehicle_involved": 0.9,
+      "field:uncertain": 0.7,
+      "field:missing_evidence": 0.8,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 0.75,
+      "primary": 0.5888888888888888
+    },
+    "extraction/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 0.95,
+      "field_accuracy": 0.975,
+      "exact_all": 0.85,
+      "field:customer_name": 1.0,
+      "field:order_id": 1.0,
+      "field:product": 1.0,
+      "field:quantity": 1.0,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.85,
+      "null_handling_accuracy": 0.7692307692307693,
+      "primary": 0.975
+    },
+    "extraction/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 0.95,
+      "field_accuracy": 0.975,
+      "exact_all": 0.85,
+      "field:customer_name": 1.0,
+      "field:order_id": 1.0,
+      "field:product": 1.0,
+      "field:quantity": 1.0,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.85,
+      "null_handling_accuracy": 0.7692307692307693,
+      "primary": 0.975
+    },
+    "routing/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "routing/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "composite": {
+      "primary_mean": 0.8546296296296295,
+      "tasks": 3,
+      "definition": "mean of extraction field accuracy, routing macro-F1, CV field accuracy"
+    }
+  },
+  "public_items": 60
+}

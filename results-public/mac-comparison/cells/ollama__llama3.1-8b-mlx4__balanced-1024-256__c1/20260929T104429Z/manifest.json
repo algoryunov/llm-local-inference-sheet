@@ -1,0 +1,61 @@
+{
+  "experiment": "mac-comparison",
+  "experiment_identity": "214960ba5994bbed",
+  "cell_id": "ollama__llama3.1-8b-mlx4__balanced-1024-256__c1",
+  "cell_identity": "fdf8f6ce4861d4d0",
+  "backend": "ollama",
+  "artifact": "llama3.1-8b-mlx4",
+  "model": "llama3.1-8b",
+  "model_hf_id": "meta-llama/Llama-3.1-8B-Instruct",
+  "family": "llama3",
+  "params_total_b": 8.03,
+  "artifact_repo": "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
+  "artifact_revision": "241a666dad6cb93c8ff213d39a7f34a36bf26db4",
+  "artifact_format": "mlx",
+  "quantization": {
+    "method": "mlx-affine-4bit",
+    "scheme": null,
+    "group_size": null,
+    "bits": 4,
+    "notes": null
+  },
+  "weight_dtype": "mlx-q4",
+  "workload": {
+    "name": "balanced-1024-256",
+    "kind": "synthetic_tokens",
+    "input_tokens": 1024,
+    "output_tokens": 256,
+    "concurrency": [
+      1,
+      4
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790678669.362018,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "ollama does not load mlx artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

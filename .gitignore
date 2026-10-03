@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venvs/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# Runtimes, weights and caches: never commit
+.tools/
+models/
+*.gguf
+*.safetensors
+*.bin
+.cache/
+hf-cache/
+
+# Credentials
+.env
+*.secret
+secrets/
+
+# Local, unfiltered results and private material: never published.
+# Publish via `python scripts/export_public.py`, which writes the filtered results-public/.
+results/
+private/
+results-public/**/*.tmp
+# Raw per-run files stay local; they are published as a GitHub Release bundle (scripts/export_public.py).
+results-public/**/requests.jsonl
+results-public/**/events.jsonl.gz
+results-public/**/telemetry.jsonl
+results-public/**/mlx_memory.jsonl
+results-public/**/server.log.gz
+results-public/**/scores.jsonl
+
+# OS
+.DS_Store

@@ -1,0 +1,467 @@
+<title>M3 Pro Inference Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: instrument panel. Status strip and summary readouts first, then four evidence panels, then detail tables. */
+:root {
+  --bg: #f4f5f8; --panel: #ffffff; --ink: #14171c; --ink-2: #454c57; --muted: #737b87;
+  --line: #dfe3e9; --grid: #eceff3; --tint: #eef3fb;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;          /* llama.cpp, MLX-LM, Ollama */
+  --m1: #86b6ef; --m2: #2a78d6; --m3: #104281;          /* Qwen3 1.7B, 8B, 14B (ordinal) */
+  --good: #0a8f0a; --warn: #b07800; --warn-bg: #fff4d6; --bad: #c83434; --neutral: #8a919c;
+  --band: rgba(235, 104, 52, 0.08);
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --tint: #1b2230;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --m1: #9ec5f4; --m2: #3987e5; --m3: #5b8fd6;
+  --good: #3cc23c; --warn: #f3c24d; --warn-bg: #3a2f12; --bad: #ec6b6b; --neutral: #7c838e;
+  --band: rgba(217, 89, 38, 0.12); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --tint: #1b2230;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --m1: #9ec5f4; --m2: #3987e5; --m3: #5b8fd6;
+  --good: #3cc23c; --warn: #f3c24d; --warn-bg: #3a2f12; --bad: #ec6b6b; --neutral: #7c838e;
+  --band: rgba(217, 89, 38, 0.12); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--f-body); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 22px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; }
+h2 { font-size: 18px; font-weight: 600; }
+h3 { font-size: 15.5px; font-weight: 600; }
+.eyebrow { font: 500 11.5px var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.sub { color: var(--ink-2); max-width: 72ch; margin: 6px 0 0; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+
+header { display: grid; gap: 12px; }
+.status { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px 4px 8px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--panel); font-size: 13px; color: var(--ink-2); }
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--neutral); flex: none; }
+.pill.warn { background: var(--warn-bg); border-color: transparent; color: var(--ink); }
+.pill.warn i { background: var(--warn); }
+.pill.good i { background: var(--good); }
+
+.readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.readout { background: var(--panel); padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
+.readout .v { font: 600 26px/1.15 var(--f-display); }
+.readout .v small { font: 500 13px var(--f-data); color: var(--muted); margin-left: 4px; }
+.readout .d { color: var(--ink-2); font-size: 13.5px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 540px), 1fr)); gap: 18px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 14px;
+  display: grid; gap: 10px; align-content: start; min-width: 0; }
+.panel p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.panel .note { color: var(--muted); font-size: 12.5px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; height: 0; border-top: 2.5px solid currentColor; display: inline-block; }
+.sw.dash { border-top-style: dashed; }
+.sw.dot { width: 10px; height: 10px; border: 0; border-radius: 50%; background: currentColor; }
+.sw.box { width: 11px; height: 11px; border: 0; border-radius: 3px; background: currentColor; }
+svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
+svg.chart text { fill: var(--muted); font: 11px var(--f-data); }
+svg.chart .lbl { fill: var(--ink-2); font: 500 11.5px var(--f-body); }
+svg.chart .val { fill: var(--ink); font: 500 11px var(--f-data); }
+.hit { fill: transparent; cursor: default; }
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--grid); text-align: left; white-space: nowrap; }
+th { font: 500 11.5px var(--f-data); letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); background: var(--panel); }
+td.n, th.n { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+.chip.verified { background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); }
+.chip.unsupported { background: color-mix(in srgb, var(--bad) 14%, transparent); color: var(--bad); }
+.chip.gated { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+.chip.expected, .chip.untested, .chip.other { background: var(--grid); color: var(--muted); }
+.chip.na { color: var(--line); }
+.pass { color: var(--good); font-weight: 600; }
+.fail { color: var(--bad); font-weight: 600; }
+
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 14px; }
+.finding { border-left: 3px solid var(--line); padding: 2px 0 2px 14px; display: grid; gap: 4px; }
+.finding h3 { font-size: 14.5px; }
+.finding p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.finding.key { border-left-color: var(--s2); }
+
+#tip { position: fixed; z-index: 10; pointer-events: none; background: var(--panel); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16); max-width: 280px; }
+#tip b { font-family: var(--f-body); }
+#tip .num { color: var(--ink-2); }
+footer { color: var(--muted); font-size: 12.5px; display: grid; gap: 4px; }
+code { font-family: var(--f-data); font-size: 0.92em; }
+@media (prefers-reduced-motion: no-preference) { .panel { transition: border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">LLM Local Inference Sheet · Apple M3 Pro · 18 GB unified memory · macOS 26.6.2</div>
+    <h1>Which local LLM setup works on this Mac?</h1>
+    <p class="sub">Measured serving performance, task quality and proofreading for Qwen3 and SmolLM3 on llama.cpp, MLX-LM and Ollama. Every figure is recomputed from saved raw stream events.</p>
+    <div class="status">
+      <span class="pill warn"><i></i>All Mac runs measured under memory pressure: absolute numbers are pessimistic</span>
+      <span class="pill good"><i></i><span id="n-cells">–</span> cells measured</span>
+      <span class="pill"><i></i>Llama-3.1-8B gated</span>
+    </div>
+  </header>
+
+  <section class="readouts" aria-label="Summary">
+    <div class="readout"><div class="eyebrow">Recommended</div><div class="v">Qwen3-4B <small>~4-bit</small></div><div class="d">llama.cpp for one user, MLX-LM for several</div></div>
+    <div class="readout"><div class="eyebrow">Best quality score</div><div class="v num" id="k-q">–</div><div class="d" id="k-q-d">–</div></div>
+    <div class="readout"><div class="eyebrow">Qwen3-8B at 4 users</div><div class="v num" id="k-c4">–</div><div class="d">total output tok/s, MLX-LM vs llama.cpp</div></div>
+    <div class="readout"><div class="eyebrow">Largest model that fits</div><div class="v num" id="k-fit">–</div><div class="d" id="k-fit-d">–</div></div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="eyebrow">Profiling investigation</div>
+      <h2>llama.cpp stops scaling between 4 and 8 concurrent requests</h2>
+      <p>Qwen3-4B, 128 tokens in / 256 out. Metal switches matmul kernels by batch size, and K-quant weights land on a slower path for batches of 4–8. Above 8 a matrix kernel takes over.</p>
+      <div class="legend"><span style="color:var(--s1)"><i class="sw"></i>llama-server (end to end)</span><span style="color:var(--s2)"><i class="sw"></i>MLX-LM server</span><span style="color:var(--muted)"><i class="sw dash"></i>llama-batched-bench (no HTTP)</span></div>
+      <div id="ch-inv"></div>
+      <div class="note">Shaded band: batches routed to <code>mul_mv_ext</code> for K-quants. Source: ggml-metal-ops.cpp at build b11246.</div>
+    </div>
+
+    <div class="panel">
+      <div class="eyebrow">Runtime comparison</div>
+      <h2>At 4 users, MLX-LM nearly doubles throughput</h2>
+      <p>Qwen3-8B, 1,024 tokens in / 256 out. With one user the three runtimes are within about 10%. llama.cpp and Ollama run the identical GGUF file.</p>
+      <div class="legend"><span style="color:var(--s1)"><i class="sw box"></i>llama.cpp</span><span style="color:var(--s2)"><i class="sw box"></i>MLX-LM</span><span style="color:var(--s3)"><i class="sw box"></i>Ollama</span><span style="color:var(--muted)">lighter bar = 1 user, solid = 4 users</span></div>
+      <div id="ch-rt"></div>
+    </div>
+
+    <div class="panel">
+      <div class="eyebrow">Model selection</div>
+      <h2>Qwen3-4B matches 8B on quality at half the latency</h2>
+      <p>60 held-out tasks: JSON extraction, request routing and CV incident reports. Budget: score ≥ 0.80 and ≤ 3 s per task.</p>
+      <div class="legend"><span style="color:var(--s1)"><i class="sw dot"></i>llama.cpp</span><span style="color:var(--s2)"><i class="sw dot"></i>MLX-LM</span><span style="color:var(--s3)"><i class="sw dot"></i>Ollama</span></div>
+      <div id="ch-q"></div>
+      <div class="note">Ollama's latency here benefits from prefix-cache reuse it cannot disable. SmolLM3 does not load on Ollama 0.9.0.</div>
+    </div>
+
+    <div class="panel">
+      <div class="eyebrow">Capacity</div>
+      <h2>14B fits at 16k context, but waits minutes for the first token</h2>
+      <p>Time to first token as the prompt grows, one user, 5 measured requests per point.</p>
+      <div class="legend"><span style="color:var(--m1)"><i class="sw"></i>Qwen3-1.7B</span><span style="color:var(--m2)"><i class="sw"></i>Qwen3-8B</span><span style="color:var(--m3)"><i class="sw"></i>Qwen3-14B</span><span style="color:var(--muted)"><i class="sw"></i>llama.cpp</span><span style="color:var(--muted)"><i class="sw dash"></i>MLX-LM</span></div>
+      <div id="ch-cap"></div>
+      <div class="note" id="cap-note">–</div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="eyebrow">KV-cache quantization</div>
+      <h2>8-bit KV cache halves its memory</h2>
+      <p>Qwen3-8B Q4_K_M on llama.cpp, KV sizes from llama.cpp's own buffer report.</p>
+      <div class="legend"><span style="color:var(--m3)"><i class="sw box"></i>f16 KV</span><span style="color:var(--m1)"><i class="sw box"></i>q8_0 KV</span></div>
+      <div id="ch-kv"></div>
+      <div class="note">Quality impact of q8_0 KV was not measured yet.</div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Key findings</div>
+      <h2>What the data supports</h2>
+      <div class="findings">
+        <div class="finding key"><h3>Concurrency 4–8 buys nothing on llama.cpp</h3><p>Throughput fell from 3 to 4 users and jumped 63% at 9, matching the kernel thresholds in the source.</p></div>
+        <div class="finding"><h3>8B adds no measurable quality</h3><p>Paired bootstrap over 60 items: no significant difference between 4B and 8B, at twice the cost for 8B.</p></div>
+        <div class="finding"><h3>GGUF and MLX 4-bit score the same</h3><p>No significant quality difference on either model, despite different quantization schemes.</p></div>
+        <div class="finding"><h3>For proofreading, 8B is worth it</h3><p>On JFLEG grammar correction, 8B beats 4B by 0.043 F0.5 (significant), unlike on the JSON tasks.</p></div>
+        <div class="finding"><h3>Same file, same answers</h3><p>llama.cpp and Ollama on the byte-identical GGUF scored within 0.004.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="eyebrow">Proofreading</div>
+      <h2>Qwen3-8B corrects grammar better, at 1.7× the time</h2>
+      <p>748 learner sentences from JFLEG, each with 4 human corrections, scored with ERRANT F0.5 (the standard grammar-correction metric).</p>
+      <div class="legend"><span style="color:var(--s1)"><i class="sw dot"></i>llama.cpp</span><span style="color:var(--s2)"><i class="sw dot"></i>MLX-LM</span></div>
+      <div id="ch-gec"></div>
+      <div class="note">Paired bootstrap, 8B − 4B: +0.043 F0.5 on llama.cpp (95% CI +0.025 to +0.061), +0.018 on MLX.</div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Proofreading detail</div>
+      <h2>Both sizes still edit a third of correct sentences</h2>
+      <p>Keep rate: share of 150 already-correct sentences returned unchanged. Style: 40 formal/casual rewrites that keep every fact.</p>
+      <div class="tablewrap"><table id="t-gec"></table></div>
+      <div class="note">For a Grammarly-style tool, over-editing is the main weakness to fix with a minimal-edit prompt.</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">All performance cells</div>
+    <h2>Qwen3 and SmolLM3, 1,024 tokens in / 256 out</h2>
+    <div class="tablewrap"><table id="t-perf"></table></div>
+  </section>
+
+  <section class="grid2">
+    <div class="panel">
+      <div class="eyebrow">Quality detail</div>
+      <h2>Scores by task</h2>
+      <div class="tablewrap"><table id="t-qual"></table></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Compatibility</div>
+      <h2>Model × runtime status</h2>
+      <div class="tablewrap"><table id="t-compat"></table></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>Generated by <code>scripts/build_dashboard.py</code> from <code>results/report/results.csv</code>. Medians shown; n = 30 per performance cell, 60 items per application-quality cell.</div>
+    <div>Hardware: Apple M3 Pro, 11 CPU cores, 14 GPU cores, Metal working-set limit 13,639 MiB. Runtimes: llama.cpp b11246, MLX-LM 0.31.3, Ollama 0.9.0.</div>
+  </footer>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = __DATA__;
+const R = DATA.rows;
+const measured = r => r.state === "measured";
+const pick = (exp, f) => R.filter(r => r.experiment === exp && measured(r) && (!f || f(r)));
+const BCOL = { "llama-cpp": "var(--s1)", "mlx-lm": "var(--s2)", "ollama": "var(--s3)" };
+const BNAME = { "llama-cpp": "llama.cpp", "mlx-lm": "MLX-LM", "ollama": "Ollama" };
+const MNAME = { "qwen3-1.7b": "Qwen3-1.7B", "qwen3-4b": "Qwen3-4B", "qwen3-8b": "Qwen3-8B", "qwen3-14b": "Qwen3-14B", "smollm3-3b": "SmolLM3-3B" };
+const MCOL = { "qwen3-1.7b": "var(--m1)", "qwen3-8b": "var(--m2)", "qwen3-14b": "var(--m3)" };
+const fmt = (v, d = 1) => v == null ? "–" : Number(v).toFixed(d);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const weights = r => r.artifact.includes("mlx") ? "MLX 4-bit" : r.quant;
+
+// ---------- tooltip
+const tip = document.getElementById("tip");
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => {
+    el.addEventListener("mousemove", e => {
+      tip.innerHTML = el.dataset.tip; tip.hidden = false;
+      const x = Math.min(e.clientX + 14, innerWidth - 300);
+      tip.style.left = x + "px"; tip.style.top = (e.clientY + 14) + "px";
+    });
+    el.addEventListener("mouseleave", () => { tip.hidden = true; });
+  });
+}
+
+// ---------- scales
+const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+const lg = (d0, d1, r0, r1) => v => r0 + (Math.log(v) - Math.log(d0)) / (Math.log(d1) - Math.log(d0)) * (r1 - r0);
+function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); return Math.ceil(v / p * 1.05) * p; }
+
+// ---------- readouts
+(function readouts() {
+  document.getElementById("n-cells").textContent = R.filter(measured).length;
+  const q = pick("quality").sort((a, b) => b.quality_composite - a.quality_composite)[0];
+  document.getElementById("k-q").textContent = fmt(q.quality_composite, 3);
+  document.getElementById("k-q-d").textContent = `${MNAME[q.model]} ${weights(q)} on ${BNAME[q.backend]}, ${fmt(q.e2e_p50_s, 2)} s per task`;
+  const c4 = b => pick("mac-comparison", r => r.model === "qwen3-8b" && r.backend === b && r.concurrency === 4)[0];
+  document.getElementById("k-c4").innerHTML = `${fmt(c4("mlx-lm").agg_output_tps)} <small>vs ${fmt(c4("llama-cpp").agg_output_tps)}</small>`;
+  const big = pick("mac-capacity", r => r.model === "qwen3-14b" && r.backend === "llama-cpp" && r.input_tokens === 16384)[0];
+  document.getElementById("k-fit").innerHTML = `${fmt(big.llama_gpu_self_mib / 1024)} <small>of 13.3 GiB</small>`;
+  document.getElementById("k-fit-d").textContent = `Qwen3-14B Q4_K_M at 16k context, GPU memory used vs Metal limit`;
+})();
+
+// ---------- chart: investigation
+(function inv() {
+  const W = 560, H = 290, m = { l: 46, r: 16, t: 14, b: 38 };
+  const ll = pick("mac-investigation-batching", r => r.backend === "llama-cpp").sort((a, b) => a.concurrency - b.concurrency);
+  const mx = pick("mac-investigation-batching", r => r.backend === "mlx-lm").sort((a, b) => a.concurrency - b.concurrency);
+  const bench = DATA.bench;
+  const ymax = niceMax(Math.max(...ll.map(r => r.agg_output_tps), ...mx.map(r => r.agg_output_tps), ...bench.map(p => p.tps)));
+  const X = lin(1, 16, m.l, W - m.r), Y = lin(0, ymax, H - m.b, m.t);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Aggregate throughput versus concurrency">`;
+  s += `<rect x="${X(3.5)}" y="${m.t}" width="${X(8.5) - X(3.5)}" height="${H - m.b - m.t}" fill="var(--band)"/>`;
+  s += `<text x="${(X(3.5) + X(8.5)) / 2}" y="${m.t + 12}" text-anchor="middle" class="lbl" style="fill:var(--s2)">K-quant small-batch kernel</text>`;
+  for (let i = 0; i <= 4; i++) { const v = ymax * i / 4; s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${Math.round(v)}</text>`; }
+  [1, 2, 3, 4, 8, 9, 12, 16].forEach(c => { s += `<text x="${X(c)}" y="${H - m.b + 16}" text-anchor="middle">${c}</text>`; });
+  s += `<text x="${W - m.r}" y="${H - 4}" text-anchor="end">concurrent requests</text><text x="${m.l}" y="${m.t - 2}" text-anchor="start">tok/s</text>`;
+  const line = (pts, xk, yk, col, dash) => `<polyline fill="none" stroke="${col}" stroke-width="2" ${dash ? 'stroke-dasharray="5 4"' : ""} stroke-linejoin="round" points="${pts.map(p => X(p[xk]) + "," + Y(p[yk])).join(" ")}"/>`;
+  s += line(bench, "b", "tps", "var(--muted)", true);
+  s += line(mx, "concurrency", "agg_output_tps", "var(--s2)");
+  s += line(ll, "concurrency", "agg_output_tps", "var(--s1)");
+  const dots = (pts, xk, yk, col, name, r = 4.5) => pts.map(p => `<circle cx="${X(p[xk])}" cy="${Y(p[yk])}" r="${r}" fill="${col}" stroke="var(--panel)" stroke-width="2"/><circle class="hit" cx="${X(p[xk])}" cy="${Y(p[yk])}" r="11" data-tip="<b>${name}</b><br><span class='num'>${p[xk]} concurrent · ${fmt(p[yk])} tok/s</span>${p.tpot_p50_ms ? `<br><span class='num'>time per token ${fmt(p.tpot_p50_ms)} ms</span>` : ""}"/>`).join("");
+  s += dots(bench, "b", "tps", "var(--muted)", "llama-batched-bench", 3);
+  s += dots(mx, "concurrency", "agg_output_tps", "var(--s2)", "MLX-LM server");
+  s += dots(ll, "concurrency", "agg_output_tps", "var(--s1)", "llama-server");
+  const c4 = ll.find(r => r.concurrency === 4), c9 = ll.find(r => r.concurrency === 9), c3 = ll.find(r => r.concurrency === 3);
+  if (c4 && c3) s += `<text x="${X(4) + 8}" y="${Y(c4.agg_output_tps) + 16}" class="val" style="fill:var(--s1)">${fmt(c3.agg_output_tps)} → ${fmt(c4.agg_output_tps)}</text>`;
+  if (c9) s += `<text x="${X(9) + 8}" y="${Y(c9.agg_output_tps) + 16}" class="val" style="fill:var(--s1)">+${Math.round((c9.agg_output_tps / ll.find(r => r.concurrency === 8).agg_output_tps - 1) * 100)}% at 9</text>`;
+  s += "</svg>";
+  const el = document.getElementById("ch-inv"); el.innerHTML = s; bindTips(el);
+})();
+
+// ---------- chart: runtime comparison (Qwen3-8B)
+(function rt() {
+  const W = 560, H = 270, m = { l: 46, r: 12, t: 16, b: 44 };
+  const order = ["llama-cpp", "mlx-lm", "ollama"];
+  const rows = pick("mac-comparison", r => r.model === "qwen3-8b");
+  const get = (b, c) => rows.find(r => r.backend === b && r.concurrency === c);
+  const ymax = niceMax(Math.max(...rows.map(r => r.agg_output_tps)));
+  const Y = lin(0, ymax, H - m.b, m.t);
+  const gw = (W - m.l - m.r) / order.length, bw = Math.min(46, gw / 3.2);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Total output throughput at 1 and 4 users">`;
+  for (let i = 0; i <= 4; i++) { const v = ymax * i / 4; s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${Math.round(v)}</text>`; }
+  s += `<text x="${m.l}" y="${m.t - 4}">tok/s</text>`;
+  order.forEach((b, i) => {
+    const cx = m.l + gw * i + gw / 2;
+    [1, 4].forEach((c, j) => {
+      const r = get(b, c); if (!r) return;
+      const x = cx + (j === 0 ? -bw - 2 : 2), y = Y(r.agg_output_tps), h = H - m.b - y;
+      const tipTxt = `<b>${BNAME[b]}, ${c} user${c > 1 ? "s" : ""}</b><br><span class='num'>${fmt(r.agg_output_tps)} tok/s total<br>first token ${fmt(r.ttft_p50_s, 2)} s · ${fmt(r.tpot_p50_ms)} ms/token${r.n_ok < 30 ? `<br>${r.n_ok}/30 ok` : ""}</span>`;
+      s += `<path d="M${x},${H - m.b} v${-(h - 4)} q0,-4 4,-4 h${bw - 8} q4,0 4,4 v${h - 4} z" fill="${BCOL[b]}" fill-opacity="${c === 1 ? 0.45 : 1}" data-tip="${tipTxt}"/>`;
+      s += `<text x="${x + bw / 2}" y="${y - 6}" text-anchor="middle" class="val">${fmt(r.agg_output_tps)}</text>`;
+      s += `<text x="${x + bw / 2}" y="${H - m.b + 15}" text-anchor="middle">${c}u</text>`;
+    });
+    s += `<text x="${cx}" y="${H - m.b + 33}" text-anchor="middle" class="lbl">${BNAME[b]}</text>`;
+  });
+  s += "</svg>";
+  const el = document.getElementById("ch-rt"); el.innerHTML = s; bindTips(el);
+})();
+
+// ---------- chart: quality vs latency
+(function q() {
+  const W = 560, H = 300, m = { l: 46, r: 16, t: 14, b: 38 };
+  const rows = pick("quality");
+  const xmax = Math.max(4.5, ...rows.map(r => r.e2e_p50_s)) * 1.05;
+  const X = lin(0, xmax, m.l, W - m.r), Y = lin(0.65, 0.9, H - m.b, m.t);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Quality score versus seconds per task">`;
+  s += `<rect x="${X(0)}" y="${Y(0.9)}" width="${X(3) - X(0)}" height="${Y(0.8) - Y(0.9)}" fill="color-mix(in srgb, var(--good) 8%, transparent)"/>`;
+  s += `<text x="${X(0) + 6}" y="${Y(0.9) + 13}" class="lbl" style="fill:var(--good)">meets budget</text>`;
+  for (let v = 0.65; v <= 0.901; v += 0.05) { s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${v.toFixed(2)}</text>`; }
+  for (let v = 0; v <= xmax; v += 1) s += `<text x="${X(v)}" y="${H - m.b + 16}" text-anchor="middle">${v}</text>`;
+  s += `<line x1="${X(3)}" x2="${X(3)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(0.8)}" y2="${Y(0.8)}" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
+  s += `<text x="${W - m.r}" y="${H - 4}" text-anchor="end">seconds per task (median)</text><text x="${m.l}" y="${m.t - 2}">score</text>`;
+  const placed = [];
+  rows.sort((a, b) => b.quality_composite - a.quality_composite).forEach(r => {
+    const x = X(r.e2e_p50_s), y = Y(r.quality_composite);
+    const tipTxt = `<b>${MNAME[r.model]} ${weights(r)}</b><br>${BNAME[r.backend]}<br><span class='num'>score ${fmt(r.quality_composite, 3)} · ${fmt(r.e2e_p50_s, 2)} s/task</span>`;
+    s += `<circle cx="${x}" cy="${y}" r="6" fill="${BCOL[r.backend]}" stroke="var(--panel)" stroke-width="2"/><circle class="hit" cx="${x}" cy="${y}" r="13" data-tip="${tipTxt}"/>`;
+    let ly = y + 4; while (placed.some(p => Math.abs(p.y - ly) < 13 && Math.abs(p.x - x) < 110)) ly += 13;
+    placed.push({ x, y: ly });
+    s += `<text x="${x + 10}" y="${ly}" class="lbl">${MNAME[r.model]}</text>`;
+  });
+  s += "</svg>";
+  const el = document.getElementById("ch-q"); el.innerHTML = s; bindTips(el);
+})();
+
+// ---------- chart: capacity
+(function cap() {
+  const W = 560, H = 290, m = { l: 50, r: 70, t: 14, b: 38 };
+  const rows = pick("mac-capacity");
+  const X = lg(1024, 16384, m.l, W - m.r), ymax = niceMax(Math.max(...rows.map(r => r.ttft_p50_s)));
+  const Y = lg(0.5, ymax, H - m.b, m.t);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Time to first token versus prompt length">`;
+  [0.5, 1, 2, 5, 10, 30, 60, 120, 180].filter(v => v <= ymax).forEach(v => { s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${v < 60 ? v + " s" : v / 60 + " min"}</text>`; });
+  [1024, 4096, 16384].forEach(v => { s += `<text x="${X(v)}" y="${H - m.b + 16}" text-anchor="middle">${v / 1024}k</text>`; });
+  s += `<text x="${W - m.r}" y="${H - 4}" text-anchor="end">prompt tokens</text>`;
+  ["qwen3-1.7b", "qwen3-8b", "qwen3-14b"].forEach(mod => {
+    ["llama-cpp", "mlx-lm"].forEach(b => {
+      const pts = rows.filter(r => r.model === mod && r.backend === b).sort((a, c) => a.input_tokens - c.input_tokens);
+      if (!pts.length) return;
+      s += `<polyline fill="none" stroke="${MCOL[mod]}" stroke-width="2" ${b === "mlx-lm" ? 'stroke-dasharray="6 4"' : ""} points="${pts.map(p => X(p.input_tokens) + "," + Y(p.ttft_p50_s)).join(" ")}"/>`;
+      pts.forEach(p => {
+        const mem = b === "llama-cpp" ? `${fmt(p.llama_gpu_self_mib / 1024)} GiB GPU (llama.cpp report)` : `${fmt(p.mlx_peak_gib)} GiB MLX peak`;
+        s += `<circle cx="${X(p.input_tokens)}" cy="${Y(p.ttft_p50_s)}" r="4" fill="${MCOL[mod]}" stroke="var(--panel)" stroke-width="2"/><circle class="hit" cx="${X(p.input_tokens)}" cy="${Y(p.ttft_p50_s)}" r="10" data-tip="<b>${MNAME[mod]}, ${BNAME[b]}</b><br><span class='num'>${p.input_tokens} tokens in<br>first token ${fmt(p.ttft_p50_s, 1)} s · ${fmt(p.tpot_p50_ms)} ms/token<br>${mem}</span>"/>`;
+      });
+      if (b === "llama-cpp") { const last = pts[pts.length - 1]; s += `<text x="${X(last.input_tokens) + 10}" y="${Y(last.ttft_p50_s) + 4}" class="lbl">${MNAME[mod].replace("Qwen3-", "")}</text>`; }
+    });
+  });
+  s += "</svg>";
+  const el = document.getElementById("ch-cap"); el.innerHTML = s; bindTips(el);
+  const big = rows.find(r => r.model === "qwen3-14b" && r.backend === "llama-cpp" && r.input_tokens === 16384);
+  document.getElementById("cap-note").textContent = `No out-of-memory failures. Qwen3-14B at 16k used ${fmt(big.llama_gpu_self_mib, 0)} of 13,639 MiB and took ${fmt(big.ttft_p50_s / 60, 1)} min to the first token on llama.cpp.`;
+})();
+
+// ---------- chart: KV quantization
+(function kv() {
+  const W = 560, H = 190, m = { l: 70, r: 70, t: 8, b: 20 };
+  const f16 = pick("mac-capacity", r => r.model === "qwen3-8b" && r.backend === "llama-cpp");
+  const q8 = pick("mac-kvquant-q8");
+  const ctxs = [4096, 16384];
+  const xmax = niceMax(Math.max(...f16.map(r => r.llama_kv_mib || 0)));
+  const X = lin(0, xmax, m.l, W - m.r);
+  const rowH = (H - m.t - m.b) / ctxs.length, bh = 18;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="KV cache size, f16 versus q8_0">`;
+  ctxs.forEach((c, i) => {
+    const a = f16.find(r => r.input_tokens === c), b = q8.find(r => r.input_tokens === c);
+    if (!a || !b) return;
+    const y0 = m.t + rowH * i + 8;
+    s += `<text x="${m.l - 10}" y="${y0 + bh + 2}" text-anchor="end" class="lbl">${c / 1024}k tokens</text>`;
+    [[a, "var(--m3)", "f16"], [b, "var(--m1)", "q8_0"]].forEach(([r, col, name], j) => {
+      const y = y0 + j * (bh + 4), w = X(r.llama_kv_mib) - m.l;
+      s += `<path d="M${m.l},${y} h${w - 4} q4,0 4,4 v${bh - 8} q0,4 -4,4 h${-(w - 4)} z" fill="${col}" data-tip="<b>${name} KV, ${c} tokens in</b><br><span class='num'>KV ${fmt(r.llama_kv_mib, 0)} MiB<br>first token ${fmt(r.ttft_p50_s, 1)} s · ${fmt(r.tpot_p50_ms)} ms/token</span>"/>`;
+      s += `<text x="${m.l + w + 6}" y="${y + bh - 5}" class="val">${fmt(r.llama_kv_mib, 0)} MiB</text>`;
+    });
+  });
+  s += "</svg>";
+  const el = document.getElementById("ch-kv"); el.innerHTML = s; bindTips(el);
+})();
+
+// ---------- chart + table: proofreading
+(function gec() {
+  const rows = pick("proofread").filter(r => r.gec_en_f05 != null);
+  const el = document.getElementById("ch-gec"), tb = document.getElementById("t-gec");
+  if (!rows.length) { el.innerHTML = '<p class="note">No proofreading runs.</p>'; return; }
+  const W = 560, H = 270, m = { l: 50, r: 120, t: 14, b: 38 };
+  const xmax = Math.max(...rows.map(r => r.e2e_p50_s)) * 1.15, y0 = 0.64, y1 = 0.74;
+  const X = lin(0, xmax, m.l, W - m.r), Y = lin(y0, y1, H - m.b, m.t);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Grammar correction F0.5 versus seconds per sentence">`;
+  for (let v = y0; v <= y1 + 1e-9; v += 0.02) { s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${v.toFixed(2)}</text>`; }
+  for (let v = 0; v <= xmax; v += 0.25) s += `<text x="${X(v)}" y="${H - m.b + 16}" text-anchor="middle">${v.toFixed(2)}</text>`;
+  s += `<text x="${W - m.r}" y="${H - 4}" text-anchor="end">seconds per sentence (median)</text><text x="${m.l}" y="${m.t - 2}">F0.5</text>`;
+  // connect 4B -> 8B per backend to show the size step
+  ["llama-cpp", "mlx-lm"].forEach(b => {
+    const a4 = rows.find(r => r.backend === b && r.model === "qwen3-4b"), a8 = rows.find(r => r.backend === b && r.model === "qwen3-8b");
+    if (a4 && a8) s += `<line x1="${X(a4.e2e_p50_s)}" y1="${Y(a4.gec_en_f05)}" x2="${X(a8.e2e_p50_s)}" y2="${Y(a8.gec_en_f05)}" stroke="${BCOL[b]}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  });
+  rows.forEach(r => {
+    const x = X(r.e2e_p50_s), y = Y(r.gec_en_f05);
+    const t = `<b>${MNAME[r.model]} ${weights(r)}</b><br>${BNAME[r.backend]}<br><span class='num'>F0.5 ${fmt(r.gec_en_f05, 3)} · P ${fmt(r.gec_en_precision, 3)} · R ${fmt(r.gec_en_recall, 3)}<br>${fmt(r.e2e_p50_s, 2)} s per sentence</span>`;
+    s += `<circle cx="${x}" cy="${y}" r="6.5" fill="${BCOL[r.backend]}" stroke="var(--panel)" stroke-width="2"/><circle class="hit" cx="${x}" cy="${y}" r="13" data-tip="${t}"/>`;
+    s += `<text x="${x + 11}" y="${y + 4}" class="lbl">${MNAME[r.model].replace("Qwen3-", "")} · ${BNAME[r.backend]}</text>`;
+  });
+  s += "</svg>";
+  el.innerHTML = s; bindTips(el);
+  const order = rows.slice().sort((a, b) => b.gec_en_f05 - a.gec_en_f05);
+  let t = `<thead><tr><th>Configuration</th><th class="n">F0.5</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">Keep rate</th><th class="n">Style</th><th class="n">s / sentence</th></tr></thead><tbody>`;
+  order.forEach(r => { t += `<tr><td>${MNAME[r.model]} ${weights(r)} · ${BNAME[r.backend]}</td><td class="n">${fmt(r.gec_en_f05, 3)}</td><td class="n">${fmt(r.gec_en_precision, 3)}</td><td class="n">${fmt(r.gec_en_recall, 3)}</td><td class="n">${Math.round(r.gec_en_keep * 100)}%</td><td class="n">${Math.round(r.style_en_pass * 100)}%</td><td class="n">${fmt(r.e2e_p50_s, 2)}</td></tr>`; });
+  tb.innerHTML = t + "</tbody>";
+})();
+
+// ---------- tables
+(function tables() {
+  const perf = pick("mac-comparison").sort((a, b) => (a.params_b - b.params_b) || a.artifact.localeCompare(b.artifact) || a.backend.localeCompare(b.backend) || a.concurrency - b.concurrency);
+  let t = `<thead><tr><th>Model</th><th>Weights</th><th>Runtime</th><th class="n">Users</th><th class="n">First token</th><th class="n">Per token</th><th class="n">Total tok/s</th><th class="n">GPU mem</th><th class="n">OK</th></tr></thead><tbody>`;
+  perf.forEach(r => { t += `<tr><td>${MNAME[r.model]}</td><td>${weights(r)}</td><td>${BNAME[r.backend]}</td><td class="n">${r.concurrency}</td><td class="n">${fmt(r.ttft_p50_s, 2)} s</td><td class="n">${fmt(r.tpot_p50_ms)} ms</td><td class="n">${fmt(r.agg_output_tps)}</td><td class="n">${fmt(r.gpu_mem_delta_gib)} GiB</td><td class="n">${r.n_ok}/30</td></tr>`; });
+  document.getElementById("t-perf").innerHTML = t + "</tbody>";
+
+  const qual = pick("quality").sort((a, b) => b.quality_composite - a.quality_composite);
+  let q = `<thead><tr><th>Configuration</th><th class="n">Score</th><th class="n">Extract</th><th class="n">Route</th><th class="n">CV</th><th class="n">Strict JSON</th><th class="n">Budget</th></tr></thead><tbody>`;
+  qual.forEach(r => {
+    const ok = r.quality_composite >= 0.8 && r.e2e_p50_s <= 3;
+    q += `<tr><td>${MNAME[r.model]} ${weights(r)} · ${BNAME[r.backend]}</td><td class="n">${fmt(r.quality_composite, 3)}</td><td class="n">${fmt(r.extraction_field_acc, 2)}</td><td class="n">${fmt(r.routing_macro_f1, 2)}</td><td class="n">${fmt(r.cv_field_acc, 2)}</td><td class="n">${Math.round(r.parse_strict * 100)}%</td><td class="n ${ok ? "pass" : "fail"}">${ok ? "pass" : "fail"}</td></tr>`;
+  });
+  document.getElementById("t-qual").innerHTML = q + "</tbody>";
+
+  const cols = ["llama-cpp", "mlx-lm", "ollama"];
+  const heads = { "llama-cpp": "llama.cpp", "mlx-lm": "MLX-LM", "ollama": "Ollama" };
+  let c = `<thead><tr><th>Artifact</th>${cols.map(k => `<th>${heads[k]}</th>`).join("")}</tr></thead><tbody>`;
+  DATA.compat.forEach(r => {
+    c += `<tr><td class="num">${esc(r.artifact)}</td>` + cols.map(k => {
+      const v = (r[k] || "").trim();
+      if (v === "–" || v === "") return `<td><span class="chip na">–</span></td>`;
+      const cls = v.startsWith("verified") ? "verified" : v.startsWith("unsupported") ? "unsupported" : v.startsWith("gated") ? "gated" : v.startsWith("expected") ? "expected" : v.startsWith("untested") ? "untested" : "other";
+      return `<td><span class="chip ${cls}">${esc(v.replace(/\s*\(\d+\)/, ""))}</span></td>`;
+    }).join("") + "</tr>";
+  });
+  document.getElementById("t-compat").innerHTML = c + "</tbody>";
+})();
+</script>

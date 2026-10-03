@@ -1,0 +1,284 @@
+{
+  "performance": {
+    "n_measured": 60,
+    "n_ok": 60,
+    "status_counts": {
+      "ok": 60
+    },
+    "window_s": 450.095062958,
+    "total_output_tokens": 4789,
+    "aggregate_output_tps": 10.639974516776423,
+    "successful_rps": 0.1333051724799719,
+    "mean_inflight": 0.7435141130957652,
+    "early_stops": 0,
+    "truncated": 0,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "chunk_derived"
+    ],
+    "input_tokens": {
+      "n": 60,
+      "mean": 462.1,
+      "std": 432.4281737164321,
+      "min": 146,
+      "p50": 205.5,
+      "p90": 1179.2,
+      "max": 1554,
+      "p95": 1312.85,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        189.5,
+        213.0125
+      ]
+    },
+    "output_tokens": {
+      "n": 60,
+      "mean": 79.81666666666666,
+      "std": 68.90117995266885,
+      "min": 7,
+      "p50": 62.0,
+      "p90": 189.2,
+      "max": 198,
+      "p95": 194.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        53.5,
+        68.0
+      ]
+    },
+    "cached_tokens_max": 0,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 60,
+      "mean": 2.2260497410499998,
+      "std": 1.8124352780202762,
+      "min": 0.89346275,
+      "p50": 1.112614729,
+      "p90": 5.2006006459,
+      "max": 6.669777458,
+      "p95": 6.224798625,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        1.0766823430375,
+        1.2596514312499998
+      ]
+    },
+    "e2e_s": {
+      "n": 60,
+      "mean": 5.5775338590666665,
+      "std": 4.801621353362814,
+      "min": 1.121114416,
+      "p50": 3.576079021,
+      "p90": 13.0927829462,
+      "max": 16.036502833,
+      "p95": 14.325593694399998,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        3.095126667,
+        3.7811159209749987
+      ]
+    },
+    "tpot_s": {
+      "n": 60,
+      "mean": 0.03903748634520325,
+      "std": 0.005229771851266049,
+      "min": 0.029088136999999997,
+      "p50": 0.038779395733769706,
+      "p90": 0.045173083788830594,
+      "max": 0.05040983251948052,
+      "p95": 0.04734286726863344,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.037176038847457626,
+        0.04008728981370743
+      ]
+    },
+    "decode_tps": {
+      "n": 60,
+      "mean": 26.085084422392626,
+      "std": 3.6040604826240425,
+      "min": 19.837399769450872,
+      "p50": 25.787352939637486,
+      "p90": 32.25909252716289,
+      "max": 34.37827592739955,
+      "p95": 32.479623664336586,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        24.80596878570956,
+        26.899046563385745
+      ]
+    },
+    "gap_p95_s": {
+      "n": 60,
+      "mean": 0.06846327412583333,
+      "std": 0.019847691336841042,
+      "min": 0.03470606275,
+      "p50": 0.075205600925,
+      "p90": 0.08741781665500001,
+      "max": 0.1064561,
+      "p95": 0.09312364011249999,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.07201791075,
+        0.077708919464375
+      ]
+    },
+    "prefill_proxy_tps": {
+      "n": 60,
+      "mean": 189.04944115194223,
+      "std": 32.88437308487564,
+      "min": 124.83189783494677,
+      "p50": 185.40469618632068,
+      "p90": 237.17629628090526,
+      "max": 268.6321430485551,
+      "p95": 246.00834494642794,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        175.5381879830944,
+        194.1211426331673
+      ]
+    },
+    "native_prefill_tps": {
+      "n": 0
+    },
+    "native_decode_tps": {
+      "n": 0
+    },
+    "n_full_length": 0
+  },
+  "prompt_token_check": {
+    "n": 60,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 1299,
+    "peak_proc_tree_rss": 3944235008,
+    "peak_proc_tree_phys_footprint": 6150885288,
+    "proc_max_lifetime_phys_footprint": 6150885288,
+    "peak_agx_in_use_system_memory": 7599898624,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 2,
+    "min_sys_mem_available": 1802731520,
+    "peak_swap_used": 16753098752,
+    "peak_proc_tree_cpu_pct": 87.6,
+    "swap_used_delta": 945356800,
+    "swap_out_bytes_delta": 96665600,
+    "swap_in_bytes_delta": 10245013504
+  },
+  "quality": {
+    "cv_report/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.4611111111111111,
+      "exact_all": 0.05,
+      "field:incident_type": 0.6,
+      "field:start_time": 0.6,
+      "field:end_time": 0.5,
+      "field:camera_ids": 0.15,
+      "field:event_refs": 0.25,
+      "field:person_count": 0.3,
+      "field:vehicle_involved": 0.4,
+      "field:uncertain": 0.45,
+      "field:missing_evidence": 0.9,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 1.0,
+      "primary": 0.4611111111111111
+    },
+    "cv_report/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.4611111111111111,
+      "exact_all": 0.05,
+      "field:incident_type": 0.6,
+      "field:start_time": 0.6,
+      "field:end_time": 0.5,
+      "field:camera_ids": 0.15,
+      "field:event_refs": 0.25,
+      "field:person_count": 0.3,
+      "field:vehicle_involved": 0.4,
+      "field:uncertain": 0.45,
+      "field:missing_evidence": 0.9,
+      "hallucinated_refs_total": 0,
+      "summaries_present": 1.0,
+      "primary": 0.4611111111111111
+    },
+    "extraction/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.9833333333333334,
+      "exact_all": 0.9,
+      "field:customer_name": 1.0,
+      "field:order_id": 1.0,
+      "field:product": 1.0,
+      "field:quantity": 1.0,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.9,
+      "null_handling_accuracy": 0.9230769230769231,
+      "primary": 0.9833333333333334
+    },
+    "extraction/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "field_accuracy": 0.9833333333333334,
+      "exact_all": 0.9,
+      "field:customer_name": 1.0,
+      "field:order_id": 1.0,
+      "field:product": 1.0,
+      "field:quantity": 1.0,
+      "field:delivery_date": 1.0,
+      "field:priority": 0.9,
+      "null_handling_accuracy": 0.9230769230769231,
+      "primary": 0.9833333333333334
+    },
+    "routing/all": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "routing/en": {
+      "n": 20,
+      "parse_strict": 1.0,
+      "parse_lenient": 1.0,
+      "schema_valid": 1.0,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "unnecessary_tool_calls": 0,
+      "missed_tool_calls": 0,
+      "n_gold_none": 3,
+      "primary": 1.0
+    },
+    "composite": {
+      "primary_mean": 0.8148148148148149,
+      "tasks": 3,
+      "definition": "mean of extraction field accuracy, routing macro-F1, CV field accuracy"
+    }
+  },
+  "public_items": 60
+}

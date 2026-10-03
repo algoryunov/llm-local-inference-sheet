@@ -1,0 +1,2 @@
+FROM <repo>/models/ggml-org__SmolLM3-3B-GGUF/4965cb60b150737b68a0408c36aeefb65078f894/SmolLM3-Q4_K_M.gguf
+PARAMETER num_ctx 2560

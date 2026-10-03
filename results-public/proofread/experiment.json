@@ -1,0 +1,54 @@
+{
+  "config": {
+    "name": "proofread",
+    "kind": "quality",
+    "profile": "quality",
+    "platform": "mac",
+    "hardware_label": null,
+    "backends": [
+      "llama-cpp",
+      "mlx-lm"
+    ],
+    "artifacts": [
+      "qwen3-4b-q4",
+      "qwen3-8b-q4",
+      "qwen3-4b-mlx4",
+      "qwen3-8b-mlx4"
+    ],
+    "workloads": [
+      {
+        "name": "proofread-v1-test",
+        "kind": "application",
+        "input_tokens": null,
+        "output_tokens": null,
+        "concurrency": [
+          1
+        ],
+        "dataset": ".cache/datasets/proofread-v1",
+        "split": "test",
+        "max_tokens": 512
+      }
+    ],
+    "requests": {
+      "warmup": 5,
+      "measured": 938
+    },
+    "repeats": 1,
+    "sampling": {
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "seed": null
+    },
+    "thinking": "disabled",
+    "length_enforcement": "natural",
+    "cache_policy": "no_reuse",
+    "request_timeout_s": 600.0,
+    "readiness_timeout_s": 900.0,
+    "max_cell_duration_s": 14400.0,
+    "min_n_p95": 200,
+    "min_n_p99": 1000,
+    "backend_settings": {},
+    "ports": {}
+  },
+  "identity": "dc2dfcaa9f21d48a"
+}

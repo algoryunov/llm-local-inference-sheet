@@ -1,0 +1,176 @@
+{
+  "performance": {
+    "n_measured": 5,
+    "n_ok": 5,
+    "status_counts": {
+      "ok": 5
+    },
+    "window_s": 254.1163115,
+    "total_output_tokens": 640,
+    "aggregate_output_tps": 2.5185317550935724,
+    "successful_rps": 0.019676029336668534,
+    "mean_inflight": 0.9999617727569606,
+    "early_stops": 0,
+    "truncated": 5,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "token_level"
+    ],
+    "input_tokens": {
+      "n": 5,
+      "mean": 4096.0,
+      "std": 0.0,
+      "min": 4096,
+      "p50": 4096.0,
+      "p90": 4096.0,
+      "max": 4096,
+      "p95": 4096.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "output_tokens": {
+      "n": 5,
+      "mean": 128.0,
+      "std": 0.0,
+      "min": 128,
+      "p50": 128.0,
+      "p90": 128.0,
+      "max": 128,
+      "p95": 128.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "cached_tokens_max": 0,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 5,
+      "mean": 38.46982825,
+      "std": 2.905901672723206,
+      "min": 35.1927695,
+      "p50": 37.925293583,
+      "p90": 41.5702569248,
+      "max": 42.353657958,
+      "p95": 41.9619574414,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "e2e_s": {
+      "n": 5,
+      "mean": 50.821319466800006,
+      "std": 3.1052091967458932,
+      "min": 47.718039709,
+      "p50": 49.820886458,
+      "p90": 54.1880369668,
+      "max": 54.53157125,
+      "p95": 54.3598041084,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "tpot_s": {
+      "n": 5,
+      "mean": 0.09720618687716535,
+      "std": 0.0068426645281999795,
+      "min": 0.08838836941732284,
+      "p50": 0.09582872014173228,
+      "p90": 0.10416959888661417,
+      "max": 0.10451369586614173,
+      "p95": 0.10434164737637795,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "decode_tps": {
+      "n": 5,
+      "mean": 10.328615986859539,
+      "std": 0.7325257408557885,
+      "min": 9.56812398329854,
+      "p50": 10.435284938805227,
+      "p90": 11.059596781170454,
+      "max": 11.313705712552885,
+      "p95": 11.186651246861668,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "gap_p95_s": {
+      "n": 5,
+      "mean": 0.1088508409,
+      "std": 0.00908206069949891,
+      "min": 0.09959737849999999,
+      "p50": 0.10386230889999999,
+      "p90": 0.11880125592,
+      "max": 0.1196390458,
+      "p95": 0.11922015086,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "prefill_proxy_tps": {
+      "n": 5,
+      "mean": 106.95416962788136,
+      "std": 7.971908577801851,
+      "min": 96.70947439916047,
+      "p50": 108.00180072530884,
+      "p90": 114.74201878120651,
+      "max": 116.38754375383843,
+      "p95": 115.56478126752246,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "native_prefill_tps": {
+      "n": 5,
+      "mean": 107.07833070519243,
+      "std": 7.973844081984423,
+      "min": 96.84488766217648,
+      "p50": 108.09026043419351,
+      "p90": 114.87961750818414,
+      "max": 116.52379699847671,
+      "p95": 115.70170725333043,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "native_decode_tps": {
+      "n": 5,
+      "mean": 10.40103110627835,
+      "std": 0.7359323983261066,
+      "min": 9.637819768553781,
+      "p50": 10.502535664929072,
+      "p90": 11.137166717989524,
+      "max": 11.390472332631694,
+      "p95": 11.263819525310609,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": null
+    },
+    "n_full_length": 5
+  },
+  "prompt_token_check": {
+    "n": 5,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 847,
+    "peak_proc_tree_rss": 8298037248,
+    "peak_proc_tree_phys_footprint": 920034816,
+    "proc_max_lifetime_phys_footprint": 946445824,
+    "peak_agx_in_use_system_memory": 11886608384,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 2,
+    "min_sys_mem_available": 903806976,
+    "peak_swap_used": 20428095488,
+    "peak_proc_tree_cpu_pct": 81.1,
+    "swap_used_delta": 284819456,
+    "swap_out_bytes_delta": 182288384,
+    "swap_in_bytes_delta": 31136366592
+  }
+}

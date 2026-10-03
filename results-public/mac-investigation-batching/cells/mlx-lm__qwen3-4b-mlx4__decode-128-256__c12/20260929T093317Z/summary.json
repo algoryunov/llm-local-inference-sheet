@@ -1,0 +1,180 @@
+{
+  "performance": {
+    "n_measured": 30,
+    "n_ok": 30,
+    "status_counts": {
+      "ok": 30
+    },
+    "window_s": 61.867402958,
+    "total_output_tokens": 7680,
+    "aggregate_output_tps": 124.13645365417604,
+    "successful_rps": 0.48490802208662515,
+    "mean_inflight": 10.860494967861198,
+    "early_stops": 0,
+    "truncated": 30,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "token_level"
+    ],
+    "input_tokens": {
+      "n": 30,
+      "mean": 128.0,
+      "std": 0.0,
+      "min": 128,
+      "p50": 128.0,
+      "p90": 128.0,
+      "max": 128,
+      "p95": 128.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        128.0,
+        128.0
+      ]
+    },
+    "output_tokens": {
+      "n": 30,
+      "mean": 256.0,
+      "std": 0.0,
+      "min": 256,
+      "p50": 256.0,
+      "p90": 256.0,
+      "max": 256,
+      "p95": 256.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        256.0,
+        256.0
+      ]
+    },
+    "cached_tokens_max": 0,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 30,
+      "mean": 2.8807147319333333,
+      "std": 0.796126409028557,
+      "min": 1.81140125,
+      "p50": 2.6633716665,
+      "p90": 3.9868724006,
+      "max": 3.988683667,
+      "p95": 3.9872725894,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        2.3744349585,
+        3.665117063
+      ]
+    },
+    "e2e_s": {
+      "n": 30,
+      "mean": 22.39702061666667,
+      "std": 4.692091076129332,
+      "min": 13.341955458,
+      "p50": 24.233346478999998,
+      "p90": 26.8796395881,
+      "max": 26.891037667,
+      "p95": 26.8870719519,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        24.1332836255,
+        24.276179292
+      ]
+    },
+    "tpot_s": {
+      "n": 30,
+      "mean": 0.07653209159594772,
+      "std": 0.016760170320899125,
+      "min": 0.04402669640784314,
+      "p50": 0.08455064223921568,
+      "p90": 0.0897734200164706,
+      "max": 0.08981177843137254,
+      "p95": 0.08980159209352942,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.0808464165862745,
+        0.08464497833460785
+      ]
+    },
+    "decode_tps": {
+      "n": 30,
+      "mean": 14.00209632869424,
+      "std": 4.435410179500424,
+      "min": 11.13439704085278,
+      "p50": 11.827231413501305,
+      "p90": 22.681522549498297,
+      "max": 22.713491621911814,
+      "p95": 22.693627624174113,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        11.814380210564659,
+        12.369351214607235
+      ]
+    },
+    "gap_p95_s": {
+      "n": 30,
+      "mean": 0.07484385056,
+      "std": 0.013945942773278812,
+      "min": 0.047224359,
+      "p50": 0.0816591897,
+      "p90": 0.08184145178,
+      "max": 0.08195745,
+      "p95": 0.08187013624499999,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        0.08153825869999999,
+        0.08173794044874999
+      ]
+    },
+    "prefill_proxy_tps": {
+      "n": 30,
+      "mean": 48.00266654384844,
+      "std": 13.637822583738833,
+      "min": 32.09078750942221,
+      "p50": 48.059430753405735,
+      "p90": 70.2900430690317,
+      "max": 70.6635263721939,
+      "p95": 70.557136411616,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        34.9238834648231,
+        54.642009896069695
+      ]
+    },
+    "native_prefill_tps": {
+      "n": 0
+    },
+    "native_decode_tps": {
+      "n": 0
+    },
+    "n_full_length": 30
+  },
+  "prompt_token_check": {
+    "n": 30,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 137,
+    "peak_proc_tree_rss": 2551300096,
+    "peak_proc_tree_phys_footprint": 6051892128,
+    "proc_max_lifetime_phys_footprint": 6086921144,
+    "peak_agx_in_use_system_memory": 6189498368,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 2,
+    "min_sys_mem_available": 2009448448,
+    "peak_swap_used": 16728260608,
+    "peak_proc_tree_cpu_pct": 103.2,
+    "swap_used_delta": 563150848,
+    "swap_out_bytes_delta": 5111808,
+    "swap_in_bytes_delta": 2955673600
+  }
+}

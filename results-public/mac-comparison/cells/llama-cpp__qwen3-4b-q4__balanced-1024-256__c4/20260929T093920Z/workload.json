@@ -1,0 +1,237 @@
+{
+  "spec": {
+    "model": "qwen3-4b",
+    "tokenizer_repo": "Qwen/Qwen3-4B",
+    "tokenizer_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "input_tokens": 1024,
+    "output_tokens": 256,
+    "n_warmup": 5,
+    "n_measured": 30,
+    "thinking": "disabled",
+    "seed": 1234,
+    "generator": "perf-v1",
+    "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "spec_hash": "6788ff8d52f38cfc",
+  "workload_sha256": "d72410232f207ac4b6fc5e020850886c11a820a2f4ef88483f9d275280e5d9cd",
+  "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+  "template_matches_registry": true,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "template_date_dependent": false,
+  "exact_hits": 35,
+  "items": [
+    {
+      "item_id": "w00000-6788ff",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00001-6788ff",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00002-6788ff",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00003-6788ff",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "w00004-6788ff",
+      "phase": "warmup",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00000-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00001-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00002-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00003-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00004-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00005-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00006-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00007-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00008-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00009-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00010-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00011-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00012-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00013-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00014-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00015-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00016-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00017-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00018-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00019-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00020-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00021-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00022-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00023-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00024-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00025-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00026-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00027-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00028-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    },
+    {
+      "item_id": "m00029-6788ff",
+      "phase": "measured",
+      "input_tokens": 1024,
+      "template_overhead_tokens": 12
+    }
+  ],
+  "ctx_required_per_request": 1280
+}

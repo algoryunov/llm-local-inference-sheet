@@ -1,0 +1,13 @@
+# Extended profiles for Qwen3-8B plus one application candidate (exploratory n=30).
+name: mac-extended
+description: Decode-heavy, balanced and prefill-heavy sweeps for Qwen3-8B and Qwen3-4B.
+kind: performance
+profile: extended
+platform: mac
+backends: [llama-cpp, mlx-lm, ollama]
+artifacts: [qwen3-8b-q4, qwen3-8b-mlx4, qwen3-4b-q4, qwen3-4b-mlx4]
+workloads:
+  - {name: decode-128-256, input_tokens: 128, output_tokens: 256, concurrency: [1, 2, 4, 8]}
+  - {name: balanced-1024-256, input_tokens: 1024, output_tokens: 256, concurrency: [1, 2, 4, 8]}
+  - {name: prefill-4096-128, input_tokens: 4096, output_tokens: 128, concurrency: [1, 2, 4]}
+requests: {warmup: 5, measured: 30}

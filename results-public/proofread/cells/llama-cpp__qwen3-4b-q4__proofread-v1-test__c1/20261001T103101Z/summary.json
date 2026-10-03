@@ -1,0 +1,241 @@
+{
+  "performance": {
+    "n_measured": 938,
+    "n_ok": 938,
+    "status_counts": {
+      "ok": 938
+    },
+    "window_s": 2329.643113459,
+    "total_output_tokens": 20272,
+    "aggregate_output_tps": 8.701762035087258,
+    "successful_rps": 0.402636779247822,
+    "mean_inflight": 0.30151944986888757,
+    "early_stops": 0,
+    "truncated": 0,
+    "output_tokens_methods": [
+      "server_usage"
+    ],
+    "token_timing": [
+      "chunk_derived"
+    ],
+    "input_tokens": {
+      "n": 938,
+      "mean": 101.1684434968017,
+      "std": 10.027038468872503,
+      "min": 81,
+      "p50": 99.0,
+      "p90": 113.0,
+      "max": 166,
+      "p95": 119.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        98.0,
+        100.0
+      ]
+    },
+    "output_tokens": {
+      "n": 938,
+      "mean": 21.611940298507463,
+      "std": 11.656262659966938,
+      "min": 5,
+      "p50": 19.0,
+      "p90": 37.0,
+      "max": 147,
+      "p95": 43.0,
+      "p95_reportable": false,
+      "p99": null,
+      "p50_ci95": [
+        18.0,
+        20.0
+      ]
+    },
+    "cached_tokens_max": 0,
+    "reasoning_chars_total": 0,
+    "ttft_s": {
+      "n": 938,
+      "mean": 0.2617810460639659,
+      "std": 0.03635719944537088,
+      "min": 0.209546667,
+      "p50": 0.266165354,
+      "p90": 0.30284518320000003,
+      "max": 0.407694084,
+      "p95": 0.3239290687,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        0.2654131125,
+        0.266834625
+      ]
+    },
+    "e2e_s": {
+      "n": 938,
+      "mean": 0.7488621641375266,
+      "std": 0.30415770544654086,
+      "min": 0.3101285,
+      "p50": 0.6995295625,
+      "p90": 1.1659432579000002,
+      "max": 3.762787959,
+      "p95": 1.3222412830999999,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        0.670868093025,
+        0.723708041
+      ]
+    },
+    "tpot_s": {
+      "n": 938,
+      "mean": 0.02206457246875291,
+      "std": 0.002179401150886308,
+      "min": 0.01710252075,
+      "p50": 0.021515058778716217,
+      "p90": 0.024697223251841083,
+      "max": 0.035990310923076925,
+      "p95": 0.02601672477113487,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        0.02142374819838821,
+        0.021614269466666666
+      ]
+    },
+    "decode_tps": {
+      "n": 938,
+      "mean": 45.71340273156097,
+      "std": 4.03458744060292,
+      "min": 27.785255930056493,
+      "p50": 46.47907384898444,
+      "p90": 49.92540573938906,
+      "max": 58.47091283312725,
+      "p95": 51.299744405889946,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        46.24566357914751,
+        46.66681426906588
+      ]
+    },
+    "gap_p95_s": {
+      "n": 938,
+      "mean": 0.025885253723507463,
+      "std": 0.004087388342746699,
+      "min": 0.021943070649999997,
+      "p50": 0.024943644274999996,
+      "p90": 0.029909980045000003,
+      "max": 0.07415041679999987,
+      "p95": 0.0314415608175,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        0.024729674131249997,
+        0.0252369078
+      ]
+    },
+    "prefill_proxy_tps": {
+      "n": 938,
+      "mean": 390.15104946722386,
+      "std": 36.81606641215149,
+      "min": 252.0090905134815,
+      "p50": 390.78290205107135,
+      "p90": 436.0470973343838,
+      "max": 481.6541798698551,
+      "p95": 445.685564104798,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        387.8363257794352,
+        394.40110113543767
+      ]
+    },
+    "native_prefill_tps": {
+      "n": 938,
+      "mean": 403.37700850416576,
+      "std": 39.05150756448268,
+      "min": 256.28492542637093,
+      "p50": 403.2221343793075,
+      "p90": 451.9664211553608,
+      "max": 494.588506226792,
+      "p95": 461.44829022962006,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        399.93968319643415,
+        406.61966873346586
+      ]
+    },
+    "native_decode_tps": {
+      "n": 938,
+      "mean": 45.48404593293474,
+      "std": 3.841519524425407,
+      "min": 27.843576847756477,
+      "p50": 46.35108350327907,
+      "p90": 49.51082554315156,
+      "max": 55.18093829667479,
+      "p95": 50.57251903710735,
+      "p95_reportable": true,
+      "p99": null,
+      "p50_ci95": [
+        46.14527667602078,
+        46.57444925713754
+      ]
+    },
+    "n_full_length": 0
+  },
+  "prompt_token_check": {
+    "n": 938,
+    "all_equal": true,
+    "min_diff": 0,
+    "max_diff": 0
+  },
+  "telemetry": {
+    "n_samples": 4309,
+    "peak_proc_tree_rss": 2786656256,
+    "peak_proc_tree_phys_footprint": 400657048,
+    "proc_max_lifetime_phys_footprint": 406751896,
+    "peak_agx_in_use_system_memory": 4700618752,
+    "peak_gpu_device_util_pct": 100,
+    "peak_vm_pressure_level": 4,
+    "min_sys_mem_available": 1912242176,
+    "peak_swap_used": 10218700800,
+    "peak_proc_tree_cpu_pct": 186.0,
+    "swap_used_delta": 2348613632,
+    "swap_out_bytes_delta": 329367552,
+    "swap_in_bytes_delta": 14842789888
+  },
+  "quality": {
+    "gec/en": {
+      "metric": "errant",
+      "n": 748,
+      "n_controls": 150,
+      "precision": 0.7193090684762492,
+      "recall": 0.5420734542073454,
+      "f0_5": 0.6751592356687898,
+      "exact_ref": 0.0,
+      "keep_rate": 0.6533333333333333,
+      "control_edits_mean": 0.58,
+      "preamble_rate": 0.0,
+      "primary": 0.6751592356687898
+    },
+    "style/en": {
+      "n": 40,
+      "pass_rate": 0.925,
+      "facts_verbatim_rate": 0.8,
+      "pass_formal": 1.0,
+      "pass_casual": 0.85,
+      "check:changed": 1.0,
+      "check:facts_preserved": 0.925,
+      "check:no_contractions": 1.0,
+      "check:no_emoji": 1.0,
+      "check:no_preamble": 1.0,
+      "check:no_slang": 1.0,
+      "check:script_kept": 1.0,
+      "primary": 0.925
+    },
+    "composite": {
+      "primary_mean": 0.800079617834395,
+      "definition": "mean over languages present of GEC F0.5 (ERRANT for English, token-diff otherwise) and style pass rate"
+    }
+  },
+  "public_items": 938
+}

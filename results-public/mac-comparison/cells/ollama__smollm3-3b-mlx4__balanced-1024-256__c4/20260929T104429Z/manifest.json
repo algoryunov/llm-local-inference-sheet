@@ -1,0 +1,61 @@
+{
+  "experiment": "mac-comparison",
+  "experiment_identity": "214960ba5994bbed",
+  "cell_id": "ollama__smollm3-3b-mlx4__balanced-1024-256__c4",
+  "cell_identity": "08c79d6552881062",
+  "backend": "ollama",
+  "artifact": "smollm3-3b-mlx4",
+  "model": "smollm3-3b",
+  "model_hf_id": "HuggingFaceTB/SmolLM3-3B",
+  "family": "smollm3",
+  "params_total_b": 3.08,
+  "artifact_repo": "mlx-community/SmolLM3-3B-4bit",
+  "artifact_revision": "d3a7e0594d6642dbcfb7d149bed8b0bdf49f95ce",
+  "artifact_format": "mlx",
+  "quantization": {
+    "method": "mlx-affine-4bit",
+    "scheme": "MLX affine 4-bit, group_size=64",
+    "group_size": 64,
+    "bits": 4,
+    "notes": null
+  },
+  "weight_dtype": "mlx-q4-g64",
+  "workload": {
+    "name": "balanced-1024-256",
+    "kind": "synthetic_tokens",
+    "input_tokens": 1024,
+    "output_tokens": 256,
+    "concurrency": [
+      1,
+      4
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 4,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790678669.3605728,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "ollama does not load mlx artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

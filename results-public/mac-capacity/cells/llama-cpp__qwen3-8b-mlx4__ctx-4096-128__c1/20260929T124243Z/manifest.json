@@ -1,0 +1,60 @@
+{
+  "experiment": "mac-capacity",
+  "experiment_identity": "863195883b1f1d4f",
+  "cell_id": "llama-cpp__qwen3-8b-mlx4__ctx-4096-128__c1",
+  "cell_identity": "7d43ab197d6dd547",
+  "backend": "llama-cpp",
+  "artifact": "qwen3-8b-mlx4",
+  "model": "qwen3-8b",
+  "model_hf_id": "Qwen/Qwen3-8B",
+  "family": "qwen3",
+  "params_total_b": 8.2,
+  "artifact_repo": "Qwen/Qwen3-8B-MLX-4bit",
+  "artifact_revision": "383413e909f3bc5303ce195ebbdf0339c5a1a2a3",
+  "artifact_format": "mlx",
+  "quantization": {
+    "method": "mlx-affine-4bit",
+    "scheme": "MLX affine quantization, 4-bit, group_size=128 (config.json)",
+    "group_size": 128,
+    "bits": 4,
+    "notes": "Not the same scheme as GGUF Q4_K_M. Different bits/weight and different error profile."
+  },
+  "weight_dtype": "mlx-q4-g128",
+  "workload": {
+    "name": "ctx-4096-128",
+    "kind": "synthetic_tokens",
+    "input_tokens": 4096,
+    "output_tokens": 128,
+    "concurrency": [
+      1
+    ],
+    "dataset": null,
+    "split": null,
+    "max_tokens": null
+  },
+  "concurrency": 1,
+  "repeat": 0,
+  "platform": "mac",
+  "hardware_label": null,
+  "kind": "performance",
+  "synthetic": false,
+  "started_wall": 1790685763.204778,
+  "finished": true,
+  "state": "unsupported",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": null
+  },
+  "thinking": "disabled",
+  "cache_policy": "no_reuse",
+  "reason": "llama-cpp does not load mlx artifacts",
+  "public_export": {
+    "languages": [
+      "en"
+    ],
+    "dropped_requests_other_languages": 0,
+    "generated_text_redacted": false,
+    "note": "Exported by scripts/export_public.py. Performance-run generated text is replaced by same-length placeholders; timings, token counts and lengths are unchanged."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "dataset": ".cache/datasets/proofread-v1",
+  "split": "test",
+  "n_items": 185,
+  "workload_sha256": "2910205737bbb471717cbbf5148cb1c06ed8dcdb0082eec988835b53f99e679c",
+  "ctx_required_per_request": 801,
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+  "input_tokens_max": 289
+}
