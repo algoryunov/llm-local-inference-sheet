@@ -344,17 +344,26 @@ def outcome_chart(metrics: dict[str, dict]) -> str:
 EXAMPLES = [
     ("Both fixed it", "proofread-v1-test-gec-en-0026", ("match", "match"), ""),
     ("Both fixed it", "proofread-v1-test-gec-en-0035", ("match", "match"), ""),
+    ("Both fixed it", "proofread-v1-test-gec-en-0025", ("match", "match"), ""),
     ("Only Qwen3-8B fixed it", "proofread-v1-test-gec-en-0056", ("untouched", "match"), ""),
     ("Only Qwen3-8B fixed it", "proofread-v1-test-gec-en-0059", ("wrong", "match"), ""),
     ("Only Qwen3-8B fixed it", "proofread-v1-test-gec-en-0104", ("wrong", "match"), ""),
+    ("Only Qwen3-8B fixed it", "proofread-v1-test-gec-en-0333", ("untouched", "match"), ""),
     ("Only Qwen3-4B fixed it", "proofread-v1-test-gec-en-0416", ("match", "wrong"),
      "8B's fix reads fine too, but no human wrote it, so the score counts it as wrong."),
+    ("Only Qwen3-4B fixed it", "proofread-v1-test-gec-en-0085", ("match", "partial"),
+     "8B also changed \"have\" to \"had\", which fits \"thought\", but no human made that change."),
     ("Neither fixed it", "proofread-v1-test-gec-en-0094", ("wrong", "wrong"), ""),
     ("Neither fixed it", "proofread-v1-test-gec-en-0009", ("untouched", "untouched"), ""),
+    ("Neither fixed it", "proofread-v1-test-gec-en-0146", ("wrong", "wrong"),
+     "Both wrote \"various fields\", which reads fine; the humans wrote \"a variety of fields\"."),
     ("Already-correct text", "proofread-v1-test-gec-en-ctrl-003", ("changed", "kept"), ""),
+    ("Already-correct text", "proofread-v1-test-gec-en-ctrl-011", ("kept", "changed"),
+     "8B fixed a comma splice that the human correction left in; the score counts it as over-correction."),
     ("Already-correct text", "proofread-v1-test-gec-en-ctrl-015", ("changed", "changed"),
      "Counted as over-correction, but \"media\" is a real fix: the human correction kept the error."),
     ("Tone rewrite, formal to casual", "proofread-v1-test-style-en-casual-006", ("fail", "pass"), ""),
+    ("Tone rewrite, casual to formal", "proofread-v1-test-style-en-formal-000", ("pass", "pass"), ""),
 ]
 TONE_MARKS = {"in Berlin": "bad", "4 PM": "mid"}  # spots to point at in the tone example
 VERDICTS = {
@@ -412,7 +421,7 @@ def closest_ref(refs: list[str], scored: tuple[dict, ...]) -> str:
 
 
 def tone_html(text: str) -> str:
-    html = escape(text)
+    html = "<br>".join(escape(line.strip()) for line in text.strip().splitlines() if line.strip())
     for spot, cls in TONE_MARKS.items():
         html = html.replace(escape(spot), f'<mark class="{cls}">{escape(spot)}</mark>')
     return html
@@ -508,7 +517,8 @@ def proofreading_page(rows: list[dict[str, str]], data_date: str) -> str:
         "TONE_MIN": f"{min(tone):.0f}", "TONE_MAX": f"{max(tone):.0f}",
         "EXAMPLE_ROWS": example_rows(scores, items),
         "PROMPT_GEC": escape(items[EXAMPLES[0][1]]["messages"][0]["content"]),
-        "PROMPT_CASUAL": escape(items[EXAMPLES[-1][1]]["messages"][0]["content"]),
+        "PROMPT_CASUAL": escape(items["proofread-v1-test-style-en-casual-006"]["messages"][0]["content"]),
+        "PROMPT_FORMAL": escape(items["proofread-v1-test-style-en-formal-000"]["messages"][0]["content"]),
         "TONE_4B_FACTS": str(len(drops)), "TONE_8B_MLX_SLANG": str(slang),
         "TONE_8B_REFORMAT": f"{(1 - metrics[L8]['verbatim']) * 100:.0f}",
         "TONE_4B_REFORMAT": f"{(1 - metrics[L4]['verbatim']) * 100:.0f}",

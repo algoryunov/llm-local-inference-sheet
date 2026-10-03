@@ -16,6 +16,14 @@ For an 18 GB M3 Pro, with a budget of quality ≥ 0.80, ≤ 3 s per task and ≤
 
 ## Results
 
+> **Read the full reports**
+>
+> - **[Practical observations: proofreading](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html)**: can a local Qwen3 replace ChatGPT for
+>   proofreading? Metrics, side-by-side examples of Qwen3-4B and Qwen3-8B, and where each one fails.
+> - **[Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html)**: how every number here is measured, where GPU memory goes,
+>   runtime defaults that would silently skew a benchmark, and how far the client timer can be trusted.
+> - [Results dashboard](https://algoryunov.github.io/llm-local-inference-sheet/site/dashboard.html): all measured cells, interactive.
+
 Apple M3 Pro, 18 GB, macOS 26.6.2. All runs were taken under memory pressure, so absolute speeds are
 pessimistic; use them to compare rows, not as absolute numbers. Full tables and confidence intervals: [docs/findings.md](docs/findings.md).
 
@@ -54,13 +62,8 @@ faster; at 16k llama.cpp uses less memory. Qwen3-1.7B and 8B results: [§E](docs
   a counter-experiment and an end-to-end run ([§C](docs/findings.md#c-profiling-investigation-why-llamacpp-stops-scaling-at-4-concurrent-requests-on-metal)).
 - GGUF Q4_K_M and MLX 4-bit give the same quality. llama.cpp and Ollama on the identical file differ by 0.004.
 - **Proofreading** (748 JFLEG sentences, ERRANT F0.5): 8B beats 4B at 1.7× the latency. Both models edit about a
-  third of already-correct sentences; both handle formal/casual tone rewrites well ([full report](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html)).
+  third of already-correct sentences; both handle formal/casual tone rewrites well ([practical observations](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html)).
 - A q8_0 KV cache halves KV memory.
-
-Interactive pages: [results dashboard](https://algoryunov.github.io/llm-local-inference-sheet/site/dashboard.html) ·
-[Proofreading on a Mac](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html), Qwen3-8B vs 4B as
-a local proofreader · [Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html),
-how the numbers are measured and how far to trust them.
 
 ## Quick start
 
@@ -107,6 +110,7 @@ tar -xzf results-public-full.tar.gz        # restores the raw files under result
 
 - [docs/findings.md](docs/findings.md): all findings with evidence, including the profiling investigation
 - [Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html): measurement setup, runtime gotchas and cross-checks
+- [Practical observations: proofreading](https://algoryunov.github.io/llm-local-inference-sheet/site/proofreading.html): metrics, examples and failure modes of local proofreading
 - [docs/methodology.md](docs/methodology.md): metric definitions, load model, cache and template controls
 - [docs/architecture.md](docs/architecture.md): diagrams of the data flow and code layout
 - [docs/compatibility.md](docs/compatibility.md): model × runtime matrix

@@ -115,6 +115,17 @@ footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line);
 </tbody></table></div>
 <p>Each configuration saw the same 748 learner sentences, 150 already-correct sentences and 40 tone rewrites.</p>
 
+<h2 id="examples">Examples</h2>
+<p>Both models on llama.cpp, same prompt, greedy decoding. <ins>Highlighted</ins>: words the model added or changed; <del>struck through</del>: words it removed.</p>
+<div class="table-wrap examples"><table>
+<thead><tr><th>Original</th><th>Qwen3-4B</th><th>Qwen3-8B</th></tr></thead>
+<tbody>
+{{EXAMPLE_ROWS}}
+</tbody></table></div>
+<p class="small">Grammar prompt: <q>{{PROMPT_GEC}}</q></p>
+<p class="small">Tone prompts: <q>{{PROMPT_CASUAL}}</q> and <q>{{PROMPT_FORMAL}}</q></p>
+<p class="small">Learner sentences and human corrections are quoted from <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> (Napoles et al., 2017), CC BY-NC-SA 4.0. The tone messages are synthetic.</p>
+
 <h2 id="applied">Applied observations</h2>
 
 <h3>What happens to a learner sentence</h3>
@@ -126,7 +137,7 @@ footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line);
 <li><strong>Most output needs review, not rejection.</strong> The largest share of sentences is partly fixed: some human edits made, some missed or done differently. Only {{WRONG_MIN}}–{{WRONG_MAX}}% of sentences got nothing but wrong edits.</li>
 <li><strong>8B leaves fewer errors in place.</strong> Qwen3-4B on llama.cpp returned {{UNTOUCHED_4B_LLAMA}}% of flawed sentences unchanged, Qwen3-8B {{UNTOUCHED_8B_LLAMA}}%. Recall is where 8B gains most ({{R_8B_LLAMA}} vs {{R_4B_LLAMA}}).</li>
 <li><strong>Precision is high for both.</strong> About three of every four edits either model makes match an edit a human corrector made.</li>
-<li><strong>The score is strict.</strong> A fix that differs from all four human corrections counts as wrong even when it reads fine, so the numbers understate both models somewhat (see the examples).</li>
+<li><strong>The score is strict.</strong> A fix that differs from all four human corrections counts as wrong even when it reads fine, so the numbers understate both models somewhat (see the notes in the examples above).</li>
 </ul>
 
 <h3>Correct text gets edited</h3>
@@ -139,17 +150,6 @@ footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line);
 <li><strong>Qwen3-8B reformats:</strong> it kept facts in an equivalent but different form ("4 PM" for 16:00, "June 3rd" for June 3) in {{TONE_8B_REFORMAT}}% of rewrites, against {{TONE_4B_REFORMAT}}% for Qwen3-4B. The check accepts equivalent forms; a reader who expects the original format may not.</li>
 <li><strong>Qwen3-8B on MLX-LM kept slang:</strong> "awesome" survived in {{TONE_8B_MLX_SLANG}} formal rewrites.</li>
 </ul>
-
-<h2 id="examples">Examples</h2>
-<p>Both models on llama.cpp, same prompt, greedy decoding. <ins>Highlighted</ins>: words the model added or changed; <del>struck through</del>: words it removed.</p>
-<div class="table-wrap examples"><table>
-<thead><tr><th>Original</th><th>Qwen3-4B</th><th>Qwen3-8B</th></tr></thead>
-<tbody>
-{{EXAMPLE_ROWS}}
-</tbody></table></div>
-<p class="small">Grammar prompt: <q>{{PROMPT_GEC}}</q></p>
-<p class="small">Tone prompt (to casual): <q>{{PROMPT_CASUAL}}</q></p>
-<p class="small">Learner sentences and human corrections are quoted from <a href="https://huggingface.co/datasets/jhu-clsp/jfleg">JFLEG</a> (Napoles et al., 2017), CC BY-NC-SA 4.0. The tone message is synthetic.</p>
 
 <h2 id="significance">Which differences are real</h2>
 <figure>
