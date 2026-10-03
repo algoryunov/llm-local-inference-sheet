@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technical Kitchen</title>
+<meta name="description" content="How the LLM Local Inference Sheet measures llama.cpp, MLX-LM and Ollama on an M3 Pro, and how far its numbers can be trusted.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f4f5f8; --panel: #ffffff; --ink: #14171c; --ink-2: #454c57; --muted: #737b87;
+  --line: #dfe3e9; --grid: #eceff3; --accent: #2a78d6; --data: #a3a9b2; --data-2: #d3d7dd; --ref: #737b87;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101216; --panel: #171a20; --ink: #f1f3f6; --ink-2: #c2c8d0; --muted: #8b929d;
+  --line: #2a2f38; --grid: #20242b; --accent: #3987e5; --data: #5d646e; --data-2: #3a4049; --ref: #8b929d;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--f-body); }
+.wrap { max-width: 880px; margin: 0 auto; padding: 28px 16px 72px; }
+h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; margin: 6px 0 10px; }
+h2 { font-size: 22px; font-weight: 600; margin: 48px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+h3 { font-size: 17px; font-weight: 600; margin: 30px 0 8px; }
+p { margin: 0 0 12px; color: var(--ink-2); }
+p.lead { font-size: 18px; color: var(--ink); }
+a { color: var(--accent); }
+code { font: 0.86em var(--f-data); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font: 500 12px var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 4px 0 26px; font-size: 15px; }
+.meta { font: 13px var(--f-data); color: var(--muted); margin-bottom: 18px; }
+
+figure { margin: 18px 0 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 12px; }
+.chart { overflow-x: auto; }
+.chart svg { width: 100%; min-width: 620px; height: auto; display: block; }
+figcaption { font: 12px/1.5 var(--f-data); color: var(--muted); margin-top: 8px; }
+svg text { font-family: var(--f-body); }
+svg .t-title { font: 600 16px var(--f-display); fill: var(--ink); }
+svg .t-sub { font-size: 12.5px; fill: var(--ink-2); }
+svg .t-lab { font-size: 12px; fill: var(--ink-2); }
+svg .t-group { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+svg .t-val { font: 500 11.5px var(--f-data); fill: var(--ink); }
+svg .t-axis { font: 11.5px var(--f-data); fill: var(--muted); }
+svg .grid { stroke: var(--grid); }
+svg .ref { stroke: var(--ref); stroke-dasharray: 4 3; }
+svg .weights { fill: var(--data); }
+svg .kv { fill: var(--accent); }
+svg .compute { fill: var(--data-2); }
+svg .stem { stroke: var(--data-2); }
+svg .dot-accent { fill: var(--accent); }
+svg .dot-muted { fill: var(--data); }
+
+.table-wrap { overflow-x: auto; margin: 14px 0 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; color: var(--ink); background: var(--grid); }
+td { color: var(--ink-2); }
+tr:last-child td { border-bottom: 0; }
+ul { padding-left: 20px; margin: 8px 0 14px; color: var(--ink-2); }
+li { margin: 6px 0; }
+li strong { color: var(--ink); }
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">LLM Local Inference Sheet · technical notes</div>
+  <h1>Technical Kitchen</h1>
+  <nav><a href="https://github.com/algoryunov/llm-local-inference-sheet">Repository</a><a href="dashboard.html">Results dashboard</a><a href="https://github.com/algoryunov/llm-local-inference-sheet/blob/main/docs/findings.md">All findings</a></nav>
+  <div class="meta">Apple M3 Pro, 18 GB · llama.cpp b11246 · MLX-LM 0.31.3 · Ollama 0.9.0 · data as of {{DATA_DATE}}</div>
+</header>
+
+<h2 id="results">Results</h2>
+<p class="lead">Qwen3-14B fits on an 18 GB M3 Pro even at 16k context: context grows the KV cache, not the weights. The harness's own timer agrees with llama.cpp's and Ollama's internal timers to within {{MAX_LONG_GAP}}% on long prompts, so client-side numbers can stand in for server ones.</p>
+<p>All {{N_RUNS}} measured runs carried memory pressure: they started with {{AVAIL_MIN}}–{{AVAIL_MAX}} GiB available (median {{AVAIL_MED}} GiB), and {{N_PRESSURED}} peaked at pressure level 2 or higher. Absolute speeds are therefore pessimistic; use them to compare runs, not as absolute numbers.</p>
+
+<h3>Where GPU memory goes</h3>
+<figure>
+<div class="chart">{{MEMORY_CHART}}</div>
+<figcaption>results-public/mac-capacity, mac-kvquant-q8 · llama.cpp memory breakdown printed at exit, one run per cell</figcaption>
+</figure>
+<p>Weights are fixed per model, so the context length decides whether a model fits. For Qwen3-8B the measured KV cache matched the estimate from layer geometry exactly, so the fit of an untested context can be computed before running it.</p>
+
+<h3>How far the client timer can be trusted</h3>
+<figure>
+<div class="chart">{{TIMER_CHART}}</div>
+<figcaption>results-public/report/results.csv · all measured llama.cpp and Ollama cells at one request ({{N_TIMER}}); prefill proxy = input tokens / client TTFT</figcaption>
+</figure>
+<p>On a long prompt, time to first token is almost pure prefill, so the client figure can stand in for the server timer, which MLX-LM does not expose. On short prompts and the task suites, HTTP and scheduling overhead is a larger share of a small number. With several requests in flight, the client figure also includes queueing, so it is not compared there by design.</p>
+
+<h2 id="environment">Environment gotchas</h2>
+<p>The laptop itself was the biggest source of measurement risk.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Gotcha</th><th>What we saw</th><th>How the harness handles it</th></tr></thead>
+<tbody>
+<tr><td>Rosetta shell</td><td>The agent shell reported <code>x86_64</code> on an M3 Pro (<code>sysctl.proc_translated = 1</code>); universal binaries started from it would run translated</td><td>Every backend starts with <code>arch -arm64</code>; <code>doctor</code> warns; manifests record binary architecture</td></tr>
+<tr><td>Memory pressure</td><td>~4 GB free and 11.6 GB swap before any model loaded; runs swapped in 8–18 GiB</td><td>Each run records pressure level and swap deltas; runs above "normal" or with &gt; 256 MiB swapped are flagged</td></tr>
+<tr><td>Metal working set</td><td>Metal lets the GPU use 13,639 MiB of 18 GB</td><td>Logged from llama.cpp and MLX; capacity cells measured against it</td></tr>
+<tr><td>Disk</td><td>36 GB free at the start; swap growth consumed more</td><td>A cell refuses to start below 5 GiB free; Ollama's duplicate blob copies were removed after use</td></tr>
+<tr><td>Heat</td><td>~85 °C under hours of full GPU load</td><td><code>pmset -g therm</code> showed no throttling; thermal state is not yet logged per run</td></tr>
+</tbody></table></div>
+
+<h2 id="runtimes">Runtime gotchas</h2>
+<p>Each runtime has defaults that would silently change a benchmark; all of these are set explicitly and checked in the logs.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Runtime</th><th>Default or behaviour</th><th>Why it matters</th><th>What we do</th></tr></thead>
+<tbody>
+<tr><td>llama.cpp b11246</td><td><code>--fit on</code> adjusts unset arguments to fit memory</td><td>Context or offload can change without notice</td><td><code>--fit off</code> plus explicit context and layers</td></tr>
+<tr><td>llama.cpp b11246</td><td><code>--cache-ram 8192</code>: an 8 GiB host prompt cache</td><td>Reuses prefixes and eats RAM on an 18 GB machine</td><td><code>--cache-ram 0</code> and <code>cache_prompt:false</code> per request</td></tr>
+<tr><td>llama.cpp b11246</td><td><code>-np auto</code> turns on a unified KV cache</td><td>Per-slot context becomes unclear</td><td>Explicit <code>-np</code> = concurrency, <code>--no-kv-unified</code>, total context = slots × per-slot</td></tr>
+<tr><td>llama.cpp b11246</td><td>Model-loader facts appear only at <code>-lv 4</code></td><td>No offload or buffer facts in default logs</td><td><code>-lv 4</code>; GPU memory read from the exit breakdown</td></tr>
+<tr><td>MLX-LM 0.31.3</td><td>A request with a <code>seed</code> is not batchable</td><td>Concurrency silently serializes</td><td>The adapter never sends a seed</td></tr>
+<tr><td>MLX-LM 0.31.3</td><td><code>/health</code> answers before the model loads</td><td>"Ready" would be wrong</td><td>Readiness = a completed 1-token generation</td></tr>
+<tr><td>Ollama 0.9.0</td><td>Template detection fails on the official Qwen3 GGUF</td><td>Prompt differs from the intended one</td><td>Raw mode with prompts rendered from the pinned template</td></tr>
+<tr><td>Ollama 0.9.0</td><td>Reuses shared prompt prefixes; no switch to disable</td><td>TTFT looks better than it is when prompts share a system prompt</td><td>Reuse noted; quality-run latency marked not like-for-like</td></tr>
+<tr><td>Ollama 0.9.0</td><td>Repetition guard aborts some greedy outputs without <code>done:true</code></td><td>Truncated stream could pass as success</td><td>Counted as errors (2/30 and 6/30 at 4 users)</td></tr>
+<tr><td>Ollama 0.9.0</td><td>Does not know the SmolLM3 architecture</td><td>Model never loads</td><td>Detected from the log and recorded as <code>unsupported</code> in seconds</td></tr>
+</tbody></table></div>
+
+<h2 id="measurement">Measurement details</h2>
+<p>Metric definitions are strict, and every label says how a number was obtained.</p>
+<ul>
+<li><strong>Time to first token:</strong> request dispatch to the first chunk that carries generated text. Role-only, metadata and usage chunks are skipped. It includes HTTP, queueing and prefill.</li>
+<li><strong>Time per output token:</strong> (last text chunk − first text chunk) / (output tokens − 1). Labelled <code>token_level</code> only when the number of text chunks equals the server's token count; otherwise <code>chunk_derived</code>. Null below 2 tokens.</li>
+<li><strong>Throughput:</strong> output tokens of successful measured requests divided by the window from first dispatch to last stream end. <code>mean_inflight</code> shows how full the window was.</li>
+<li><strong>Prompt verification:</strong> prompts hit exact token counts after chat templating with each model's pinned tokenizer. llama.cpp's <code>/apply-template</code> rendered byte-identical prompts, and server prompt-token counts matched on all three runtimes.</li>
+<li><strong>Output length:</strong> performance runs send <code>ignore_eos</code> where supported; elsewhere early stops are counted and a full-length subset is reported. Nothing is padded.</li>
+<li><strong>Cache control:</strong> baseline runs disable prefix reuse (llama.cpp <code>cache_prompt:false</code> + <code>--cache-ram 0</code>, MLX cache size 0) and verify it through <code>cached_tokens</code> or llama.cpp's <code>cache_n</code>.</li>
+<li><strong>Memory on unified memory:</strong> reported side by side, never summed. llama.cpp's exit breakdown (e.g. 5,094 MiB = 4,789 weights + 216 KV + 89 compute), the MLX allocator peak, the system GPU counter delta, and RSS. <code>phys_footprint</code> is wrong for llama.cpp because mmap'd weights are excluded (0.4 GiB for a 4.7 GiB model).</li>
+<li><strong>Cross-checks:</strong> client TTFT matched llama.cpp's native prefill time within about 1%, and the KV buffer matched the geometric estimate (144 KiB per token for Qwen3-8B) exactly.</li>
+<li><strong>Statistics:</strong> medians with bootstrap CIs; p95 marked exploratory below 200 samples; quality differences from paired bootstraps over the same items.</li>
+</ul>
+
+<h2 id="design">Design principles</h2>
+<p>The harness separates process control from measurement and keeps raw data, so every published number can be recomputed without rerunning a model.</p>
+<ul>
+<li><strong>Adapters launch, the client measures.</strong> A backend adapter only starts a server, waits until it is ready, collects metadata and stops it. One async client measures every runtime, so a metric means the same thing everywhere.</li>
+<li><strong>Raw events are the source of truth.</strong> Every streamed chunk is stored with a monotonic <code>perf_counter_ns</code> timestamp in <code>events.jsonl.gz</code>. Reports recompute metrics from these events and never trust cached summaries.</li>
+<li><strong>One server per cell.</strong> A cell is runtime × artifact × workload × concurrency. Each gets a fresh server, so memory is released between cells and load time is observed every time. Cells run strictly one at a time.</li>
+<li><strong>States are results.</strong> <code>unsupported</code>, <code>gated</code>, <code>untested</code>, <code>out_of_memory</code>, <code>timeout</code> and <code>failed</code> are recorded outcomes, not missing rows. Mock-server runs are labelled <code>synthetic</code> and never reach a public report.</li>
+<li><strong>Pin everything.</strong> Model revisions and file sha256, chat-template hashes and runtime builds (llama.cpp b11246, mlx-lm 0.31.3) are fixed. Runs resume by configuration identity and never overwrite earlier ones.</li>
+</ul>
+
+<footer>Generated by <code>scripts/build_site.py</code> from <code>results-public/</code>. Raw per-run data: <a href="https://github.com/algoryunov/llm-local-inference-sheet/releases/latest">latest release</a>.</footer>
+</div>
+</body>
+</html>

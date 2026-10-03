@@ -36,6 +36,17 @@ pessimistic; use them to compare rows, not as absolute numbers. Full tables and 
 | Qwen3-8B, llama.cpp / MLX-LM | 0.819 / 0.815 | 3.5–3.6 s | 5.8–6.1 GiB |
 | SmolLM3-3B, llama.cpp / MLX-LM | 0.775 / 0.739 | 1.3–1.7 s | 2.3–3.1 GiB |
 
+**Largest model:** Qwen3-14B at ~4-bit, one request, 128 output tokens, n = 5 per cell (exploratory).
+
+| Runtime | Input | Time to first token | Decode speed | GPU memory |
+|---|---|---|---|---|
+| llama.cpp, Q4_K_M | 1k / 4k / 16k tokens | 7.5 / 37.9 / 181 s | 13 / 10 / 9 tok/s | 8.7 / 9.2 / 11.1 GiB |
+| MLX-LM, MLX 4-bit | 1k / 4k / 16k tokens | 7.5 / 30.8 / 143 s | 14 / 13 / 9 tok/s | 8.3 / 8.9 / 12.7 GiB |
+
+14B fits even at 16k context (11.1 of the 13.3 GiB that Metal lets the GPU use), with no out-of-memory errors, but
+it is slow: 7.5 s before the first token on a short prompt and 2.4–3 minutes on a long one. MLX prefills long prompts
+faster; at 16k llama.cpp uses less memory. Qwen3-1.7B and 8B results: [§E](docs/findings.md#e-capacity-sweep-and-kv-cache-quantization-results-publicmac-capacity-results-publicmac-kvquant-q8).
+
 **Findings**
 
 - **Why llama.cpp stops scaling:** on Metal with K-quant models, throughput *drops* from 3 to 4 concurrent requests
@@ -44,10 +55,11 @@ pessimistic; use them to compare rows, not as absolute numbers. Full tables and 
 - GGUF Q4_K_M and MLX 4-bit give the same quality. llama.cpp and Ollama on the identical file differ by 0.004.
 - **Proofreading** (748 JFLEG sentences, ERRANT F0.5): 8B beats 4B at 1.7× the latency. Both models edit about a
   third of already-correct sentences; both handle formal/casual tone rewrites well ([§F](docs/findings.md#f-proofreading-and-style-rewriting-results-publicproofread)).
-- **Capacity:** Qwen3-14B at 16k context fits in 18 GB (11.3 of 13.6 GiB Metal limit) but takes 3 minutes to the
-  first token. A q8_0 KV cache halves KV memory.
+- A q8_0 KV cache halves KV memory.
 
-All results as an interactive page: [results-public/dashboard/index.html](results-public/dashboard/index.html) (open it locally in a browser).
+Interactive pages: [results dashboard](https://algoryunov.github.io/llm-local-inference-sheet/site/dashboard.html) ·
+[Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html), how the numbers are
+measured and how far to trust them.
 
 ## Quick start
 
@@ -82,7 +94,7 @@ Diagrams: [docs/architecture.md](docs/architecture.md). Metric definitions: [doc
 ## Published data
 
 Local runs go to the git-ignored `results/`. `python scripts/export_public.py` filters them into `results-public/`
-and rebuilds the report, compatibility matrix and dashboard. Git keeps the compact part (manifests, configs,
+and rebuilds the report, compatibility matrix, dashboard and the GitHub Pages site in `docs/site/`. Git keeps the compact part (manifests, configs,
 summaries); the raw events, telemetry and server logs ship as a release asset:
 
 ```bash
@@ -93,6 +105,7 @@ tar -xzf results-public-full.tar.gz        # restores the raw files under result
 ## Documentation
 
 - [docs/findings.md](docs/findings.md): all findings with evidence, including the profiling investigation
+- [Technical Kitchen](https://algoryunov.github.io/llm-local-inference-sheet/site/technical.html): measurement setup, runtime gotchas and cross-checks
 - [docs/methodology.md](docs/methodology.md): metric definitions, load model, cache and template controls
 - [docs/architecture.md](docs/architecture.md): diagrams of the data flow and code layout
 - [docs/compatibility.md](docs/compatibility.md): model × runtime matrix

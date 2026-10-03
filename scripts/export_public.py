@@ -220,7 +220,8 @@ def main() -> None:
                     "--out", str(DST / "report")], check=True, cwd=ROOT)
     subprocess.run([sys.executable, str(ROOT / "scripts" / "gen_compat.py")], check=True, cwd=ROOT)
     subprocess.run([sys.executable, str(ROOT / "scripts" / "build_dashboard.py")], check=True, cwd=ROOT)
-    bad = verify(DST)
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "build_site.py")], check=True, cwd=ROOT)
+    bad = verify(DST) + [f"docs/site/{b}" for b in verify(ROOT / "docs" / "site")]
     if bad:
         print("BLOCKED CONTENT IN GENERATED REPORTS:", *bad[:20], sep="\n  ")
         sys.exit(1)
